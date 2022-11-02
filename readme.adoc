@@ -34,8 +34,12 @@ For more information on jQAssistant see https://jqassistant.org[^].
 
 == Usage
 
-This plugin is part of the official jQAssistant release.
-You just need to activate the desired group of rules, either "spring-boot:Default" or "spring-boot:Strict"
+NOTE:: Starting from jqassistant-spring-plugin v2.0.0, the GraphQL-Plugin resides under jqassistant-plugin.
+Therefore, not only the repository location changed but also group id and artifact id were adapted from `com.buschmais.jqassistant.plugin:spring` to `org.jqassistant.plugin:jqassistant-spring-plugin`.
+
+NOTE:: From jQAssistant v2.0.0 onwards, it is not part of the core distribution anymore and a manual configuration as shown below is required.
+
+To execute rules, you just need to activate the desired group of rules, either "spring-boot:Default" or "spring-boot:Strict"
 
 [source,xml]
 ----
@@ -68,11 +72,18 @@ You just need to activate the desired group of rules, either "spring-boot:Defaul
             </configuration>
           </execution>
         </executions>
+        <dependencies>
+          <dependency> // <2>
+            <groupId>org.jqassistant.plugin</groupId>
+            <artifactId>jqassistant-spring-plugin</artifactId>
+            <version>${jqassistant.spring-plugin.version}</version>
+          </dependency>
+        </dependencies>
       </plugin>
     </plugins>
   </build>
 </project>
 ----
-
 <1> Activates the group "spring-boot:Strict".
+<2> Dependency to the Spring plugin
 
