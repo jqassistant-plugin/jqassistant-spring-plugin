@@ -2,7 +2,13 @@
 = Spring Plugin
 
 == 2.0.0
+
 * Moved Plugin from com.buschmais.jqassistant.plugin (core-Distribution) to org.jqassistant.plugin
+
+== 1.12.1
+
+* Removed redundant result columns from constraints `spring-injection:BeanProducerMustNotBeInvokedDirectly` and `spring-injection:InjectablesShouldBeHeldInFinalFields`
+
 
 == 1.12.0
 
