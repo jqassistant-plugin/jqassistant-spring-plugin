@@ -50,7 +50,7 @@ class AllTypesInApplicationPackageIT extends AbstractJavaPluginIT {
     private void deletePackages(Class<?> rootClass) {
         store.beginTransaction();
         Map<String, Object> params = MapBuilder.<String, Object> builder().entry("package", rootClass.getPackage().getName()).build();
-        store.executeQuery("MATCH (p:Package) WHERE NOT p.fqn starts with {package} DETACH DELETE p", params);
+        store.executeQuery("MATCH (p:Package) WHERE NOT p.fqn starts with $package DETACH DELETE p", params);
         store.commitTransaction();
         // Clear the TX cache as the ids of the deleted nodes will be re-used by Neo4j when creating new nodes
         store.getXOManager().clear();
