@@ -9,6 +9,7 @@
         <resource>spring-data.xml</resource>
         <resource>spring-injection.xml</resource>
         <resource>spring-mvc.xml</resource>
+        <resource>spring-security.xml</resource>
         <resource>spring-transaction.xml</resource>
     </rules>
 </jqassistant-plugin>

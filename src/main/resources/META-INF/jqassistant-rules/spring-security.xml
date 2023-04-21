@@ -1,0 +1,33 @@
+<jqassistant-rules xmlns="http://schema.jqassistant.org/rule/v1.10"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://schema.jqassistant.org/rule/v1.10 https://schema.jqassistant.org/plugin/jqassistant-rule-v1.10.xsd">
+
+    <concept id="spring-security:ConfigurationComponent">
+        <providesConcept refId="spring-component:Configuration"/>
+        <providesConcept refId="spring-component:Component"/>
+        <providesConcept refId="spring-injection:Injectable"/>
+        <description>
+            Labels all types annotated with Spring Security auto-configuration annotations "@EnableGlobalAuthentication", "@EnableGlobalMethodSecurity",
+            "@EnableReactiveMethodSecurity", "@EnableWebSecurity", "@EnableWebFluxSecurity" and "@EnableWebMvcSecurity"
+            with "Spring", "Configuration", "Component" and "Injectable".
+        </description>
+        <cypher><![CDATA[
+            MATCH
+              (configurationComponent:Type)-[:ANNOTATED_BY]->()-[:OF_TYPE]->(annotationType:Type)
+            WHERE
+              annotationType.fqn in [
+                "org.springframework.security.config.annotation.authentication.configuration.EnableGlobalAuthentication",
+                "org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity",
+                "org.springframework.security.config.annotation.method.configuration.EnableReactiveMethodSecurity",
+                "org.springframework.security.config.annotation.web.configuration.EnableWebSecurity",
+                "org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity",
+                "org.springframework.security.config.annotation.web.servlet.configuration.EnableWebMvcSecurity"
+              ]
+            SET
+              configurationComponent:Spring:Configuration:Component:Injectable
+            RETURN
+              configurationComponent as ConfigurationComponent
+        ]]></cypher>
+    </concept>
+
+</jqassistant-rules>

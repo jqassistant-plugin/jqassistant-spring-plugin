@@ -164,9 +164,8 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-dependencies</artifactId>
+            <artifactId>spring-boot-starter-security</artifactId>
             <version>${org.springframework.boot_version}</version>
-            <type>pom</type>
             <scope>test</scope>
         </dependency>
         <dependency>

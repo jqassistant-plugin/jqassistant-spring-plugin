@@ -7,10 +7,12 @@ import org.jqassistant.plugin.spring.test.set.components.Controller;
 import org.jqassistant.plugin.spring.test.set.components.ImplementedRepository;
 import org.jqassistant.plugin.spring.test.set.components.Service;
 import org.jqassistant.plugin.spring.test.set.components.dependencies.direct.*;
+import org.jqassistant.plugin.spring.test.set.components.security.*;
 import org.jqassistant.plugin.spring.test.set.injectables.ConfigurationWithBeanProducer;
 import org.junit.jupiter.api.Test;
 
-import static com.buschmais.jqassistant.core.report.api.model.Result.Status.*;
+import static com.buschmais.jqassistant.core.report.api.model.Result.Status.SUCCESS;
+import static com.buschmais.jqassistant.core.report.api.model.Result.Status.WARNING;
 import static com.buschmais.jqassistant.plugin.java.test.matcher.TypeDescriptorMatcher.typeDescriptor;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.hasItem;
@@ -20,11 +22,17 @@ class ComponentIT extends AbstractSpringIT {
 
     @Test
     void configuration() throws Exception {
-        scanClasses(ConfigurationWithBeanProducer.class);
+        Class<?>[] configurationComponents = { ConfigurationWithBeanProducer.class, EnableGlobalAuthenticationComponent.class,
+            EnableGlobalMethodSecurityComponent.class, EnableReactiveMethodSecurityComponent.class,
+            EnableWebFluxSecurityComponent.class, EnableWebMvcSecurityComponent.class,
+            EnableWebSecurityComponent.class };
+        scanClasses(configurationComponents);
         assertThat(applyConcept("spring-component:Configuration").getStatus(), equalTo(SUCCESS));
         store.beginTransaction();
         List<Object> configurations = query("MATCH (c:Spring:Configuration) RETURN c").getColumn("c");
-        assertThat(configurations, hasItem(typeDescriptor(ConfigurationWithBeanProducer.class)));
+        for (Class<?> configurationComponent : configurationComponents) {
+            assertThat(configurations, hasItem(typeDescriptor(configurationComponent)));
+        }
         store.commitTransaction();
     }
 

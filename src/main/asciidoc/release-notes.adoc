@@ -4,6 +4,8 @@
 == 2.0.0
 
 * Moved Plugin from com.buschmais.jqassistant.plugin (core-Distribution) to org.jqassistant.plugin
+* Added concept `spring-security:ConfigurationComponent` to label classes annotated by `@EnableGlobalAuthentication`, `@EnableGlobalMethodSecurity`,
+`@EnableReactiveMethodSecurity`, `@EnableWebSecurity`, `@EnableWebFluxSecurity` and `@EnableWebMvcSecurity` as `:Spring:Configuration:Component`
 
 == 1.12.1
 
