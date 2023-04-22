@@ -2,10 +2,10 @@ package org.jqassistant.plugin.spring.test.constraint;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import com.buschmais.jqassistant.core.report.api.model.Result;
+import com.buschmais.jqassistant.core.report.api.model.Row;
 import com.buschmais.jqassistant.core.rule.api.model.Constraint;
 import com.buschmais.jqassistant.plugin.java.api.model.TypeDescriptor;
 import com.buschmais.jqassistant.plugin.java.test.AbstractJavaPluginIT;
@@ -76,17 +76,21 @@ class DependencyStructureIT extends AbstractJavaPluginIT {
         assertThat(constraintViolations.size(), equalTo(1));
         Result<Constraint> result = constraintViolations.get(0);
         assertThat(result, result(constraint(constraintId)));
-        List<Map<String, Object>> rows = result.getRows();
+        List<Row> rows = result.getRows();
         assertThat(rows.size(), equalTo(expectedInvalidDependencies.length));
 
         Set<TypeDescriptor> components = rows.stream()
-            .map(row -> (TypeDescriptor) row.get(componentColumn))
+            .map(row -> (TypeDescriptor) row.getColumns()
+                .get(componentColumn)
+                .getValue())
             .collect(toSet());
         assertThat(components.size(), equalTo(1));
         assertThat(components, hasItem(typeDescriptor(component)));
 
         Set<TypeDescriptor> invalidDependencies = rows.stream()
-            .map(row -> (TypeDescriptor) row.get("InvalidDependency"))
+            .map(row -> (TypeDescriptor) row.getColumns()
+                .get("InvalidDependency")
+                .getValue())
             .collect(toSet());
         assertThat(invalidDependencies.size(), equalTo(expectedInvalidDependencies.length));
         for (Class<?> expectedInvalidDependency : expectedInvalidDependencies) {

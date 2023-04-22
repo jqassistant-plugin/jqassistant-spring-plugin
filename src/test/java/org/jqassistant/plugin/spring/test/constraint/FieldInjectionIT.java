@@ -2,9 +2,9 @@ package org.jqassistant.plugin.spring.test.constraint;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import com.buschmais.jqassistant.core.report.api.model.Result;
+import com.buschmais.jqassistant.core.report.api.model.Row;
 import com.buschmais.jqassistant.core.rule.api.model.Constraint;
 import com.buschmais.jqassistant.plugin.java.api.model.FieldDescriptor;
 import com.buschmais.jqassistant.plugin.java.api.model.TypeDescriptor;
@@ -48,11 +48,15 @@ class FieldInjectionIT extends AbstractJavaPluginIT {
 
         assertThat(constraint.getStatus(), equalTo(FAILURE));
         store.beginTransaction();
-        Map<String, Object> row = constraint.getRows()
+        Row row = constraint.getRows()
             .get(0);
-        TypeDescriptor type = (TypeDescriptor) row.get("Type");
+        TypeDescriptor type = (TypeDescriptor) row.getColumns()
+            .get("Type")
+            .getValue();
         assertThat(type, typeDescriptor(ServiceWithConstructorInjection.class));
-        FieldDescriptor injectableField = (FieldDescriptor) row.get("Field");
+        FieldDescriptor injectableField = (FieldDescriptor) row.getColumns()
+            .get("Field")
+            .getValue();
         assertThat(injectableField, fieldDescriptor(ServiceWithConstructorInjection.class, "repository"));
         store.commitTransaction();
 
@@ -83,11 +87,15 @@ class FieldInjectionIT extends AbstractJavaPluginIT {
         assertThat(constraintViolations.size(), equalTo(1));
         Result<Constraint> result = constraintViolations.get(0);
         assertThat(result, result(constraint("spring-injection:FieldInjectionIsNotAllowed")));
-        List<Map<String, Object>> rows = result.getRows();
+        List<Row> rows = result.getRows();
         assertThat(rows.size(), equalTo(1));
-        Map<String, Object> row = rows.get(0);
-        TypeDescriptor typeDescriptor = (TypeDescriptor) row.get("Type");
-        FieldDescriptor fieldDescriptor = (FieldDescriptor) row.get("Field");
+        Row row = rows.get(0);
+        TypeDescriptor typeDescriptor = (TypeDescriptor) row.getColumns()
+            .get("Type")
+            .getValue();
+        FieldDescriptor fieldDescriptor = (FieldDescriptor) row.getColumns()
+            .get("Field")
+            .getValue();
         assertThat(typeDescriptor, typeDescriptor(type));
         assertThat(fieldDescriptor, fieldDescriptor(type, fieldName));
         store.commitTransaction();

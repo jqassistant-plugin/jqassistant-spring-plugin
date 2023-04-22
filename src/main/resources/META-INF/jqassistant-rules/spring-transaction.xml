@@ -37,7 +37,10 @@
              (type:Type)-[:DECLARES]->(transactionalMethod:Method),
              (transactionalMethod:Method)-[:ANNOTATED_BY]->()-[:OF_TYPE]->(annotationType:Type)
            WHERE
-             annotationType.fqn = "org.springframework.transaction.annotation.Transactional"
+             annotationType.fqn in [
+               "org.springframework.transaction.annotation.Transactional",
+               "javax.transaction.Transactional"
+             ]
              or type:Spring:Transactional
            SET
              transactionalMethod:Spring:Transactional
@@ -55,7 +58,10 @@
            MATCH
              (transactionalClass:Class)-[:EXTENDS*0..]->(:Class)-[:ANNOTATED_BY]->()-[:OF_TYPE]->(annotationType:Type)
            WHERE
-             annotationType.fqn = "org.springframework.transaction.annotation.Transactional"
+             annotationType.fqn in [
+               "org.springframework.transaction.annotation.Transactional",
+               "javax.transaction.Transactional"
+             ]
            SET
              transactionalClass:Spring:Transactional
            WITH

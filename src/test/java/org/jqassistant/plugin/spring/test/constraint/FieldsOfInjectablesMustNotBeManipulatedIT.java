@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.buschmais.jqassistant.core.report.api.model.Result;
+import com.buschmais.jqassistant.core.report.api.model.Row;
 import com.buschmais.jqassistant.core.rule.api.model.Constraint;
 import com.buschmais.jqassistant.plugin.java.api.model.FieldDescriptor;
 import com.buschmais.jqassistant.plugin.java.api.model.TypeDescriptor;
@@ -36,12 +37,18 @@ class FieldsOfInjectablesMustNotBeManipulatedIT extends AbstractJavaPluginIT {
         // then
         assertThat(result.getStatus(), equalTo(FAILURE));
         store.beginTransaction();
-        List<Map<String, Object>> rows = result.getRows();
+        List<Row> rows = result.getRows();
         assertThat(rows.size(), equalTo(1));
-        Map<String, Object> row = rows.get(0);
-        WritesDescriptor writeToInjectableField = (WritesDescriptor) row.get("WriteToInjectableField");
-        TypeDescriptor injectable = (TypeDescriptor) row.get("Injectable");
-        FieldDescriptor field = (FieldDescriptor) row.get("Field");
+        Row row = rows.get(0);
+        WritesDescriptor writeToInjectableField = (WritesDescriptor) row.getColumns()
+            .get("WriteToInjectableField")
+            .getValue();
+        TypeDescriptor injectable = (TypeDescriptor) row.getColumns()
+            .get("Injectable")
+            .getValue();
+        FieldDescriptor field = (FieldDescriptor) row.getColumns()
+            .get("Field")
+            .getValue();
         assertThat(writeToInjectableField.getLineNumber(), equalTo(55));
         assertThat(injectable, typeDescriptor(ServiceImpl.class));
         assertThat(field, fieldDescriptor(ServiceImpl.class, "repository"));

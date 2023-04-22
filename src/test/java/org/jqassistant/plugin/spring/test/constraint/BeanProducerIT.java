@@ -1,9 +1,9 @@
 package org.jqassistant.plugin.spring.test.constraint;
 
 import java.util.List;
-import java.util.Map;
 
 import com.buschmais.jqassistant.core.report.api.model.Result;
+import com.buschmais.jqassistant.core.report.api.model.Row;
 import com.buschmais.jqassistant.core.rule.api.model.Constraint;
 import com.buschmais.jqassistant.plugin.java.api.model.InvokesDescriptor;
 import com.buschmais.jqassistant.plugin.java.api.model.MethodDescriptor;
@@ -41,12 +41,15 @@ class BeanProducerIT extends AbstractJavaPluginIT {
             "spring-injection:BeanProducerMustBeDeclaredInConfigurationComponent");
         store.beginTransaction();
         assertThat(result.getStatus(), equalTo(FAILURE));
-        List<Map<String, Object>> rows = result.getRows();
+        List<Row> rows = result.getRows();
         assertThat(rows.size(), equalTo(1));
-        Map<String, Object> row = rows.get(0);
-        assertThat((MethodDescriptor) row.get("BeanProducer"),
-            methodDescriptor(ServiceWithBeanProducer.class, "getBean"));
-        assertThat((TypeDescriptor) row.get("Injectable"), typeDescriptor(ConfigurationBean.class));
+        Row row = rows.get(0);
+        assertThat((MethodDescriptor) row.getColumns()
+            .get("BeanProducer")
+            .getValue(), methodDescriptor(ServiceWithBeanProducer.class, "getBean"));
+        assertThat((TypeDescriptor) row.getColumns()
+            .get("Injectable")
+            .getValue(), typeDescriptor(ConfigurationBean.class));
         store.commitTransaction();
     }
 
@@ -56,17 +59,22 @@ class BeanProducerIT extends AbstractJavaPluginIT {
         Result<Constraint> result = validateConstraint("spring-injection:BeanProducerMustNotBeInvokedDirectly");
         store.beginTransaction();
         assertThat(result.getStatus(), equalTo(FAILURE));
-        List<Map<String, Object>> rows = result.getRows();
+        List<Row> rows = result.getRows();
         assertThat(rows.size(), equalTo(1));
-        Map<String, Object> row = rows.get(0);
-        assertThat((TypeDescriptor) row.get("Type"), typeDescriptor(ServiceInvokingBeanProducer.class));
-        Object invokes = row.get("Invocation");
+        Row row = rows.get(0);
+        assertThat((TypeDescriptor) row.getColumns()
+            .get("Type")
+            .getValue(), typeDescriptor(ServiceInvokingBeanProducer.class));
+        Object invokes = row.getColumns().get("Invocation").getValue();
         assertThat(invokes, instanceOf(InvokesDescriptor.class));
         assertThat(((InvokesDescriptor) invokes).getInvokingMethod(),
             methodDescriptor(ServiceInvokingBeanProducer.class, "doSomething"));
-        assertThat((TypeDescriptor) row.get("BeanProducerType"), typeDescriptor(ConfigurationWithBeanProducer.class));
-        assertThat((MethodDescriptor) row.get("BeanProducer"),
-            methodDescriptor(ConfigurationWithBeanProducer.class, "getConfiguration"));
+        assertThat((TypeDescriptor) row.getColumns()
+            .get("BeanProducerType")
+            .getValue(), typeDescriptor(ConfigurationWithBeanProducer.class));
+        assertThat((MethodDescriptor) row.getColumns()
+            .get("BeanProducer")
+            .getValue(), methodDescriptor(ConfigurationWithBeanProducer.class, "getConfiguration"));
         store.commitTransaction();
     }
 }

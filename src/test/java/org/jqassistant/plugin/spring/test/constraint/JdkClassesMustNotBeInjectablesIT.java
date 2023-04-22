@@ -1,9 +1,8 @@
 package org.jqassistant.plugin.spring.test.constraint;
 
-import java.util.Map;
-
 import com.buschmais.jqassistant.core.report.api.model.Result;
 import com.buschmais.jqassistant.core.report.api.model.Result.Status;
+import com.buschmais.jqassistant.core.report.api.model.Row;
 import com.buschmais.jqassistant.core.rule.api.model.Constraint;
 import com.buschmais.jqassistant.plugin.java.test.AbstractJavaPluginIT;
 
@@ -34,9 +33,11 @@ class JdkClassesMustNotBeInjectablesIT extends AbstractJavaPluginIT {
         assertThat(result.getStatus()).isEqualTo(Status.FAILURE);
         assertThat(result.getRows()).hasSize(1);
 
-        Map<String, Object> map = result.getRows().get(0);
+        Row row = result.getRows().get(0);
 
-        assertThat(map.get("Injectable")).is(matching(typeDescriptor(Object.class)));
+        assertThat(row.getColumns()
+            .get("Injectable")
+            .getValue()).is(matching(typeDescriptor(Object.class)));
 
         store.rollbackTransaction();
     }

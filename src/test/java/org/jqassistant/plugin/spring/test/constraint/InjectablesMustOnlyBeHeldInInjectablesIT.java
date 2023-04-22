@@ -1,7 +1,6 @@
 package org.jqassistant.plugin.spring.test.constraint;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import com.buschmais.jqassistant.core.report.api.model.Result;
 import com.buschmais.jqassistant.core.report.api.model.Result.Status;
@@ -13,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.stereotype.Component;
 
 import static com.buschmais.jqassistant.plugin.java.test.matcher.TypeDescriptorMatcher.typeDescriptor;
+import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.HamcrestCondition.matching;
 import static org.hamcrest.Matchers.containsInAnyOrder;
@@ -40,8 +40,14 @@ class InjectablesMustOnlyBeHeldInInjectablesIT extends AbstractJavaPluginIT {
         assertThat(result.getStatus()).isEqualTo(Status.FAILURE);
         assertThat(result.getRows()).hasSize(3);
 
-        List<Object> violatingTypes = result.getRows().stream().map(r -> r.get("NonInjectableHavingInjectablesAsField")).collect(Collectors.toList());
-        assertThat(violatingTypes).is(matching(containsInAnyOrder(typeDescriptor(InvalidAbstractComponent.class), typeDescriptor(InvalidAbstractComponentImpl.class), typeDescriptor(InvalidComponent.class))));
+        List<Object> violatingTypes = result.getRows()
+            .stream()
+            .map(r -> r.getColumns()
+                .get("NonInjectableHavingInjectablesAsField")
+                .getValue())
+            .collect(toList());
+        assertThat(violatingTypes).is(matching(containsInAnyOrder(typeDescriptor(InvalidAbstractComponent.class),
+            typeDescriptor(InvalidAbstractComponentImpl.class), typeDescriptor(InvalidComponent.class))));
 
         store.rollbackTransaction();
     }

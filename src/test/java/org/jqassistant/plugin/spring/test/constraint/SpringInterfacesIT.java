@@ -2,9 +2,9 @@ package org.jqassistant.plugin.spring.test.constraint;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import com.buschmais.jqassistant.core.report.api.model.Result;
+import com.buschmais.jqassistant.core.report.api.model.Row;
 import com.buschmais.jqassistant.core.rule.api.model.Constraint;
 import com.buschmais.jqassistant.plugin.java.api.model.TypeDescriptor;
 import com.buschmais.jqassistant.plugin.java.test.AbstractJavaPluginIT;
@@ -54,10 +54,12 @@ class SpringInterfacesIT extends AbstractJavaPluginIT {
         assertThat(constraintViolations.size(), equalTo(1));
         Result<Constraint> result = constraintViolations.get(0);
         assertThat(result, result(constraint(constraintId)));
-        List<Map<String, Object>> rows = result.getRows();
+        List<Row> rows = result.getRows();
         assertThat(rows.size(), equalTo(1));
-        Map<String, Object> row = rows.get(0);
-        TypeDescriptor typeDescriptor = (TypeDescriptor) row.get("Type");
+        Row row = rows.get(0);
+        TypeDescriptor typeDescriptor = (TypeDescriptor) row.getColumns()
+            .get("Type")
+            .getValue();
         assertThat(typeDescriptor, typeDescriptor(type));
         store.commitTransaction();
     }

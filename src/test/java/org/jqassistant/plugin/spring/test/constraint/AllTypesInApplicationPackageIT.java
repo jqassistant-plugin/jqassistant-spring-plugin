@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.buschmais.jqassistant.core.report.api.model.Result;
+import com.buschmais.jqassistant.core.report.api.model.Row;
 import com.buschmais.jqassistant.core.rule.api.model.Constraint;
 import com.buschmais.jqassistant.core.shared.map.MapBuilder;
 import com.buschmais.jqassistant.plugin.java.api.model.TypeDescriptor;
@@ -37,12 +38,18 @@ class AllTypesInApplicationPackageIT extends AbstractJavaPluginIT {
         Result<Constraint> result = validateConstraint("spring-boot:AllTypesInApplicationPackage");
         assertThat(result.getStatus(), equalTo(FAILURE));
         store.beginTransaction();
-        List<Map<String, Object>> rows = result.getRows();
+        List<Row> rows = result.getRows();
         assertThat(rows.size(), equalTo(1));
-        Map<String, Object> row = rows.get(0);
-        assertThat(row.get("Application"), (Matcher<? super Object>) typeDescriptor(Application.class));
-        assertThat(row.get("ApplicationPackage"), (Matcher<? super Object>) packageDescriptor(Application.class.getPackage()));
-        TypeDescriptor typeOutsideApplicationPackage = (TypeDescriptor) row.get("TypeOutsideApplicationPackage");
+        Row row = rows.get(0);
+        assertThat(row.getColumns()
+            .get("Application")
+            .getValue(), (Matcher<? super Object>) typeDescriptor(Application.class));
+        assertThat(row.getColumns()
+            .get("ApplicationPackage")
+            .getValue(), (Matcher<? super Object>) packageDescriptor(Application.class.getPackage()));
+        TypeDescriptor typeOutsideApplicationPackage = (TypeDescriptor) row.getColumns()
+            .get("TypeOutsideApplicationPackage")
+            .getValue();
         assertThat(typeOutsideApplicationPackage, typeDescriptor(Controller.class));
         store.commitTransaction();
     }

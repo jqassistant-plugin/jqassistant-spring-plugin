@@ -6,6 +6,7 @@
 * Moved Plugin from com.buschmais.jqassistant.plugin (core-Distribution) to org.jqassistant.plugin
 * Added concept `spring-security:ConfigurationComponent` to label classes annotated by `@EnableGlobalAuthentication`, `@EnableGlobalMethodSecurity`,
 `@EnableReactiveMethodSecurity`, `@EnableWebSecurity`, `@EnableWebFluxSecurity` and `@EnableWebMvcSecurity` as `:Spring:Configuration:Component`
+* Extended concepts `spring-transaction:TransactionalClass` and `spring-transaction:TransactionalMethod` to accept JEE/JTA annotation `javax.transaction.@Transactional`
 
 == 1.12.1
 

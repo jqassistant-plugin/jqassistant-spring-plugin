@@ -1,9 +1,9 @@
 package org.jqassistant.plugin.spring.test.constraint;
 
 import java.util.List;
-import java.util.Map;
 
 import com.buschmais.jqassistant.core.report.api.model.Result;
+import com.buschmais.jqassistant.core.report.api.model.Row;
 import com.buschmais.jqassistant.core.rule.api.model.Constraint;
 import com.buschmais.jqassistant.plugin.common.api.model.DependsOnDescriptor;
 import com.buschmais.jqassistant.plugin.common.api.model.TestDescriptor;
@@ -38,12 +38,19 @@ class InjectablesMustNotBeInstatiatedIT extends AbstractJavaPluginIT {
         assertThat(result.getStatus(), equalTo(FAILURE));
         store.beginTransaction();
         assertThat(result, result(constraint("spring-injection:InjectablesMustNotBeInstantiated")));
-        List<Map<String, Object>> rows = result.getRows();
+        List<Row> rows = result.getRows();
         assertThat(rows.size(), equalTo(1));
-        Map<String, Object> row = rows.get(0);
-        assertThat(row.get("Type"), (Matcher<? super Object>) typeDescriptor(ControllerInstantiatingService.class));
-        assertThat(row.get("Method"), (Matcher<? super Object>) methodDescriptor(ControllerInstantiatingService.class, "instantiateService"));
-        assertThat(row.get("Injectable"), (Matcher<? super Object>) typeDescriptor(Service.class));
+        Row row = rows.get(0);
+        assertThat(row.getColumns()
+            .get("Type")
+            .getValue(), (Matcher<? super Object>) typeDescriptor(ControllerInstantiatingService.class));
+        assertThat(row.getColumns()
+                .get("Method")
+                .getValue(),
+            (Matcher<? super Object>) methodDescriptor(ControllerInstantiatingService.class, "instantiateService"));
+        assertThat(row.getColumns()
+            .get("Injectable")
+            .getValue(), (Matcher<? super Object>) typeDescriptor(Service.class));
         store.commitTransaction();
     }
 

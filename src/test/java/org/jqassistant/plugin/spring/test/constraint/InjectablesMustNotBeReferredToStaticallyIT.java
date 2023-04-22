@@ -1,9 +1,8 @@
 package org.jqassistant.plugin.spring.test.constraint;
 
-import java.util.Map;
-
 import com.buschmais.jqassistant.core.report.api.model.Result;
 import com.buschmais.jqassistant.core.report.api.model.Result.Status;
+import com.buschmais.jqassistant.core.report.api.model.Row;
 import com.buschmais.jqassistant.core.rule.api.model.Constraint;
 import com.buschmais.jqassistant.plugin.java.api.model.FieldDescriptor;
 import com.buschmais.jqassistant.plugin.java.api.model.MethodDescriptor;
@@ -39,10 +38,14 @@ class InjectablesMustNotBeReferredToStaticallyIT extends AbstractJavaPluginIT {
         assertThat(result.getStatus(), is(Status.FAILURE));
         assertThat(result.getRows(), hasSize(1));
 
-        Map<String, Object> map = result.getRows().get(0);
+        Row row = result.getRows().get(0);
 
-        assertThat((TypeDescriptor) map.get("Type"), typeDescriptor(MyComponent.class));
-        assertThat((FieldDescriptor)map.get("Field"), fieldDescriptor(MyComponent.class, "dependency"));
+        assertThat((TypeDescriptor) row.getColumns()
+            .get("Type")
+            .getValue(), typeDescriptor(MyComponent.class));
+        assertThat((FieldDescriptor) row.getColumns()
+            .get("Field")
+            .getValue(), fieldDescriptor(MyComponent.class, "dependency"));
 
         store.rollbackTransaction();
     }
@@ -59,10 +62,16 @@ class InjectablesMustNotBeReferredToStaticallyIT extends AbstractJavaPluginIT {
         assertThat(result.getStatus(), is(Status.FAILURE));
         assertThat(result.getRows(), hasSize(1));
 
-        Map<String, Object> map = result.getRows().get(0);
-        assertThat((TypeDescriptor) map.get("Type"), typeDescriptor(MyDependencyImpl.class));
-        assertThat((MethodDescriptor) map.get("Method"), methodDescriptor(MyDependencyImpl.class, "someMethod"));
-        assertThat((FieldDescriptor) map.get("Field"), fieldDescriptor(MyComponent.class, "dependency"));
+        Row row = result.getRows().get(0);
+        assertThat((TypeDescriptor) row.getColumns()
+            .get("Type")
+            .getValue(), typeDescriptor(MyDependencyImpl.class));
+        assertThat((MethodDescriptor) row.getColumns()
+            .get("Method")
+            .getValue(), methodDescriptor(MyDependencyImpl.class, "someMethod"));
+        assertThat((FieldDescriptor) row.getColumns()
+            .get("Field")
+            .getValue(), fieldDescriptor(MyComponent.class, "dependency"));
 
         store.rollbackTransaction();
     }
