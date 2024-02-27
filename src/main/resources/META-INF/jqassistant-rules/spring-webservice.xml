@@ -1,0 +1,23 @@
+<jqassistant-rules xmlns="http://schema.jqassistant.org/rule/v1.10"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://schema.jqassistant.org/rule/v1.10 https://schema.jqassistant.org/plugin/jqassistant-rule-v1.10.xsd">
+
+    <concept id="spring-webservice:Endpoint">
+        <providesConcept refId="spring-component:Component"/>
+        <providesConcept refId="spring-injection:Injectable"/>
+        <description>Labels all types annotated with "@org.springframework.ws.server.endpoint.annotation.Endpoint" with "Spring",
+            "Endpoint", "Component" and "Injectable".
+        </description>
+        <cypher><![CDATA[
+            MATCH
+              (endpoint:Type)-[:ANNOTATED_BY]->()-[:OF_TYPE]->(annotationType:Type)
+            WHERE
+              annotationType.fqn = "org.springframework.ws.server.endpoint.annotation.Endpoint"
+            SET
+              endpoint:Spring:Endpoint:Component:Injectable
+            RETURN
+              endpoint as Endpoint
+        ]]></cypher>
+    </concept>
+
+</jqassistant-rules>
