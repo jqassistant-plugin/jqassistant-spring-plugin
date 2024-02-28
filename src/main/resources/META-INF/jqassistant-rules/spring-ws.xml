@@ -2,7 +2,7 @@
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xsi:schemaLocation="http://schema.jqassistant.org/rule/v1.10 https://schema.jqassistant.org/plugin/jqassistant-rule-v1.10.xsd">
 
-    <concept id="spring-webservice:Endpoint">
+    <concept id="spring-ws:Endpoint">
         <providesConcept refId="spring-component:Component"/>
         <providesConcept refId="spring-injection:Injectable"/>
         <description>Labels all types annotated with "@org.springframework.ws.server.endpoint.annotation.Endpoint" with "Spring",

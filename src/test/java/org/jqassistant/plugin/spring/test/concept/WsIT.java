@@ -3,7 +3,6 @@ package org.jqassistant.plugin.spring.test.concept;
 import com.buschmais.jqassistant.core.rule.api.model.RuleException;
 import org.jqassistant.plugin.spring.test.set.components.Endpoint;
 import org.jqassistant.plugin.spring.test.set.components.RestController;
-import org.jqassistant.plugin.spring.test.set.components.Service;
 import org.junit.jupiter.api.Test;
 
 import static com.buschmais.jqassistant.core.report.api.model.Result.Status.SUCCESS;
@@ -13,10 +12,10 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class WebserviceIT extends AbstractSpringIT {
+public class WsIT extends AbstractSpringIT {
     @Test
     void endpoint() throws Exception {
-        verify(Endpoint.class, "spring-webservice:Endpoint",
+        verify(Endpoint.class, "spring-ws:Endpoint",
             ":Spring:Endpoint:Component:Injectable");
     }
 
