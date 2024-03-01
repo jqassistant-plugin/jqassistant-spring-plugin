@@ -16,31 +16,31 @@ class TransactionalMethodIT extends AbstractSpringIT {
 
     @Test
     void transactionalMethod() throws Exception {
-        scanClasses(TransactionalMethod.class, JtaTransactionalMethod.class);
+        scanClasses(SpringTransactionalMethod.class, JtaTransactionalMethod.class);
         assertThat(applyConcept("spring-transaction:TransactionalMethod").getStatus(), equalTo(SUCCESS));
         store.beginTransaction();
         List<Object> methods = query("MATCH (m:Spring:Method:Transactional) RETURN m").getColumn("m");
         assertThat(methods.size(), equalTo(2));
-        assertThat(methods, hasItem(methodDescriptor(TransactionalMethod.class, "transactionalMethod")));
-        assertThat(methods, not(hasItem(methodDescriptor(TransactionalMethod.class, "nonTransactionalMethod"))));
+        assertThat(methods, hasItem(methodDescriptor(SpringTransactionalMethod.class, "transactionalMethod")));
+        assertThat(methods, not(hasItem(methodDescriptor(SpringTransactionalMethod.class, "nonTransactionalMethod"))));
         assertThat(methods, hasItem(methodDescriptor(JtaTransactionalMethod.class, "transactionalMethod")));
         store.commitTransaction();
     }
 
     @Test
     void transactionalClass() throws Exception {
-        scanClasses(TransactionalClass.class, TransactionalSubClass.class, JtaTransactionalClass.class);
+        scanClasses(SpringTransactionalClass.class, SpringTransactionalSubClass.class, JtaTransactionalClass.class);
         assertThat(applyConcept("spring-transaction:TransactionalClass").getStatus(), equalTo(SUCCESS));
         store.beginTransaction();
         List<Object> classes = query("MATCH (c:Spring:Class:Transactional) RETURN c").getColumn("c");
         assertThat(classes.size(), equalTo(3));
-        assertThat(classes, hasItem(typeDescriptor(TransactionalClass.class)));
-        assertThat(classes, hasItem(typeDescriptor(TransactionalSubClass.class)));
+        assertThat(classes, hasItem(typeDescriptor(SpringTransactionalClass.class)));
+        assertThat(classes, hasItem(typeDescriptor(SpringTransactionalSubClass.class)));
         assertThat(classes, hasItem(typeDescriptor(JtaTransactionalClass.class)));
         List<Object> methods = query("MATCH (m:Spring:Method:Transactional) RETURN m").getColumn("m");
         assertThat(methods.size(), equalTo(3));
-        assertThat(methods, hasItem(methodDescriptor(TransactionalClass.class, "transactionalMethod")));
-        assertThat(methods, hasItem(methodDescriptor(TransactionalSubClass.class, "transactionalSubClassMethod")));
+        assertThat(methods, hasItem(methodDescriptor(SpringTransactionalClass.class, "transactionalMethod")));
+        assertThat(methods, hasItem(methodDescriptor(SpringTransactionalSubClass.class, "transactionalSubClassMethod")));
         assertThat(methods, hasItem(methodDescriptor(JtaTransactionalClass.class, "transactionalMethod")));
         store.commitTransaction();
     }
