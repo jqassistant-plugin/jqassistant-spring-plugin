@@ -115,7 +115,8 @@
     <concept id="spring-injection:InjectionPoint">
         <description>
             Labels all type members annotated with "@org.springframework.beans.factory.annotation.Autowired",
-            "javax.inject.Inject" or "javax.annotation.Resource" with "Spring" and "InjectionPoint".
+            "jakarta.inject.Inject", "jakarta.annotation.Resource", "javax.inject.Inject" or "javax.annotation.Resource"
+            with "Spring" and "InjectionPoint".
         </description>
         <cypher><![CDATA[
             MATCH
@@ -123,6 +124,8 @@
             WHERE
               annotationType.fqn in [
                 "org.springframework.beans.factory.annotation.Autowired",
+                "jakarta.inject.Inject",
+                "jakarta.annotation.Resource"
                 "javax.inject.Inject",
                 "javax.annotation.Resource"
               ]
