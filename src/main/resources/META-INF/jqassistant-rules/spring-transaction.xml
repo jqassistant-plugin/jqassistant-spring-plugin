@@ -39,6 +39,7 @@
            WHERE
              annotationType.fqn in [
                "org.springframework.transaction.annotation.Transactional",
+               "jakarta.transaction.Transactional",
                "javax.transaction.Transactional"
              ]
              or type:Spring:Transactional
@@ -60,6 +61,7 @@
            WHERE
              annotationType.fqn in [
                "org.springframework.transaction.annotation.Transactional",
+               "jakarta.transaction.Transactional",
                "javax.transaction.Transactional"
              ]
            SET
