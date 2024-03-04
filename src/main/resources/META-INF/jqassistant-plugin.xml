@@ -11,6 +11,7 @@
         <resource>spring-mvc.xml</resource>
         <resource>spring-security.xml</resource>
         <resource>spring-transaction.xml</resource>
+        <resource>spring-ws.xml</resource>
     </rules>
 </jqassistant-plugin>
 

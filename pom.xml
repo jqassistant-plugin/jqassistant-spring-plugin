@@ -55,6 +55,7 @@
         <jqa-java-plugin.version>2.1.0-M1</jqa-java-plugin.version>
         <jqa-plugin-common.version>2.1.0-M1</jqa-plugin-common.version>
         <org.springframework.boot_version>3.2.2</org.springframework.boot_version>
+        <org.springframework.ws_version>4.0.10</org.springframework.ws_version>
         <org.springframework.data_version>3.2.2</org.springframework.data_version>
         <javax.transaction.transaction-api_version>1.3</javax.transaction.transaction-api_version>
     </properties>
@@ -146,6 +147,12 @@
                     <artifactId>logback-classic</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.ws</groupId>
+            <artifactId>spring-ws-core</artifactId>
+            <version>${org.springframework.ws_version}</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
