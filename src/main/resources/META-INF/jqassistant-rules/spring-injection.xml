@@ -125,7 +125,7 @@
               annotationType.fqn in [
                 "org.springframework.beans.factory.annotation.Autowired",
                 "jakarta.inject.Inject",
-                "jakarta.annotation.Resource"
+                "jakarta.annotation.Resource",
                 "javax.inject.Inject",
                 "javax.annotation.Resource"
               ]

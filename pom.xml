@@ -177,6 +177,13 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
         </dependency>
+        <dependency>
+            <!-- Spring Boot BOM overwrites JAXB version used by jQA core -->
+            <groupId>org.glassfish.jaxb</groupId>
+            <artifactId>jaxb-runtime</artifactId>
+            <version>2.4.0-b180830.0438</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
 </project>

@@ -35,8 +35,8 @@
     <constraint id="spring-boot:AllTypesInApplicationPackage">
         <requiresConcept refId="spring-boot:Application"/>
         <requiresConcept refId="java:GeneratedType"/>
-        <description>All types of of a Spring Boot application must be located in the same package or a sub-package of
-            the application class.
+        <description>
+            All types of a Spring Boot application must be located in the same package or a sub-package of the application class.
         </description>
         <cypher><![CDATA[
             MATCH
