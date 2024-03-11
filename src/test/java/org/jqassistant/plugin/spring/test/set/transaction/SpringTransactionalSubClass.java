@@ -1,6 +1,6 @@
 package org.jqassistant.plugin.spring.test.set.transaction;
 
-public class TransactionalSubClass extends TransactionalClass {
+public class SpringTransactionalSubClass extends SpringTransactionalClass {
 
     public void transactionalSubClassMethod() {
     }

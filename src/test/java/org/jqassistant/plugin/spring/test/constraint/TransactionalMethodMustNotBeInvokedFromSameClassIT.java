@@ -8,7 +8,7 @@ import com.buschmais.jqassistant.core.report.api.model.Row;
 import com.buschmais.jqassistant.core.rule.api.model.Constraint;
 import com.buschmais.jqassistant.plugin.java.test.AbstractJavaPluginIT;
 
-import org.jqassistant.plugin.spring.test.set.transaction.TransactionalMethod;
+import org.jqassistant.plugin.spring.test.set.transaction.SpringTransactionalMethod;
 import org.junit.jupiter.api.Test;
 
 import static com.buschmais.jqassistant.core.report.api.model.Result.Status.FAILURE;
@@ -21,7 +21,7 @@ class TransactionalMethodMustNotBeInvokedFromSameClassIT extends AbstractJavaPlu
 
     @Test
     void transactionMethodsMustNotBeCalledDirectly() throws Exception {
-        scanClasses(TransactionalMethod.class);
+        scanClasses(SpringTransactionalMethod.class);
         assertThat(validateConstraint("spring-transaction:TransactionalMethodMustNotBeInvokedFromSameClass").getStatus(), equalTo(FAILURE));
         store.beginTransaction();
         List<Result<Constraint>> constraintViolations = new ArrayList<>(reportPlugin.getConstraintResults().values());
