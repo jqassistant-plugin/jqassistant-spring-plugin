@@ -168,7 +168,12 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>jakarta.transaction</groupId>
+            <groupId>org.springframework.batch</groupId>
+            <artifactId>spring-batch-integration</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+        <groupId>jakarta.transaction</groupId>
             <artifactId>jakarta.transaction-api</artifactId>
             <version>${jakarta.transaction-api.version}</version>
             <scope>test</scope>
