@@ -1,0 +1,78 @@
+<jqassistant-rules xmlns="http://schema.jqassistant.org/rule/v1.10">
+
+    <concept id="spring-batch:ItemProcessor">
+        <description>Labels all types implementing the interface "org.springframework.batch.item.ItemProcessor" with "Spring", "Batch" and "ItemProcessor".</description>
+        <cypher><![CDATA[
+            MATCH
+                (itemProcessor:Type)-[:IMPLEMENTS]->(interface:Type)
+            WHERE
+                interface.fqn = "org.springframework.batch.item.ItemProcessor"
+            SET
+                itemProcessor:Spring:Batch:ItemProcessor
+            RETURN
+                itemProcessor AS ItemProcessor
+        ]]>
+        </cypher>
+    </concept>
+
+    <concept id="spring-batch:ItemReader">
+        <description>Labels all types implementing the interface "org.springframework.batch.item.ItemReader" with "Spring", "Batch" and "ItemReader".</description>
+        <cypher><![CDATA[
+            MATCH
+                (itemReader:Type)-[:IMPLEMENTS]->(interface:Type)
+            WHERE
+                interface.fqn = "org.springframework.batch.item.ItemReader"
+            SET
+                itemReader:Spring:Batch:ItemReader
+            RETURN
+                itemReader AS ItemReader
+        ]]>
+        </cypher>
+    </concept>
+
+    <concept id="spring-batch:BatchItemWriter">
+        <description>Labels all types implementing the interface "org.springframework.batch.item.ItemWriter" with "Spring", "Batch" and "ItemWriter".</description>
+        <cypher><![CDATA[
+            MATCH
+                (itemWriter:Type)-[:IMPLEMENTS]->(interface:Type)
+            WHERE
+                interface.fqn = "org.springframework.batch.item.ItemWriter"
+            SET
+                itemWriter:Spring:Batch:ItemWriter
+            RETURN
+                itemWriter AS ItemWriter
+        ]]>
+        </cypher>
+    </concept>
+
+    <concept id="spring-batch:JobExecutionListener">
+        <description>Labels all types implementing the interface "org.springframework.batch.core.JobExecutionListener" with "Spring", "Batch" and "JobExecutionListener".</description>
+        <cypher><![CDATA[
+            MATCH
+                (jobExecutionListener:Type)-[:IMPLEMENTS]->(interface:Type)
+            WHERE
+                interface.fqn = "org.springframework.batch.core.JobExecutionListener"
+            SET
+                jobExecutionListener:Spring:Batch:JobExecutionListener
+            RETURN
+                jobExecutionListener AS JobExecutionListener
+            ]]>
+        </cypher>
+    </concept>
+
+    <concept id="spring-batch:Tasklet">
+        <description>Labels all types implementing the interface "org.springframework.batch.core.step.tasklet.Tasklet" with "Spring", "Batch" and "Tasklet".</description>
+        <cypher><![CDATA[
+            MATCH
+                (tasklet:Type)-[:IMPLEMENTS]->(interface:Type)
+            WHERE
+                interface.fqn = "org.springframework.batch.core.step.tasklet.Tasklet"
+            SET
+                tasklet:Spring:Batch:Tasklet
+            RETURN
+                tasklet AS Tasklet
+        ]]>
+        </cypher>
+    </concept>
+
+</jqassistant-rules>

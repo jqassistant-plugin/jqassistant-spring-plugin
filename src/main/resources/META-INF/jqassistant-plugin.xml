@@ -4,6 +4,7 @@
                     name="jQAssistant Spring Plugin" id="jqa.plugin.spring">
     <description>Provides rules for applications using the Spring framework.</description>
     <rules>
+        <resource>spring-batch.xml</resource>
         <resource>spring-boot.xml</resource>
         <resource>spring-component.xml</resource>
         <resource>spring-data.xml</resource>
