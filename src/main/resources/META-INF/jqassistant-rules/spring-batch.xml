@@ -4,7 +4,7 @@
         <description>Labels all types implementing the interface "org.springframework.batch.item.ItemProcessor" with "Spring", "Batch" and "ItemProcessor".</description>
         <cypher><![CDATA[
             MATCH
-                (itemProcessor:Type)-[:EXTENDS|IMPLEMENTS*]->(interface:Type)
+                (itemProcessor:Type)-[:EXTENDS|IMPLEMENTS*0..]->(interface:Type)
             WHERE
                 interface.fqn in [
                     "org.springframework.batch.item.ItemProcessor",
@@ -30,7 +30,7 @@
         <description>Labels all types implementing the interface "org.springframework.batch.item.ItemReader" with "Spring", "Batch" and "ItemReader".</description>
         <cypher><![CDATA[
             MATCH
-                (itemReader:Type)-[:EXTENDS|IMPLEMENTS*]->(interface:Type)
+                (itemReader:Type)-[:EXTENDS|IMPLEMENTS*0..]->(interface:Type)
             WHERE
                 interface.fqn in [
                     "org.springframework.batch.item.ItemReader",
@@ -77,7 +77,7 @@
                     "org.springframework.batch.item.support.ListItemReader",
                     "org.springframework.batch.item.jms.JmsItemReader",
                     "org.springframework.batch.item.support.SynchronizedItemReader",
-                    "org.springframework.batch.item.amqp.AmqpItemReader"]
+                    "org.springframework.batch.item.amqp.AmqpItemReader"
                 ]
             SET
                 itemReader:Spring:Batch:ItemReader
@@ -87,11 +87,11 @@
         </cypher>
     </concept>
 
-    <concept id="spring-batch:BatchItemWriter">
+    <concept id="spring-batch:ItemWriter">
         <description>Labels all types implementing the interface "org.springframework.batch.item.ItemWriter" with "Spring", "Batch" and "ItemWriter".</description>
         <cypher><![CDATA[
             MATCH
-                (itemWriter:Type)-[:EXTENDS|IMPLEMENTS*]->(interface:Type)
+                (itemWriter:Type)-[:EXTENDS|IMPLEMENTS*0..]->(interface:Type)
             WHERE
                 interface.fqn in [
                     "org.springframework.batch.item.ItemWriter",
@@ -143,7 +143,7 @@
         <description>Labels all types implementing the interface "org.springframework.batch.core.JobExecutionListener" with "Spring", "Batch" and "JobExecutionListener".</description>
         <cypher><![CDATA[
             MATCH
-                (jobExecutionListener:Type)-[:EXTENDS|IMPLEMENTS*]->(interface:Type)
+                (jobExecutionListener:Type)-[:EXTENDS|IMPLEMENTS*0..]->(interface:Type)
             WHERE
                 interface.fqn in [
                     "org.springframework.batch.core.JobExecutionListener",
@@ -162,7 +162,7 @@
         <description>Labels all types implementing the interface "org.springframework.batch.core.step.tasklet.Tasklet" with "Spring", "Batch" and "Tasklet".</description>
         <cypher><![CDATA[
             MATCH
-                (tasklet:Type)-[:EXTENDS|IMPLEMENTS*]->(interface:Type)
+                (tasklet:Type)-[:EXTENDS|IMPLEMENTS*0..]->(interface:Type)
             WHERE
                 interface.fqn in [
                     "org.springframework.batch.core.step.tasklet.Tasklet",
