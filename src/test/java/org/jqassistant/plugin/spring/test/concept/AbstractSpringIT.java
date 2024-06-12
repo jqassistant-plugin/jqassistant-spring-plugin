@@ -12,7 +12,7 @@ public abstract class AbstractSpringIT extends AbstractJavaPluginIT {
      */
     protected void clearConcepts() {
         store.beginTransaction();
-        query("MATCH (c:Concept) DELETE c");
+        query("MATCH (c:Concept) DETACH DELETE c");
         store.commitTransaction();
     }
 
