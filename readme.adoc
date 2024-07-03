@@ -62,7 +62,7 @@ jqassistant:
 `@EnableReactiveMethodSecurity`, `@EnableWebSecurity`, `@EnableWebFluxSecurity` and `@EnableWebMvcSecurity` as `:Spring:Configuration:Component`
 - Extended concepts `spring-transaction:TransactionalClass` and `spring-transaction:TransactionalMethod` to accept JEE/JTA annotation `javax.transaction.@Transactional`
 
-== 1.12.1
+=== 1.12.1
 
 - Removed redundant result columns from constraints `spring-injection:BeanProducerMustNotBeInvokedDirectly` and `spring-injection:InjectablesShouldBeHeldInFinalFields`
 
