@@ -26,7 +26,6 @@ on:
         required: true
         default: false
         type: boolean
-        dryRun: ${{ github.event.inputs.dryRun }}
 jobs:
   build:
     uses: jqassistant-tooling/jqassistant-github-actions/.github/workflows/release.yml@main
@@ -34,6 +33,7 @@ jobs:
       branch: ${{ github.event.inputs.branch }}
       releaseVersion: ${{ github.event.inputs.releaseVersion }}
       developmentVersion: ${{ github.event.inputs.developmentVersion }}
+      dryRun: ${{ github.event.inputs.dryRun }}
     secrets:
       ossrh_username: ${{ secrets.OSSRH_USERNAME }}
       ossrh_password: ${{ secrets.OSSRH_PASSWORD }}
