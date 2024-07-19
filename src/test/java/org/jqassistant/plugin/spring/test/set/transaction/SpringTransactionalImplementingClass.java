@@ -6,13 +6,15 @@ import org.springframework.stereotype.Service;
 public class SpringTransactionalImplementingClass implements SpringTransactionalInterface {
 
     public static void staticMethod() {
+        // intentionally left blank
     }
 
     public void transactionalImplementingClassMethod() {
+        // intentionally left blank
     }
 
     @Override
     public void transactionalMethod() {
-
+        // intentionally left blank
     }
 }
