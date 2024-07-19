@@ -21,7 +21,12 @@ on:
         description: "Default version to use for new local working copy."
         required: true
         default: "X.Y.Z-SNAPSHOT"
-
+      dryRun:
+        description: "Perform a dry run"
+        required: true
+        default: false
+        type: boolean
+        dryRun: ${{ github.event.inputs.dryRun }}
 jobs:
   build:
     uses: jqassistant-tooling/jqassistant-github-actions/.github/workflows/release.yml@main
