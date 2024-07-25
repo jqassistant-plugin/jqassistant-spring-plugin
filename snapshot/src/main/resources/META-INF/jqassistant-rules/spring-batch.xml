@@ -1,0 +1,183 @@
+<jqassistant-rules xmlns="http://schema.jqassistant.org/rule/v1.10">
+
+    <concept id="spring-batch:ItemProcessor">
+        <description>Labels all types implementing the interface "org.springframework.batch.item.ItemProcessor" with "Spring", "Batch" and "ItemProcessor".</description>
+        <cypher><![CDATA[
+            MATCH
+                (itemProcessor:Type)-[:EXTENDS|IMPLEMENTS*0..]->(interface:Type)
+            WHERE
+                interface.fqn in [
+                    "org.springframework.batch.item.ItemProcessor",
+                    "org.springframework.batch.item.support.ScriptItemProcessor",
+                    "org.springframework.batch.item.support.ClassifierCompositeItemProcessor",
+                    "org.springframework.batch.item.support.PassThroughItemProcessor",
+                    "org.springframework.batch.item.validator.ValidatingItemProcessor",
+                    "org.springframework.batch.item.validator.BeanValidatingItemProcessor",
+                    "org.springframework.batch.item.function.FunctionItemProcessor",
+                    "org.springframework.batch.item.support.CompositeItemProcessor",
+                    "org.springframework.batch.integration.async.AsyncItemProcessor",
+                    "org.springframework.batch.item.adapter.ItemProcessorAdapter"
+                ]
+            SET
+                itemProcessor:Spring:Batch:ItemProcessor
+            RETURN
+                itemProcessor AS ItemProcessor
+        ]]>
+        </cypher>
+    </concept>
+
+    <concept id="spring-batch:ItemReader">
+        <description>Labels all types implementing the interface "org.springframework.batch.item.ItemReader" with "Spring", "Batch" and "ItemReader".</description>
+        <cypher><![CDATA[
+            MATCH
+                (itemReader:Type)-[:EXTENDS|IMPLEMENTS*0..]->(interface:Type)
+            WHERE
+                interface.fqn in [
+                    "org.springframework.batch.item.ItemReader",
+                    "org.springframework.batch.item.adapter.ItemReaderAdapter",
+                    "org.springframework.batch.item.PeekableItemReader",
+                    "org.springframework.batch.item.support.SingleItemPeekableItemReader",
+                    "org.springframework.batch.item.ItemStreamReader",
+                    "org.springframework.batch.item.redis.RedisItemReader",
+                    "org.springframework.batch.item.file.ResourceAwareItemReaderItemStream",
+                    "org.springframework.batch.item.xml.StaxEventItemReader",
+                    "org.springframework.batch.item.ldif.MappingLdifReader",
+                    "org.springframework.batch.item.file.FlatFileItemReader",
+                    "org.springframework.batch.item.ldif.LdifReader",
+                    "org.springframework.batch.item.json.JsonItemReader",
+                    "org.springframework.batch.item.support.SynchronizedItemStreamReader",
+                    "org.springframework.batch.item.support.SingleItemPeekableItemReader",
+                    "org.springframework.batch.item.support.AbstractItemStreamItemReader",
+                    "org.springframework.batch.item.support.AbstractItemCountingItemStreamItemReader",
+                    "org.springframework.batch.item.data.MongoCursorItemReader",
+                    "org.springframework.batch.item.ldif.LdifReader",
+                    "org.springframework.batch.item.data.AbstractPaginatedDataItemReader",
+                    "org.springframework.batch.item.data.MongoItemReader",
+                    "org.springframework.batch.item.data.MongoPagingItemReader",
+                    "org.springframework.batch.item.data.Neo4jItemReader",
+                    "org.springframework.batch.item.database.HibernateCursorItemReader",
+                    "org.springframework.batch.item.ldif.MappingLdifReader",
+                    "org.springframework.batch.item.database.AbstractCursorItemReader",
+                    "org.springframework.batch.item.database.StoredProcedureItemReader",
+                    "org.springframework.batch.item.database.JdbcCursorItemReader",
+                    "org.springframework.batch.item.xml.StaxEventItemReader",
+                    "org.springframework.batch.item.database.AbstractPagingItemReader",
+                    "org.springframework.batch.item.database.JdbcPagingItemReader",
+                    "org.springframework.batch.item.database.HibernatePagingItemReader",
+                    "org.springframework.batch.item.database.JpaPagingItemReader",
+                    "org.springframework.batch.item.data.RepositoryItemReader",
+                    "org.springframework.batch.item.database.JpaCursorItemReader",
+                    "org.springframework.batch.item.json.JsonItemReader",
+                    "org.springframework.batch.item.file.FlatFileItemReader",
+                    "org.springframework.batch.item.avro.AvroItemReader",
+                    "org.springframework.batch.item.file.ResourcesItemReader",
+                    "org.springframework.batch.item.kafka.KafkaItemReader",
+                    "org.springframework.batch.item.file.MultiResourceItemReader",
+                    "org.springframework.batch.item.support.IteratorItemReader",
+                    "org.springframework.batch.item.support.ListItemReader",
+                    "org.springframework.batch.item.jms.JmsItemReader",
+                    "org.springframework.batch.item.support.SynchronizedItemReader",
+                    "org.springframework.batch.item.amqp.AmqpItemReader"
+                ]
+            SET
+                itemReader:Spring:Batch:ItemReader
+            RETURN
+                itemReader AS ItemReader
+        ]]>
+        </cypher>
+    </concept>
+
+    <concept id="spring-batch:ItemWriter">
+        <description>Labels all types implementing the interface "org.springframework.batch.item.ItemWriter" with "Spring", "Batch" and "ItemWriter".</description>
+        <cypher><![CDATA[
+            MATCH
+                (itemWriter:Type)-[:EXTENDS|IMPLEMENTS*0..]->(interface:Type)
+            WHERE
+                interface.fqn in [
+                    "org.springframework.batch.item.ItemWriter",
+                    "org.springframework.batch.item.data.MongoItemWriter",
+                    "org.springframework.batch.item.data.Neo4jItemWriter",
+                    "org.springframework.batch.item.database.JdbcBatchItemWriter",
+                    "org.springframework.batch.item.database.HibernateItemWriter",
+                    "org.springframework.batch.item.adapter.ItemWriterAdapter",
+                    "org.springframework.batch.item.KeyValueItemWriter",
+                    "org.springframework.batch.item.redis.RedisItemWriter",
+                    "org.springframework.batch.item.kafka.KafkaItemWriter",
+                    "org.springframework.batch.item.support.SynchronizedItemWriter",
+                    "org.springframework.batch.item.amqp.AmqpItemWriter",
+                    "org.springframework.batch.item.mail.javamail.MimeMessageItemWriter",
+                    "org.springframework.batch.item.adapter.PropertyExtractingDelegatingItemWriter",
+                    "org.springframework.batch.item.ItemStreamWriter",
+                    "org.springframework.batch.item.support.SynchronizedItemStreamWriter",
+                    "org.springframework.batch.item.support.AbstractItemStreamItemWriter",
+                    "org.springframework.batch.item.xml.StaxEventItemWriter",
+                    "org.springframework.batch.item.file.MultiResourceItemWriter",
+                    "org.springframework.batch.item.avro.AvroItemWriter",
+                    "org.springframework.batch.item.support.AbstractFileItemWriter",
+                    "org.springframework.batch.item.file.FlatFileItemWriter",
+                    "org.springframework.batch.item.json.JsonFileItemWriter",
+                    "org.springframework.batch.item.file.ResourceAwareItemWriterItemStream",
+                    "org.springframework.batch.item.xml.StaxEventItemWriter",
+                    "org.springframework.batch.item.support.AbstractFileItemWriter",
+                    "org.springframework.batch.item.file.FlatFileItemWriter",
+                    "org.springframework.batch.item.json.JsonFileItemWriter",
+                    "org.springframework.batch.item.support.CompositeItemWriter",
+                    "org.springframework.batch.integration.async.AsyncItemWriter",
+                    "org.springframework.batch.item.jms.JmsItemWriter",
+                    "org.springframework.batch.item.mail.SimpleMailMessageItemWriter",
+                    "org.springframework.batch.item.support.ClassifierCompositeItemWriter",
+                    "org.springframework.batch.item.database.JpaItemWriter",
+                    "org.springframework.batch.item.support.ListItemWriter",
+                    "org.springframework.batch.integration.chunk.ChunkMessageChannelItemWriter",
+                    "org.springframework.batch.item.data.RepositoryItemWriter"
+                ]
+            SET
+                itemWriter:Spring:Batch:ItemWriter
+            RETURN
+                itemWriter AS ItemWriter
+        ]]>
+        </cypher>
+    </concept>
+
+    <concept id="spring-batch:JobExecutionListener">
+        <description>Labels all types implementing the interface "org.springframework.batch.core.JobExecutionListener" with "Spring", "Batch" and "JobExecutionListener".</description>
+        <cypher><![CDATA[
+            MATCH
+                (jobExecutionListener:Type)-[:EXTENDS|IMPLEMENTS*0..]->(interface:Type)
+            WHERE
+                interface.fqn in [
+                    "org.springframework.batch.core.JobExecutionListener",
+                    "org.springframework.batch.core.listener.JobExecutionListenerSupport",
+                    "org.springframework.batch.core.listener.CompositeJobExecutionListener"
+                ]
+            SET
+                jobExecutionListener:Spring:Batch:JobExecutionListener
+            RETURN
+                jobExecutionListener AS JobExecutionListener
+            ]]>
+        </cypher>
+    </concept>
+
+    <concept id="spring-batch:Tasklet">
+        <description>Labels all types implementing the interface "org.springframework.batch.core.step.tasklet.Tasklet" with "Spring", "Batch" and "Tasklet".</description>
+        <cypher><![CDATA[
+            MATCH
+                (tasklet:Type)-[:EXTENDS|IMPLEMENTS*0..]->(interface:Type)
+            WHERE
+                interface.fqn in [
+                    "org.springframework.batch.core.step.tasklet.Tasklet",
+                    "org.springframework.batch.core.step.tasklet.StoppableTasklet",
+                    "org.springframework.batch.core.step.tasklet.SystemCommandTasklet",
+                    "org.springframework.batch.core.step.tasklet.CallableTaskletAdapter",
+                    "org.springframework.batch.core.step.item.ChunkOrientedTasklet",
+                    "org.springframework.batch.core.step.tasklet.MethodInvokingTaskletAdapter"
+                ]
+            SET
+                tasklet:Spring:Batch:Tasklet
+            RETURN
+                tasklet AS Tasklet
+        ]]>
+        </cypher>
+    </concept>
+
+</jqassistant-rules>

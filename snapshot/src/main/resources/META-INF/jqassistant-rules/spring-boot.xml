@@ -1,0 +1,56 @@
+<jqassistant-rules xmlns="http://schema.jqassistant.org/rule/v1.10"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://schema.jqassistant.org/rule/v1.10 http://schema.jqassistant.org/rule/jqassistant-rule-v1.10.xsd">
+
+    <group id="spring-boot:Default">
+        <includeConstraint refId="spring-boot:AllTypesInApplicationPackage"/>
+        <includeGroup refId="spring-component:Default" />
+        <includeGroup refId="spring-injection:Default" />
+        <includeGroup refId="spring-transaction:Default" />
+    </group>
+
+    <group id="spring-boot:Strict">
+        <includeGroup refId="spring-boot:Default" />
+        <includeGroup refId="spring-component:Strict" />
+        <includeGroup refId="spring-injection:Strict" />
+    </group>
+
+    <concept id="spring-boot:Application">
+        <providesConcept refId="spring-component:Component"/>
+        <providesConcept refId="spring-component:Configuration"/>
+        <providesConcept refId="spring-injection:Injectable"/>
+        <description>Labels all Spring Boot Applications with "Spring", "Application", "Configuration" and "Component".</description>
+        <cypher><![CDATA[
+            MATCH
+              (application:Type:Class)-[:ANNOTATED_BY]->()-[:OF_TYPE]->(annotationType:Type)
+            WHERE
+              annotationType.fqn = "org.springframework.boot.autoconfigure.SpringBootApplication"
+            SET
+              application:Spring:Boot:Application:Configuration:Component:Injectable
+            RETURN
+              application as Application
+        ]]></cypher>
+    </concept>
+
+    <constraint id="spring-boot:AllTypesInApplicationPackage">
+        <requiresConcept refId="spring-boot:Application"/>
+        <requiresConcept refId="java:GeneratedType"/>
+        <description>
+            All types of a Spring Boot application must be located in the same package or a sub-package of the application class.
+        </description>
+        <cypher><![CDATA[
+            MATCH
+              (artifact:Artifact),
+              (artifact)-[:CONTAINS]->(applicationPackage:Package)-[:CONTAINS]->(application:Spring:Boot:Application),
+              (artifact)-[:CONTAINS]->(package:Package)-[:CONTAINS]->(type:Type)
+            WHERE NOT (
+                artifact:Test
+                OR type:Generated
+                OR (applicationPackage)-[:CONTAINS*0..]->(package)
+              )
+            RETURN
+              type as TypeOutsideApplicationPackage, application as Application, applicationPackage as ApplicationPackage
+        ]]></cypher>
+    </constraint>
+
+</jqassistant-rules>

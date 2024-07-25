@@ -1,0 +1,85 @@
+<jqassistant-rules xmlns="http://schema.jqassistant.org/rule/v1.8"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://schema.jqassistant.org/rule/v1.8 https://schema.jqassistant.org/plugin/jqassistant-rule-v1.8.xsd">
+
+    <group id="spring-transaction:Default">
+        <includeConstraint refId="spring-transaction:TransactionalMethodMustNotBeInvokedFromSameClass"/>
+    </group>
+
+    <constraint id="spring-transaction:TransactionalMethodMustNotBeInvokedFromSameClass">
+        <requiresConcept refId="spring-transaction:TransactionalMethod"/>
+        <requiresConcept refId="java:GeneratedType"/>
+        <description>Transactional methods must not be invoked from the same class.</description>
+        <cypher><![CDATA[
+            MATCH
+              (artifact:Artifact)-[:CONTAINS]->(type:Type)-[:DECLARES]->(calledMethod:Method:Spring:Transactional),
+              (type:Type)-[:DECLARES]->(callingMethod:Method),
+              (callingMethod:Method)-[invokes:INVOKES]->(calledMethod)
+            WHERE NOT (
+              artifact:Test
+              OR type:Generated
+              OR callingMethod:Method:Spring:Transactional
+              OR type:Spring:Transactional
+            )
+            RETURN
+              type as Type, callingMethod as Method, calledMethod as TransactionalMethod, invokes.lineNumber as LineNumber
+        ]]></cypher>
+        <report primaryColumn="callingMethod"/>
+    </constraint>
+
+    <concept id="spring-transaction:TransactionalMethod">
+        <requiresConcept refId="spring-transaction:TransactionalClass"/>
+        <description>
+            Label all methods which are annotated with "@org.springframework.transaction.annotation.Transactional", "jakarta.transaction.Transactional",
+            or "javax.transaction.Transactional", with "Spring" and "Transactional".
+        </description>
+        <cypher><![CDATA[
+           MATCH
+             (type:Type)-[:DECLARES]->(transactionalMethod:Method),
+             (transactionalMethod:Method)-[:ANNOTATED_BY]->()-[:OF_TYPE]->(annotationType:Type)
+           WHERE
+             annotationType.fqn in [
+               "org.springframework.transaction.annotation.Transactional",
+               "jakarta.transaction.Transactional",
+               "javax.transaction.Transactional"
+             ]
+             or type:Spring:Transactional
+           SET
+             transactionalMethod:Spring:Transactional
+           RETURN
+             type as Type, transactionalMethod as TransactionalMethod
+        ]]></cypher>
+    </concept>
+
+    <concept id="spring-transaction:TransactionalClass">
+        <description>
+            Label all classes directly or indirectly annotated with "@org.springframework.transaction.annotation.Transactional", "jakarta.transaction.Transactional",
+            or "javax.transaction.Transactional", and their declared methods with "Spring" and "Transactional".
+        </description>
+        <cypher><![CDATA[
+           MATCH
+             (transactionalClass:Type)-[:EXTENDS|IMPLEMENTS*0..]->(:Type)-[:ANNOTATED_BY]->()-[:OF_TYPE]->(annotationType:Type)
+           WHERE
+             annotationType.fqn in [
+               "org.springframework.transaction.annotation.Transactional",
+               "jakarta.transaction.Transactional",
+               "javax.transaction.Transactional"
+             ]
+           SET
+             transactionalClass:Spring:Transactional
+           WITH
+             transactionalClass
+           MATCH
+             (transactionalClass)-[:DECLARES]->(transactionalMethod:Method)
+           WHERE NOT (
+             transactionalMethod:Constructor
+             or (transactionalMethod.static IS NOT NULL and transactionalMethod.static)
+           )
+           SET
+             transactionalMethod:Spring:Transactional
+           RETURN
+             transactionalClass as TransactionalClass, collect(transactionalMethod) as TransactionalMethods
+        ]]></cypher>
+    </concept>
+
+</jqassistant-rules>

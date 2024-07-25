@@ -1,0 +1,116 @@
+= jQAssistant Spring Framework Plugin
+
+This is the Spring Framework Plugin of https://jqassistant.org[jQAssistant].
+It provides pre-defined rules for projects using the http://www.spring.org/[Spring Framework], e.g.:
+
+* Spring Boot
+** Package layout, i.e. all classes of a Spring Boot application must be located in the package of the application
+   class or a child package of it.
+** Considers classes annotated with `@SpringBootApplication` and `@TestConfiguration` configuration classes and injectables.
+
+* Spring Components
+** Considers classes annotated with `@Component`, `@Service`, `@Repository` injectables.
+** Considers classes that are returned from `@Bean` methods injectables.
+** Considers Spring Data repositories injectables.
+** Verifies dependencies between Spring components, i.e. controllers (must depend on services, repositories or components), services (must depend on other services, repositories or components) and repositories (must depend on other repositories and components).
+** Requires `@Bean` methods to be used from with configuration classes only.
+** Requires that JDK classes are not injectables.
+
+* Dependency Injection
+** Prevents field injection (except in tests, in Strict mode)
+** Requires injectables to be assigned to final fields (in Strict mode)
+** Rejects direct instantiation of injectable types, except in tests and `@Bean` methods.
+** Ensures that fields of injectable types are not manipulated.
+** Ensures that injectables are never assigned to static fields or accessed via static methods.
+
+** Recommends to use `@PostConstruct` and `@PreDestroy` over implementing `InitializingBean` and `DisposableBean`.
+** Recommends to directly inject `BeanFactory`, `ApplicationContext`, and `ApplicationEventPublisher` instead of implementing callback interfaces.
+
+
+* Transactions
+** Disallow direct invocation of methods annotated with `@Transaction` from methods not annotated with that annotation within the same class
+
+For more information on jQAssistant see https://jqassistant.org[^].
+
+== Usage
+
+NOTE:: Starting from jqassistant-spring-plugin v2.0.0, the Spring-Plugin resides under jqassistant-plugin.
+Therefore, not only the repository location changed but also group id and artifact id were adapted from `com.buschmais.jqassistant.plugin:spring` to `org.jqassistant.plugin:jqassistant-spring-plugin`. A manual configuration as shown below is required.
+
+To execute rules, you just need to activate the desired group of rules, either "spring-boot:Default" or "spring-boot:Strict"
+
+[source,yaml]
+----
+jqassistant:
+  plugins:
+    - group-id: org.jqassistant.plugin <1>
+      artifact-id: jqassistant-spring-plugin
+      version: ${jqassistant.spring-plugin.version}
+  analyze:
+    groups:
+     - spring-boot:Strict <2>
+----
+<1> Dependency to the Spring plugin
+<2> Activates the group "spring-boot:Strict".
+
+== Changelog
+
+=== 2.2.0
+
+- Added support for transactional interfaces
+
+=== 2.0.0
+
+- Moved Plugin from com.buschmais.jqassistant.plugin (core-Distribution) to org.jqassistant.plugin
+- Added concept `spring-security:ConfigurationComponent` to label classes annotated by `@EnableGlobalAuthentication`, `@EnableGlobalMethodSecurity`,
+`@EnableReactiveMethodSecurity`, `@EnableWebSecurity`, `@EnableWebFluxSecurity` and `@EnableWebMvcSecurity` as `:Spring:Configuration:Component`
+- Extended concepts `spring-transaction:TransactionalClass` and `spring-transaction:TransactionalMethod` to accept JEE/JTA annotation `javax.transaction.@Transactional`
+
+=== 1.12.1
+
+- Removed redundant result columns from constraints `spring-injection:BeanProducerMustNotBeInvokedDirectly` and `spring-injection:InjectablesShouldBeHeldInFinalFields`
+
+
+=== 1.12.0
+
+- Added concepts `spring-mvc:ControllerAdvice` and `spring-mvc:RestControllerAdvice`
+- Improved the constraints `spring-component:ControllerMustOnlyDependOnServicesRepositories`, `spring-component:ServiceMustOnlyDependOnServicesRepositories` and `spring-component:RepositoryMustOnlyDependOnRepositories` to report one row per invalid dependency (https://github.com/jQAssistant/jqa-spring-plugin/issues/42[issue])
+- Fixed false positives for constraint `spring-injection:InjectablesMustOnlyBeHeldInInjectables` for inner classes (https://github.com/jQAssistant/jqa-spring-plugin/issues/41[issue])
+- Improved constraint `spring-injection:InjectablesShouldBeHeldInFinalFields` to return the `Type` declaring the `Field` and `InjectedType` as the injected field type.
+
+=== 1.10.0
+
+- Added constraint `spring-injection:BeanProducerMustNotBeInvokedDirectly`
+- Allow dependencies from any Spring component to `@Component` annotated beans
+- Defined primary columns for constraint results for better matching in SonarQube
+- Excluded generated Java types from Spring constraints, therefore the projects needs to extend the concept `java:GeneratedType`
+- Excluded classes in test artifacts from constraint `spring-injection:InjectablesMustOnlyBeHeldInInjectables`
+
+=== 1.9.0
+
+- fixed false-positive constraint violations for constraint `InjectablesMustNotBeInstantiated` for constructors invoking constructors from their super class
+- the constraint `spring-injection:FieldsOfInjectablesMustNotBeManipulated` now allows manipulating fields from lifecycle callbacks (`@PostConstruct` and `@PreDestroy`)
+
+=== 1.8.0
+
+- Added meta-annotated Spring annotations to concepts, e.g. `@SpringBootApplication` will be also labeled with `Configuration
+- Relaxed the constraint `spring-injection:InjectablesMustNotBeInstantiated` such that instantiation is allowed from either bean producer methods declared by injectables or non-injectables (https://github.com/jQAssistant/jqa-spring-plugin/issues/25[issue])
+- Relaxed the constraint `spring-injection:FieldsOfInjectablesMustNotBeManipulated` such that only fields of injectable types are checked for being written by non-constructor methods (https://github.com/jQAssistant/jqa-spring-plugin/issues/19[issue])
+- The constraints `spring-injection:FieldsOfInjectablesMustNotBeManipulated`, `spring-injection:InjectablesMustNotBeHeldInStaticVariables` and `spring-injection:InjectablesMustNotBeAccessedStatically` are improved such that also fields are considered where injectable types are injected by interfaces or super classes.
+
+=== 1.7.0
+
+- Renamed relation representing virtual dependencies between components
+  from DEPENDS_ON to VIRTUAL_DEPENDS_ON (https://github.com/buschmais/jqa-spring-plugin/issues/26[issue])
+
+=== 1.5.0
+
+- Ignore synthetic fields (e.g. generated by Groovy) for injection related constraints
+
+=== 1.4
+
+- Initial checkin
+
+
+
+

@@ -1,0 +1,170 @@
+<jqassistant-rules xmlns="http://schema.jqassistant.org/rule/v1.10"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://schema.jqassistant.org/rule/v1.10 https://schema.jqassistant.org/plugin/jqassistant-rule-v1.10.xsd">
+
+    <group id="spring-component:Default">
+        <includeConstraint refId="spring-component:ControllerMustOnlyDependOnServicesRepositories"/>
+        <includeConstraint refId="spring-component:ServiceMustOnlyDependOnServicesRepositories"/>
+        <includeConstraint refId="spring-component:RepositoryMustOnlyDependOnRepositories"/>
+    </group>
+
+    <group id="spring-component:Strict">
+        <includeGroup refId="spring-component:Default"/>
+    </group>
+
+    <concept id="spring-component:Component">
+        <providesConcept refId="spring-injection:Injectable"/>
+        <description>Labels all types annotated with "@org.springframework.stereotype.Component" with "Spring", "Component" and "Injectable".
+        </description>
+        <cypher><![CDATA[
+            MATCH
+              (component:Type)-[:ANNOTATED_BY]->()-[:OF_TYPE]->(annotationType:Type)
+            WHERE
+              annotationType.fqn in [
+                "org.springframework.stereotype.Component",
+                "org.springframework.web.bind.annotation.ControllerAdvice"
+              ]
+            SET
+              component:Spring:Component:Injectable
+            RETURN
+              component as Component
+        ]]></cypher>
+    </concept>
+
+    <concept id="spring-component:Controller">
+        <providesConcept refId="spring-component:Component" />
+        <providesConcept refId="spring-injection:Injectable"/>
+        <description>Labels all types annotated with "@org.springframework.stereotype.Controller" with "Spring",
+            "Controller", "Component" and "Injectable".
+        </description>
+        <cypher><![CDATA[
+            MATCH
+              (controller:Type)-[:ANNOTATED_BY]->()-[:OF_TYPE]->(annotationType:Type)
+            WHERE
+              annotationType.fqn in [
+                "org.springframework.stereotype.Controller"
+              ]
+            SET
+              controller:Spring:Controller:Component:Injectable
+            RETURN
+              controller as Controller
+        ]]></cypher>
+    </concept>
+
+    <concept id="spring-component:Service">
+        <providesConcept refId="spring-component:Component" />
+        <providesConcept refId="spring-injection:Injectable"/>
+        <description>Labels all types annotated with "@org.springframework.stereotype.Service" with "Spring", "Service"
+            "Component" and "Injectable".
+        </description>
+        <cypher><![CDATA[
+            MATCH
+              (service:Type)-[:ANNOTATED_BY]->()-[:OF_TYPE]->(annotationType:Type)
+            WHERE
+              annotationType.fqn in [
+                "org.springframework.stereotype.Service"
+              ]
+            SET
+              service:Spring:Service:Component:Injectable
+            RETURN
+              service as Service
+        ]]></cypher>
+    </concept>
+
+    <concept id="spring-component:Repository">
+        <providesConcept refId="spring-component:Component" />
+        <providesConcept refId="spring-injection:Injectable"/>
+        <description>Returns all repositories.</description>
+        <cypher><![CDATA[
+            MATCH
+              (repository:Spring:Repository:Component:Injectable)
+            RETURN
+              repository as Repository
+        ]]></cypher>
+    </concept>
+
+    <concept id="spring-component:Configuration">
+        <providesConcept refId="spring-component:Component" />
+        <providesConcept refId="spring-injection:Injectable"/>
+        <description>Labels all types annotated with "@org.springframework.context.annotation.Configuration" with
+            "Spring", "Configuration", "Component" and "Injectable".
+        </description>
+        <cypher><![CDATA[
+            MATCH
+              (configuration:Type)-[:ANNOTATED_BY]->()-[:OF_TYPE]->(annotationType:Type)
+            WHERE
+              annotationType.fqn in [
+                "org.springframework.context.annotation.Configuration",
+                "org.springframework.boot.autoconfigure.SpringBootApplication",
+                "org.springframework.data.web.config.SpringDataWebConfigurationMixin"
+              ]
+            SET
+              configuration:Spring:Configuration:Component:Injectable
+            RETURN
+              configuration as Configuration
+        ]]></cypher>
+    </concept>
+
+    <constraint id="spring-component:ControllerMustOnlyDependOnServicesRepositories">
+        <requiresConcept refId="java:VirtualDependsOn"/>
+        <requiresConcept refId="spring-component:Component"/>
+        <requiresConcept refId="java:GeneratedType"/>
+        <description>A Spring controller can only have dependencies to other Spring components that are services or
+            repositories.
+        </description>
+        <cypher><![CDATA[
+            MATCH
+              (artifact:Artifact)-[:CONTAINS]->(controller:Spring:Controller)-[:DEPENDS_ON|VIRTUAL_DEPENDS_ON]->(other:Spring:Component)
+            WHERE NOT (
+              artifact:Test
+              or controller:Generated
+              or other:Generated
+              or ((other:Service or other:Repository or other:Component) and not (other:Controller or other:Configuration))
+            )
+            RETURN
+              controller as Controller, other as InvalidDependency
+        ]]></cypher>
+    </constraint>
+
+    <constraint id="spring-component:ServiceMustOnlyDependOnServicesRepositories">
+        <requiresConcept refId="java:VirtualDependsOn"/>
+        <requiresConcept refId="spring-component:Component"/>
+        <requiresConcept refId="java:GeneratedType"/>
+        <description><![CDATA[
+            A Spring service can only have dependencies to other Spring components that are services or repositories.
+        ]]></description>
+        <cypher><![CDATA[
+            MATCH
+              (artifact:Artifact)-[:CONTAINS]->(service:Spring:Service)-[:DEPENDS_ON|VIRTUAL_DEPENDS_ON]->(other:Spring:Component)
+            WHERE NOT (
+              artifact:Test
+              or service:Generated
+              or other:Generated
+              or ((other:Service or other:Repository or other:Component) and not (other:Controller or other:Configuration))
+            )
+            RETURN
+              service as Service, other as InvalidDependency
+        ]]></cypher>
+    </constraint>
+
+    <constraint id="spring-component:RepositoryMustOnlyDependOnRepositories">
+        <requiresConcept refId="java:VirtualDependsOn"/>
+        <requiresConcept refId="spring-component:Component"/>
+        <requiresConcept refId="java:GeneratedType"/>
+        <description>A Spring repository can only have dependencies to other Spring components that are repositories.
+        </description>
+        <cypher><![CDATA[
+            MATCH
+              (artifact:Artifact)-[:CONTAINS]->(repository:Spring:Repository)-[:DEPENDS_ON|VIRTUAL_DEPENDS_ON]->(other:Spring:Component)
+            WHERE NOT (
+              artifact:Test
+              or repository:Generated
+              or other:Generated
+              or ((other:Repository or other:Component) and not (other:Controller or other:Service or other:Configuration))
+            )
+            RETURN
+              repository as Repository, other as InvalidDependency
+        ]]></cypher>
+    </constraint>
+
+</jqassistant-rules>
