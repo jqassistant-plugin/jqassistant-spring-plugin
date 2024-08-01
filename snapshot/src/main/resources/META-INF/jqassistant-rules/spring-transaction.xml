@@ -1,6 +1,6 @@
-<jqassistant-rules xmlns="http://schema.jqassistant.org/rule/v1.8"
+<jqassistant-rules xmlns="http://schema.jqassistant.org/rule/v2.2"
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                   xsi:schemaLocation="http://schema.jqassistant.org/rule/v1.8 https://schema.jqassistant.org/plugin/jqassistant-rule-v1.8.xsd">
+                   xsi:schemaLocation="http://schema.jqassistant.org/rule/v2.2 https://jqassistant.github.io/jqassistant/current/schema/jqassistant-rule-v2.2.xsd">
 
     <group id="spring-transaction:Default">
         <includeConstraint refId="spring-transaction:TransactionalMethodMustNotBeInvokedFromSameClass"/>
@@ -28,7 +28,19 @@
     </constraint>
 
     <concept id="spring-transaction:TransactionalMethod">
-        <requiresConcept refId="spring-transaction:TransactionalClass"/>
+        <description>Provides transactional methods as ":Spring:Transactional:Method".</description>
+        <cypher><![CDATA[
+           MATCH
+             (type:Type)-[:DECLARES]->(transactionalMethod:Spring:Transactional:Method)
+           RETURN
+             type as Type, transactionalMethod as TransactionalMethod
+           ORDER BY
+             type.fqn, transactionalMethod.signature
+        ]]></cypher>
+    </concept>
+
+    <concept id="spring-transaction:TransactionalMethodByAnnotatedMethod">
+        <providesConcept refId="spring-transaction:TransactionalMethod" />
         <description>
             Label all methods which are annotated with "@org.springframework.transaction.annotation.Transactional", "jakarta.transaction.Transactional",
             or "javax.transaction.Transactional", with "Spring" and "Transactional".
@@ -43,7 +55,6 @@
                "jakarta.transaction.Transactional",
                "javax.transaction.Transactional"
              ]
-             or type:Spring:Transactional
            SET
              transactionalMethod:Spring:Transactional
            RETURN
@@ -51,30 +62,26 @@
         ]]></cypher>
     </concept>
 
-    <concept id="spring-transaction:TransactionalClass">
+    <concept id="spring-transaction:TransactionalMethodByAnnotatedClass">
+        <providesConcept refId="spring-transaction:TransactionalMethod" />
         <description>
-            Label all classes directly or indirectly annotated with "@org.springframework.transaction.annotation.Transactional", "jakarta.transaction.Transactional",
-            or "javax.transaction.Transactional", and their declared methods with "Spring" and "Transactional".
+            Label methods of classes which are directly or indirectly annotated with "@org.springframework.transaction.annotation.Transactional", "jakarta.transaction.Transactional",
+            or "javax.transaction.Transactional" with "Spring" and "Transactional".
         </description>
         <cypher><![CDATA[
            MATCH
-             (transactionalClass:Type)-[:EXTENDS|IMPLEMENTS*0..]->(:Type)-[:ANNOTATED_BY]->()-[:OF_TYPE]->(annotationType:Type)
+             (transactionalClass:Type)-[:EXTENDS|IMPLEMENTS*0..]->(:Type)-[:ANNOTATED_BY]->()-[:OF_TYPE]->(annotationType:Type),
+             (transactionalClass)-[:DECLARES]->(transactionalMethod:Method)
            WHERE
              annotationType.fqn in [
                "org.springframework.transaction.annotation.Transactional",
                "jakarta.transaction.Transactional",
                "javax.transaction.Transactional"
              ]
-           SET
-             transactionalClass:Spring:Transactional
-           WITH
-             transactionalClass
-           MATCH
-             (transactionalClass)-[:DECLARES]->(transactionalMethod:Method)
-           WHERE NOT (
-             transactionalMethod:Constructor
-             or (transactionalMethod.static IS NOT NULL and transactionalMethod.static)
-           )
+             and not (
+               transactionalMethod:Constructor
+               or (transactionalMethod.static IS NOT NULL and transactionalMethod.static)
+             )
            SET
              transactionalMethod:Spring:Transactional
            RETURN
