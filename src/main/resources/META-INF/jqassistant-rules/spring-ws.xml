@@ -20,4 +20,22 @@
         ]]></cypher>
     </concept>
 
+    <concept id="spring-ws:MockWebServiceServerVerifyMethod">
+        <providesConcept refId="java:AssertMethod"/>
+        <description>
+            Sets labels :Assert and :MockWebServiceServer for MockWebServiceServer verify methods.
+        </description>
+        <cypher><![CDATA[
+            MATCH
+                (assertType:Type)-[:DECLARES]->(assertMethod)
+            WHERE
+                assertType.fqn = 'org.springframework.ws.test.client.MockWebServiceServer'
+                and assertMethod.signature =~ '.* verify.*'
+            SET
+                assertMethod:MockWebServiceServer:Assert
+            RETURN
+                assertMethod
+        ]]></cypher>
+    </concept>
+
 </jqassistant-rules>
