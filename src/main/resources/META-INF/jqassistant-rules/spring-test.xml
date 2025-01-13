@@ -9,15 +9,14 @@
         </description>
         <cypher><![CDATA[
             MATCH
-                (type:Type)-[:DECLARES]->(assertMethod:Method)
+                (type:Java:Type)-[:IMPLEMENTS|EXTENDS*0..]-(resultAction:Type),
+                (type)-[:DECLARES]->(assertMethod:Java:Method)
             WHERE
-                type.fqn = "org.springframework.test.web.servlet.ResultActions"
-            SET
-                type:Spring
+                resultAction.fqn = "org.springframework.test.web.servlet.ResultActions"
             SET
                 assertMethod:Spring:Assert
             RETURN
-                assertMethod
+                type, assertMethod
             ]]></cypher>
     </concept>
 

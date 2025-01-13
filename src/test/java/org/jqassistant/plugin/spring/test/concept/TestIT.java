@@ -21,9 +21,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.InstanceOfAssertFactories.type;
 
 public class TestIT extends AbstractSpringIT {
+
     @Test
     void resultActionsAndReturnMethod() throws Exception {
-        scanClasses(AssertExample.class, AssertExample.ExampleResultActions.class);
+        scanClasses(AssertExample.class);
 
         final Result<Concept> conceptResult = applyConcept("spring-test:ResultActionsAssertMethod");
         Assertions.assertThat(conceptResult.getStatus()).isEqualTo(SUCCESS);
@@ -45,7 +46,7 @@ public class TestIT extends AbstractSpringIT {
 
     @Test
     void providedConceptAssertMethod() throws Exception {
-        scanClasses(AssertExample.class, AssertExample.ExampleResultActions.class);
+        scanClasses(AssertExample.class);
 
         final Result<Concept> conceptResult = applyConcept("java:AssertMethod");
         assertThat(conceptResult.getStatus()).isEqualTo(SUCCESS);
@@ -71,10 +72,10 @@ public class TestIT extends AbstractSpringIT {
             "MATCH (testMethod:Method)-[:INVOKES]->(assertMethod:Method) "
                 + "WHERE assertMethod:Spring:Assert "
                 + "RETURN testMethod, assertMethod");
-        Assertions.assertThat(methodQueryResult.getRows().size()).isEqualTo(1);
-        Assertions.assertThat(methodQueryResult.<MethodDescriptor>getColumn("testMethod"))
+        assertThat(methodQueryResult.getRows().size()).isEqualTo(1);
+        assertThat(methodQueryResult.<MethodDescriptor>getColumn("testMethod"))
             .haveExactly(1, methodDescriptor(AssertExample.class, "resultActionsAndReturnExampleMethod"));
-        Assertions.assertThat(methodQueryResult.<MethodDescriptor>getColumn("assertMethod"))
+        assertThat(methodQueryResult.<MethodDescriptor>getColumn("assertMethod"))
             .haveExactly(1, methodDescriptor(ResultActions.class, "andReturn"));
     }
 }
