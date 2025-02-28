@@ -10,7 +10,6 @@ import com.buschmais.jqassistant.core.rule.api.model.Concept;
 import com.buschmais.jqassistant.plugin.java.api.model.MethodDescriptor;
 import com.buschmais.jqassistant.plugin.java.api.model.TypeDescriptor;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.web.servlet.ResultActions;
 
@@ -27,12 +26,12 @@ public class TestIT extends AbstractSpringIT {
         scanClasses(AssertExample.class);
 
         final Result<Concept> conceptResult = applyConcept("spring-test:ResultActionsAssertMethod");
-        Assertions.assertThat(conceptResult.getStatus()).isEqualTo(SUCCESS);
+        assertThat(conceptResult.getStatus()).isEqualTo(SUCCESS);
 
         store.beginTransaction();
 
-        Assertions.assertThat(conceptResult.getRows().size()).isEqualTo(1);
-        Assertions.assertThat(conceptResult.getRows()
+        assertThat(conceptResult.getRows().size()).isEqualTo(1);
+        assertThat(conceptResult.getRows()
                 .get(0)
                 .getColumns()
                 .get("assertMethod")
