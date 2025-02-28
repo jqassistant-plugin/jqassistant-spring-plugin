@@ -1,0 +1,23 @@
+<jqassistant-rules xmlns="http://schema.jqassistant.org/rule/v1.10"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://schema.jqassistant.org/rule/v1.10 https://schema.jqassistant.org/plugin/jqassistant-rule-v1.10.xsd">
+
+    <concept id="spring-test:ResultActionsAssertMethod">
+        <providesConcept refId="java:AssertMethod"/>
+        <description>
+            Sets labels :Assert and :Spring for spring ResultActions methods.
+        </description>
+        <cypher><![CDATA[
+            MATCH
+                (type:Java:Type)-[:IMPLEMENTS|EXTENDS*0..]-(resultAction:Type),
+                (type)-[:DECLARES]->(assertMethod:Java:Method)
+            WHERE
+                resultAction.fqn = "org.springframework.test.web.servlet.ResultActions"
+            SET
+                assertMethod:Spring:Assert
+            RETURN
+                type, assertMethod
+            ]]></cypher>
+    </concept>
+
+</jqassistant-rules>
