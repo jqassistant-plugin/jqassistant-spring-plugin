@@ -15,8 +15,8 @@
     <url>https://jqassistant.org/</url>
 
     <description>
-        Plugin for jQAssistant to be able to scan and to
-        analyze Spring related artifacts.
+        The jQAssistant plugin enabling to scan and to
+        analyze Spring related artifacts. It provides rules for applications using the Spring framework.
     </description>
 
     <organization>

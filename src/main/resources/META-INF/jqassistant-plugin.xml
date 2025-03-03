@@ -3,7 +3,7 @@
                     xsi:schemaLocation="http://schema.jqassistant.org/plugin/v1.10 https://schema.jqassistant.org/plugin/jqassistant-plugin-v1.10.xsd"
                     name="jQAssistant Spring Plugin" id="jqa.plugin.spring"
                     version="${project.version}">
-    <description>Provides rules for applications using the Spring framework.</description>
+    <description>${project.description}</description>
     <rules>
         <resource>spring-batch.xml</resource>
         <resource>spring-boot.xml</resource>
