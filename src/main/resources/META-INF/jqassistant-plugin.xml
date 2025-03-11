@@ -12,6 +12,7 @@
         <resource>spring-injection.xml</resource>
         <resource>spring-mvc.xml</resource>
         <resource>spring-security.xml</resource>
+        <resource>spring-test.xml</resource>
         <resource>spring-transaction.xml</resource>
         <resource>spring-ws.xml</resource>
     </rules>
