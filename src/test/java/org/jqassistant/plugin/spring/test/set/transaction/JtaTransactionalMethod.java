@@ -9,4 +9,8 @@ public class JtaTransactionalMethod {
 
     }
 
+    private void callingTransactional() {
+        transactionalMethod();
+    }
+
 }
