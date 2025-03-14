@@ -5,4 +5,11 @@ public class SpringTransactionalSubClass extends SpringTransactionalClass {
     public void transactionalSubClassMethod() {
     }
 
+    private void callingTransactionalSubClassMethod() {
+        transactionalSubClassMethod();
+    }
+
+    private void privateSubClassMethod() {
+    }
+
 }

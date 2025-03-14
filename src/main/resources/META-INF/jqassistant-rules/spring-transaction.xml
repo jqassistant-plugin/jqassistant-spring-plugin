@@ -4,6 +4,7 @@
 
     <group id="spring-transaction:Default">
         <includeConstraint refId="spring-transaction:TransactionalMethodMustNotBeInvokedFromSameClass"/>
+        <includeConstraint refId="spring-transaction:PrivateMethodMustNotBeAnnotatedWithTransactional"/>
     </group>
 
     <constraint id="spring-transaction:TransactionalMethodMustNotBeInvokedFromSameClass">
@@ -18,13 +19,35 @@
             WHERE NOT (
               artifact:Test
               OR type:Generated
-              OR callingMethod:Method:Spring:Transactional
-              OR type:Spring:Transactional
             )
             RETURN
               type as Type, callingMethod as Method, calledMethod as TransactionalMethod, invokes.lineNumber as LineNumber
         ]]></cypher>
         <report primaryColumn="callingMethod"/>
+    </constraint>
+
+    <constraint id="spring-transaction:PrivateMethodMustNotBeAnnotatedWithTransactional">
+        <requiresConcept refId="java:GeneratedType"/>
+        <description>Private methods must not be annotated with "org.springframework.transaction.annotation.Transactional",
+            "jakarta.transaction.Transactional" or "javax.transaction.Transactional".</description>
+        <cypher><![CDATA[
+           MATCH
+             (artifact:Artifact)-[:CONTAINS]->(type:Java:Type)-[:DECLARES]->(method:Java:Method {visibility: "private"}),
+             (method:Method)-[:ANNOTATED_BY]->()-[:OF_TYPE]->(annotationType:Java:Type)
+           WHERE
+             annotationType.fqn in [
+               "org.springframework.transaction.annotation.Transactional",
+               "jakarta.transaction.Transactional",
+               "javax.transaction.Transactional"
+             ]
+           AND NOT (
+             artifact:Test
+             OR type:Generated
+           )
+           RETURN
+             type as Type, method as Method
+        ]]></cypher>
+        <report primaryColumn="method"/>
     </constraint>
 
     <concept id="spring-transaction:TransactionalMethod">
@@ -55,6 +78,8 @@
                "jakarta.transaction.Transactional",
                "javax.transaction.Transactional"
              ]
+           AND NOT
+             transactionalMethod.visibility = "private"
            SET
              transactionalMethod:Spring:Transactional
            RETURN
@@ -78,9 +103,10 @@
                "jakarta.transaction.Transactional",
                "javax.transaction.Transactional"
              ]
-             and not (
+             AND NOT (
                transactionalMethod:Constructor
-               or (transactionalMethod.static IS NOT NULL and transactionalMethod.static)
+               OR (transactionalMethod.static IS NOT NULL and transactionalMethod.static)
+               OR transactionalMethod.visibility = "private"
              )
            SET
              transactionalMethod:Spring:Transactional
