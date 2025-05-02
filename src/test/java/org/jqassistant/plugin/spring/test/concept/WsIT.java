@@ -13,6 +13,7 @@ import com.buschmais.jqassistant.plugin.java.api.model.TypeDescriptor;
 
 import org.jqassistant.plugin.spring.test.set.components.Endpoint;
 import org.jqassistant.plugin.spring.test.set.components.RestController;
+import org.jqassistant.plugin.spring.test.set.test.AssertExample;
 import org.junit.jupiter.api.Test;
 import org.springframework.ws.test.client.MockWebServiceServer;
 

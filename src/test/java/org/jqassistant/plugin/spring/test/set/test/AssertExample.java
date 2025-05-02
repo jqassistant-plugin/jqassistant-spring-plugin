@@ -1,4 +1,4 @@
-package org.jqassistant.plugin.spring.test.concept;
+package org.jqassistant.plugin.spring.test.set.test;
 
 import org.apache.commons.lang.NotImplementedException;
 import org.springframework.lang.NonNull;
@@ -23,7 +23,7 @@ public class AssertExample {
         MockWebServiceServer.createServer(new WebServiceTemplate()).verify();
     }
 
-    static class ExampleResultActions implements ResultActions {
+    public static class ExampleResultActions implements ResultActions {
         @Override
         @NonNull
         public ResultActions andExpect(@NonNull ResultMatcher matcher) throws Exception {
