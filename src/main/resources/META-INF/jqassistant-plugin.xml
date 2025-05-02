@@ -10,6 +10,7 @@
         <resource>spring-component.xml</resource>
         <resource>spring-data.xml</resource>
         <resource>spring-injection.xml</resource>
+        <resource>spring-modulith.xml</resource>
         <resource>spring-mvc.xml</resource>
         <resource>spring-security.xml</resource>
         <resource>spring-test.xml</resource>
