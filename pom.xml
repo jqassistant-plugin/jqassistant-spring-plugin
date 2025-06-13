@@ -51,7 +51,7 @@
 
     <properties>
         <org.springframework.ws-test_version>4.0.13</org.springframework.ws-test_version>
-        <org.springframework.test_version>6.2.6</org.springframework.test_version>
+        <org.springframework.test_version>6.2.8</org.springframework.test_version>
         <org.springframework.modulith_version>1.3.5</org.springframework.modulith_version>
         <org.springframework.boot_version>3.4.5</org.springframework.boot_version>
         <org.springframework.batch_version>5.2.1</org.springframework.batch_version>
