@@ -303,12 +303,14 @@
 
     <constraint id="spring-injection:JdkClassesMustNotBeInjectables">
         <requiresConcept refId="spring-injection:Injectable"/>
-        <description>JDK classes must not be injectables.</description>
+        <description>JDK classes must not be injectables. Only exception is java.time.Clock, since the documentation of
+            the named class explicitly recommends using dependency injection.</description>
         <cypher><![CDATA[
             MATCH
               (type:Type:Spring:Injectable)
             WHERE
               type.fqn STARTS WITH "java."
+              AND NOT type.fqn = "java.time.Clock"
             RETURN
               type AS Injectable
         ]]></cypher>
