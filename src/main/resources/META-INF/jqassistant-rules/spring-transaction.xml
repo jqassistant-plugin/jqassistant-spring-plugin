@@ -7,6 +7,101 @@
         <includeConstraint refId="spring-transaction:PrivateMethodMustNotBeAnnotatedWithTransactional"/>
     </group>
 
+    <concept id="spring-transaction:TransactionPropagation">
+        <description>
+            Identification of transaction propagation semantics.
+        </description>
+        <cypher><![CDATA[
+            MATCH
+                (artifact:Artifact)-[:CONTAINS]->(transactionalType:Java:Type),
+                (transactionalType)-[:EXTENDS|IMPLEMENTS*0..]->(:Type)-[:DECLARES]->(transactionalMethod:Method:Transactional)
+            RETURN
+                transactionalType AS TransactionalType,
+                transactionalMethod AS TransactionalMethod,
+                transactionalMethod.transactionPropagation AS TransactionPropagation
+            ORDER BY
+                transactionalType.fqn,
+                transactionalMethod.signature
+        ]]></cypher>
+    </concept>
+
+    <concept id="spring-transaction:TypeLevelTransactionPropagation">
+        <providesConcept refId="spring-transaction:TransactionPropagation"/>
+        <requiresConcept refId="spring-transaction:TransactionalMethod"/>
+        <description>
+            Identification of type level transaction propagation semantics. The configured transaction propagation at type level applies to all declared transactional methods.
+        </description>
+        <cypher><![CDATA[
+            WITH
+                [
+                    { annotationFqn: 'org.springframework.transaction.annotation.Transactional', propagationAttributeName: 'propagation' },
+                    { annotationFqn: 'jakarta.transaction.Transactional', propagationAttributeName: 'value' },
+                    { annotationFqn: 'javax.transaction.Transactional', propagationAttributeName: 'value'}
+                ] as supportedAnnotationTypes
+            UNWIND
+                supportedAnnotationTypes AS supportedAnnotationType
+            MATCH
+                (artifact:Artifact)-[:CONTAINS]->(transactionalType:Java:Type),
+                (transactionalType)-[:EXTENDS|IMPLEMENTS*0..]->(:Type)-[:ANNOTATED_BY]->(annotation:Java:Annotation),
+                (annotation)-[:OF_TYPE]->(annotationType:Type {fqn: supportedAnnotationType.annotationFqn}),
+                (transactionalType)-[:DECLARES]->(transactionalMethod:Method:Transactional)
+            OPTIONAL MATCH
+                (annotation)-[:HAS]->(propagation:Value {name: supportedAnnotationType.propagationAttributeName})-[:IS]->(propagationType:Java:Field)
+            WITH
+                COALESCE(SPLIT(propagationType.signature,' ')[1], 'REQUIRED') AS effectivePropagationType,
+                transactionalType,
+                transactionalMethod
+            SET
+                transactionalMethod.transactionPropagation = effectivePropagationType
+            RETURN
+                transactionalType as TransactionalType,
+                transactionalMethod as TransactionalMethod,
+                transactionalMethod.transactionPropagation AS TransactionPropagation
+            ORDER BY
+                transactionalType.fqn,
+                transactionalMethod.signature
+        ]]></cypher>
+    </concept>
+
+    <concept id="spring-transaction:MethodLevelTransactionPropagation">
+        <providesConcept refId="spring-transaction:TransactionPropagation"/>
+        <requiresConcept refId="spring-transaction:TransactionalMethod"/>
+        <!-- Ensure that method-level-annotations override type-level annotations -->
+        <requiresConcept refId="spring-transaction:TypeLevelTransactionPropagation"/>
+        <description>
+            Identification of method level transaction propagation semantics. The configured transaction propagation at method level overrides the type level configuration.
+        </description>
+        <cypher><![CDATA[
+            WITH
+                [
+                    { annotationFqn: 'org.springframework.transaction.annotation.Transactional', propagationAttributeName: 'propagation' },
+                    { annotationFqn: 'jakarta.transaction.Transactional', propagationAttributeName: 'value' },
+                    { annotationFqn: 'javax.transaction.Transactional', propagationAttributeName: 'value'}
+                ] as supportedAnnotationTypes
+            UNWIND
+                supportedAnnotationTypes AS supportedAnnotationType
+            MATCH
+                (artifact:Artifact)-[:CONTAINS]->(transactionalType:Java:Type),
+                (transactionalType)-[:EXTENDS|IMPLEMENTS*0..]->(:Type)-[:DECLARES]->(transactionalMethod:Method:Transactional)-[:ANNOTATED_BY]->(annotation:Java:Annotation),
+                (annotation)-[:OF_TYPE]->(annotationType:Type {fqn: supportedAnnotationType.annotationFqn})
+            OPTIONAL MATCH
+                (annotation)-[:HAS]->(propagation:Value {name: supportedAnnotationType.propagationAttributeName})-[:IS]->(propagationType:Java:Field)
+            WITH
+                COALESCE(SPLIT(propagationType.signature,' ')[1], 'REQUIRED') AS effectivePropagationType,
+                transactionalType,
+                transactionalMethod
+            SET
+                transactionalMethod.transactionPropagation = effectivePropagationType
+            RETURN
+                transactionalType as TransactionalType,
+                transactionalMethod as TransactionalMethod,
+                transactionalMethod.transactionPropagation AS TransactionPropagation
+            ORDER BY
+                transactionalType.fqn,
+                transactionalMethod.signature
+        ]]></cypher>
+    </concept>
+
     <constraint id="spring-transaction:TransactionalMethodMustNotBeInvokedFromSameClass">
         <requiresConcept refId="spring-transaction:TransactionalMethod"/>
         <requiresConcept refId="java:GeneratedType"/>
