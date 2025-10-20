@@ -22,21 +22,21 @@ public class TransactionPropagationIT extends AbstractSpringIT {
     void propagationOnTypeAndMethodLevel(Class<?> testClass) throws RuleException, NoSuchMethodException {
         scanClasses(testClass);
 
-        final Result<Concept> conceptResult = applyConcept("spring-transaction:TransactionPropagation");
+        final Result<Concept> conceptResult = applyConcept("spring-transaction:TransactionalMethod");
         store.beginTransaction();
 
         assertThat(conceptResult.getStatus()).isEqualTo(Result.Status.SUCCESS);
         assertThat(conceptResult.getRows().size()).isEqualTo(2);
 
         Row row1 = conceptResult.getRows().get(0);
-        assertThat((TypeDescriptor) row1.getColumns().get("TransactionalType").getValue())
+        assertThat((TypeDescriptor) row1.getColumns().get("Type").getValue())
             .is(typeDescriptor(testClass));
         assertThat((MethodDescriptor) row1.getColumns().get("TransactionalMethod").getValue())
             .is(methodDescriptor(testClass, "transactionalMethodMandatory"));
         assertThat(row1.getColumns().get("TransactionPropagation").getLabel()).isEqualTo("MANDATORY");
 
         Row row2 = conceptResult.getRows().get(1);
-        assertThat((TypeDescriptor) row2.getColumns().get("TransactionalType").getValue())
+        assertThat((TypeDescriptor) row2.getColumns().get("Type").getValue())
             .is(typeDescriptor(testClass));
         assertThat((MethodDescriptor) row2.getColumns().get("TransactionalMethod").getValue())
             .is(methodDescriptor(testClass, "transactionalMethodRequiresNew"));
@@ -51,21 +51,21 @@ public class TransactionPropagationIT extends AbstractSpringIT {
     void propagationOnMethodLevel(Class<?> testClass) throws RuleException, NoSuchMethodException {
         scanClasses(testClass);
 
-        final Result<Concept> conceptResult = applyConcept("spring-transaction:TransactionPropagation");
+        final Result<Concept> conceptResult = applyConcept("spring-transaction:TransactionalMethod");
         store.beginTransaction();
 
         assertThat(conceptResult.getStatus()).isEqualTo(Result.Status.SUCCESS);
         assertThat(conceptResult.getRows().size()).isEqualTo(2);
 
         Row row1 = conceptResult.getRows().get(0);
-        assertThat((TypeDescriptor) row1.getColumns().get("TransactionalType").getValue())
+        assertThat((TypeDescriptor) row1.getColumns().get("Type").getValue())
             .is(typeDescriptor(testClass));
         assertThat((MethodDescriptor) row1.getColumns().get("TransactionalMethod").getValue())
             .is(methodDescriptor(testClass, "transactionalMethodRequired"));
         assertThat(row1.getColumns().get("TransactionPropagation").getLabel()).isEqualTo("REQUIRED");
 
         Row row2 = conceptResult.getRows().get(1);
-        assertThat((TypeDescriptor) row2.getColumns().get("TransactionalType").getValue())
+        assertThat((TypeDescriptor) row2.getColumns().get("Type").getValue())
             .is(typeDescriptor(testClass));
         assertThat((MethodDescriptor) row2.getColumns().get("TransactionalMethod").getValue())
             .is(methodDescriptor(testClass, "transactionalMethodRequiresNew"));
