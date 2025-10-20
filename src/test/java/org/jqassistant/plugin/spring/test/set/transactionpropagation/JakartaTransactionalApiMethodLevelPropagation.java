@@ -1,9 +1,9 @@
 package org.jqassistant.plugin.spring.test.set.transactionpropagation;
 
-import javax.transaction.Transactional;
+import jakarta.transaction.Transactional;
 
 @Transactional
-public class JtaTransactionalMethodPropagation {
+public class JakartaTransactionalApiMethodLevelPropagation {
     public void transactionalMethodRequired() {}
 
     @Transactional(value = Transactional.TxType.REQUIRES_NEW)

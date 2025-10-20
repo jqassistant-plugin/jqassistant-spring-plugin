@@ -17,8 +17,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class TransactionPropagationIT extends AbstractSpringIT {
 
     @ParameterizedTest
-    @ValueSource(classes = {JtaTransactionalTypeMethodPropagation.class, SpringTransactionalTypeMethodPropagation.class,
-        JtaJakartaTransactionalTypeMethodPropagation.class})
+    @ValueSource(classes = {JavaTransactionalApiTypeAndMethodLevelPropagation.class, SpringTransactionalTypeAndMethodLevelPropagation.class,
+        JakartaTransactionalApiTypeAndMethodLevelPropagation.class})
     void propagationOnTypeAndMethodLevel(Class<?> testClass) throws RuleException, NoSuchMethodException {
         scanClasses(testClass);
 
@@ -46,8 +46,8 @@ public class TransactionPropagationIT extends AbstractSpringIT {
     }
 
     @ParameterizedTest
-    @ValueSource(classes = {JtaTransactionalMethodPropagation.class, SpringTransactionalMethodPropagation.class,
-        JtaJakartaTransactionalMethodPropagation.class})
+    @ValueSource(classes = {JavaTransactionalApiMethodLevelPropagation.class, SpringTransactionalMethodLevelPropagation.class,
+        JakartaTransactionalApiMethodLevelPropagation.class})
     void propagationOnMethodLevel(Class<?> testClass) throws RuleException, NoSuchMethodException {
         scanClasses(testClass);
 
