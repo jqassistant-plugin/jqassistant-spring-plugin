@@ -51,12 +51,14 @@
     </constraint>
 
     <concept id="spring-transaction:TransactionalMethod">
-        <description>Provides transactional methods as ":Spring:Transactional:Method".</description>
+        <description>Provides transactional methods as ":Spring:Transactional:Method" and its configured transaction propagation semantics.</description>
         <cypher><![CDATA[
            MATCH
              (type:Type)-[:DECLARES]->(transactionalMethod:Spring:Transactional:Method)
            RETURN
-             type as Type, transactionalMethod as TransactionalMethod
+             type as Type,
+             transactionalMethod as TransactionalMethod,
+             transactionalMethod.transactionPropagation as TransactionPropagation
            ORDER BY
              type.fqn, transactionalMethod.signature
         ]]></cypher>
@@ -64,26 +66,41 @@
 
     <concept id="spring-transaction:TransactionalMethodByAnnotatedMethod">
         <providesConcept refId="spring-transaction:TransactionalMethod" />
+        <!-- Ensure that method-level-annotations override type-level annotations -->
+        <requiresConcept refId="spring-transaction:TransactionalMethodByAnnotatedClass"/>
         <description>
             Label all methods which are annotated with "@org.springframework.transaction.annotation.Transactional", "jakarta.transaction.Transactional",
-            or "javax.transaction.Transactional", with "Spring" and "Transactional".
+            or "javax.transaction.Transactional", with "Spring" and "Transactional". It further identifies method level transaction propagation semantics. The configured transaction propagation at method level overrides the type level configuration.
         </description>
         <cypher><![CDATA[
+           WITH
+             [
+               { annotationFqn: 'org.springframework.transaction.annotation.Transactional', propagationAttributeName: 'propagation' },
+               { annotationFqn: 'jakarta.transaction.Transactional', propagationAttributeName: 'value' },
+               { annotationFqn: 'javax.transaction.Transactional', propagationAttributeName: 'value'}
+             ] as supportedAnnotationTypes
+           UNWIND
+             supportedAnnotationTypes AS supportedAnnotationType
            MATCH
              (type:Type)-[:DECLARES]->(transactionalMethod:Method),
-             (transactionalMethod:Method)-[:ANNOTATED_BY]->()-[:OF_TYPE]->(annotationType:Type)
+             (transactionalMethod:Method)-[:ANNOTATED_BY]->(annotation:Java:Annotation),
+             (annotation)-[:OF_TYPE]->(annotationType:Type {fqn: supportedAnnotationType.annotationFqn})
+           OPTIONAL MATCH
+             (annotation)-[:HAS]->(propagation:Value {name: supportedAnnotationType.propagationAttributeName})-[:IS]->(propagationType:Java:Field)
+           WITH
+             type,
+             transactionalMethod,
+             COALESCE(SPLIT(propagationType.signature,' ')[1], 'REQUIRED') AS effectivePropagationType
            WHERE
-             annotationType.fqn in [
-               "org.springframework.transaction.annotation.Transactional",
-               "jakarta.transaction.Transactional",
-               "javax.transaction.Transactional"
-             ]
-           AND NOT
-             transactionalMethod.visibility = "private"
+             NOT transactionalMethod.visibility = "private"
            SET
              transactionalMethod:Spring:Transactional
+           SET
+             transactionalMethod.transactionPropagation = effectivePropagationType
            RETURN
-             type as Type, transactionalMethod as TransactionalMethod
+             type as Type,
+             transactionalMethod as TransactionalMethod,
+             transactionalMethod.transactionPropagation AS TransactionPropagation
         ]]></cypher>
     </concept>
 
@@ -91,27 +108,41 @@
         <providesConcept refId="spring-transaction:TransactionalMethod" />
         <description>
             Label methods of classes which are directly or indirectly annotated with "@org.springframework.transaction.annotation.Transactional", "jakarta.transaction.Transactional",
-            or "javax.transaction.Transactional" with "Spring" and "Transactional".
+            or "javax.transaction.Transactional" with "Spring" and "Transactional". It further identifies type level transaction propagation semantics. The configured transaction propagation at type level applies to declared methods.
         </description>
         <cypher><![CDATA[
+           WITH
+             [
+               { annotationFqn: 'org.springframework.transaction.annotation.Transactional', propagationAttributeName: 'propagation' },
+               { annotationFqn: 'jakarta.transaction.Transactional', propagationAttributeName: 'value' },
+               { annotationFqn: 'javax.transaction.Transactional', propagationAttributeName: 'value'}
+             ] as supportedAnnotationTypes
+           UNWIND
+             supportedAnnotationTypes AS supportedAnnotationType
            MATCH
-             (transactionalClass:Type)-[:EXTENDS|IMPLEMENTS*0..]->(:Type)-[:ANNOTATED_BY]->()-[:OF_TYPE]->(annotationType:Type),
+             (transactionalClass:Type)-[:EXTENDS|IMPLEMENTS*0..]->(:Type)-[:ANNOTATED_BY]->(annotation:Java:Annotation),
+             (annotation)-[:OF_TYPE]->(annotationType:Type {fqn: supportedAnnotationType.annotationFqn}),
              (transactionalClass)-[:DECLARES]->(transactionalMethod:Method)
+           OPTIONAL MATCH
+             (annotation)-[:HAS]->(propagation:Value {name: supportedAnnotationType.propagationAttributeName})-[:IS]->(propagationType:Java:Field)
+           WITH
+             transactionalClass,
+             transactionalMethod,
+             COALESCE(SPLIT(propagationType.signature,' ')[1], 'REQUIRED') AS effectivePropagationType
            WHERE
-             annotationType.fqn in [
-               "org.springframework.transaction.annotation.Transactional",
-               "jakarta.transaction.Transactional",
-               "javax.transaction.Transactional"
-             ]
-             AND NOT (
+             NOT (
                transactionalMethod:Constructor
                OR (transactionalMethod.static IS NOT NULL and transactionalMethod.static)
                OR transactionalMethod.visibility = "private"
              )
            SET
              transactionalMethod:Spring:Transactional
+           SET
+             transactionalMethod.transactionPropagation = effectivePropagationType
            RETURN
-             transactionalClass as TransactionalClass, collect(transactionalMethod) as TransactionalMethods
+             transactionalClass as TransactionalClass,
+             transactionalMethod AS TransactionalMethod,
+             transactionalMethod.transactionPropagation AS TransactionPropagation
         ]]></cypher>
     </concept>
 

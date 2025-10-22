@@ -1,0 +1,16 @@
+package org.jqassistant.plugin.spring.test.set.transactionpropagation;
+
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+@Transactional(propagation = Propagation.MANDATORY)
+public class SpringTransactionalTypeAndMethodLevelPropagation {
+    public void transactionalMethodMandatory() {}
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void transactionalMethodRequiresNew() {}
+
+    // method-level annotations without specified propagation semantics override type-level annotations with the default.
+    @Transactional
+    public void transactionalMethodRequired() {}
+}
