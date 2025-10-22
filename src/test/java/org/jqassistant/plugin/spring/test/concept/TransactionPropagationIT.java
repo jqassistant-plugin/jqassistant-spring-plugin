@@ -26,7 +26,7 @@ public class TransactionPropagationIT extends AbstractSpringIT {
         store.beginTransaction();
 
         assertThat(conceptResult.getStatus()).isEqualTo(Result.Status.SUCCESS);
-        assertThat(conceptResult.getRows().size()).isEqualTo(2);
+        assertThat(conceptResult.getRows().size()).isEqualTo(3);
 
         Row row1 = conceptResult.getRows().get(0);
         assertThat((TypeDescriptor) row1.getColumns().get("Type").getValue())
@@ -39,8 +39,15 @@ public class TransactionPropagationIT extends AbstractSpringIT {
         assertThat((TypeDescriptor) row2.getColumns().get("Type").getValue())
             .is(typeDescriptor(testClass));
         assertThat((MethodDescriptor) row2.getColumns().get("TransactionalMethod").getValue())
+            .is(methodDescriptor(testClass, "transactionalMethodRequired"));
+        assertThat(row2.getColumns().get("TransactionPropagation").getLabel()).isEqualTo("REQUIRED");
+
+        Row row3 = conceptResult.getRows().get(2);
+        assertThat((TypeDescriptor) row3.getColumns().get("Type").getValue())
+            .is(typeDescriptor(testClass));
+        assertThat((MethodDescriptor) row3.getColumns().get("TransactionalMethod").getValue())
             .is(methodDescriptor(testClass, "transactionalMethodRequiresNew"));
-        assertThat(row2.getColumns().get("TransactionPropagation").getLabel()).isEqualTo("REQUIRES_NEW");
+        assertThat(row3.getColumns().get("TransactionPropagation").getLabel()).isEqualTo("REQUIRES_NEW");
 
         store.commitTransaction();
     }

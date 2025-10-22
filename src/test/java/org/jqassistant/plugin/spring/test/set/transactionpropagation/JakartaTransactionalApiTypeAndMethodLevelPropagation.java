@@ -8,4 +8,8 @@ public class JakartaTransactionalApiTypeAndMethodLevelPropagation {
 
     @Transactional(value = Transactional.TxType.REQUIRES_NEW)
     public void transactionalMethodRequiresNew() {}
+
+    // method-level annotations without specified propagation semantics override type-level annotations with the default.
+    @Transactional
+    public void transactionalMethodRequired() {}
 }
