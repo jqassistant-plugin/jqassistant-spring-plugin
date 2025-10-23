@@ -7,8 +7,16 @@ import org.springframework.context.annotation.Configuration;
 public class ConfigurationWithBeanProducer {
 
     @Bean
-    public ConfigurationBean getConfiguration() {
-        return new ConfigurationBean();
-    };
+    public ConfigurationBeanA getConfiguration() {
+        return new ConfigurationBeanA();
+    }
+
+    @Configuration
+    public static class NestedConfigurationWithBeanProducer {
+        @Bean
+        public ConfigurationBeanB getConfiguration() {
+            return new ConfigurationBeanB();
+        }
+    }
 
 }
