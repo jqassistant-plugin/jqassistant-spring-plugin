@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 public class ServiceWithBeanProducer {
 
     @Bean
-    public ConfigurationBean getBean() {
+    public ConfigurationBeanA getBean() {
         return null;
     }
 

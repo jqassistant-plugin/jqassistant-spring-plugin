@@ -10,7 +10,7 @@ import com.buschmais.jqassistant.plugin.java.api.model.MethodDescriptor;
 import com.buschmais.jqassistant.plugin.java.api.model.TypeDescriptor;
 import com.buschmais.jqassistant.plugin.java.test.AbstractJavaPluginIT;
 
-import org.jqassistant.plugin.spring.test.set.injectables.ConfigurationBean;
+import org.jqassistant.plugin.spring.test.set.injectables.ConfigurationBeanA;
 import org.jqassistant.plugin.spring.test.set.injectables.ConfigurationWithBeanProducer;
 import org.jqassistant.plugin.spring.test.set.injectables.ServiceInvokingBeanProducer;
 import org.jqassistant.plugin.spring.test.set.injectables.ServiceWithBeanProducer;
@@ -28,7 +28,7 @@ class BeanProducerIT extends AbstractJavaPluginIT {
 
     @Test
     public void beanProducerInConfigurationComponent() throws Exception {
-        scanClasses(ConfigurationWithBeanProducer.class);
+        scanClasses(ConfigurationWithBeanProducer.class, ConfigurationWithBeanProducer.NestedConfigurationWithBeanProducer.class);
         assertThat(
             validateConstraint("spring-injection:BeanProducerMustBeDeclaredInConfigurationComponent").getStatus(),
             equalTo(SUCCESS));
@@ -49,7 +49,7 @@ class BeanProducerIT extends AbstractJavaPluginIT {
             .getValue(), methodDescriptor(ServiceWithBeanProducer.class, "getBean"));
         assertThat((TypeDescriptor) row.getColumns()
             .get("Injectable")
-            .getValue(), typeDescriptor(ConfigurationBean.class));
+            .getValue(), typeDescriptor(ConfigurationBeanA.class));
         store.commitTransaction();
     }
 
