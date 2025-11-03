@@ -4,11 +4,16 @@ import java.util.List;
 
 import com.buschmais.jqassistant.plugin.java.api.model.MethodDescriptor;
 import org.jqassistant.plugin.spring.test.set.transaction.*;
+import org.jqassistant.plugin.spring.test.set.transaction.inheritance.CallingSubClassOfSimpleClassWithTransactionalMethod;
+import org.jqassistant.plugin.spring.test.set.transaction.inheritance.CallingSubClassOfSimpleTransactionalClass;
+import org.jqassistant.plugin.spring.test.set.transaction.inheritance.SimpleClassWithTransactionalMethod;
+import org.jqassistant.plugin.spring.test.set.transaction.inheritance.SimpleTransactionalClass;
 import org.junit.jupiter.api.Test;
 
 import static com.buschmais.jqassistant.core.report.api.model.Result.Status.SUCCESS;
 import static com.buschmais.jqassistant.plugin.java.test.assertj.MethodDescriptorCondition.methodDescriptor;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.jqassistant.plugin.spring.test.SimpleMethodDescriptorCondition.simpleMethodDescriptor;
 
 class TransactionalMethodIT extends AbstractSpringIT {
 
@@ -17,11 +22,13 @@ class TransactionalMethodIT extends AbstractSpringIT {
         scanClasses(SpringTransactionalMethod.class, JtaTransactionalMethod.class, JtaJakartaTransactionalMethod.class,
             SpringTransactionalClass.class, SpringTransactionalSubClass.class, SpringTransactionalInterface.class,
             SpringTransactionalImplementingClass.class, JtaTransactionalClass.class,
-            JtaJakartaTransactionalClass.class);
+            JtaJakartaTransactionalClass.class,
+            SimpleTransactionalClass.class, CallingSubClassOfSimpleTransactionalClass.class,
+            SimpleClassWithTransactionalMethod.class, CallingSubClassOfSimpleClassWithTransactionalMethod.class);
         assertThat(applyConcept("spring-transaction:TransactionalMethod").getStatus()).isEqualTo(SUCCESS);
         store.beginTransaction();
         final List<MethodDescriptor> methods = query("MATCH (m:Spring:Method:Transactional) RETURN m").getColumn("m");
-        assertThat(methods).hasSize(10);
+        assertThat(methods).hasSize(16);
         // method level annotations
         assertThat(methods).haveExactly(1,
             methodDescriptor(SpringTransactionalMethod.class, "transactionalMethod"));
@@ -46,6 +53,18 @@ class TransactionalMethodIT extends AbstractSpringIT {
             methodDescriptor(JtaTransactionalClass.class, "transactionalMethod"));
         assertThat(methods).haveExactly(1,
             methodDescriptor(JtaJakartaTransactionalClass.class, "transactionalMethod"));
+        assertThat(methods).haveExactly(1,
+            methodDescriptor(SimpleTransactionalClass.class, "method"));
+        assertThat(methods).haveExactly(1,
+            methodDescriptor(CallingSubClassOfSimpleTransactionalClass.class, "anotherMethod"));
+        assertThat(methods).haveExactly(1,
+            simpleMethodDescriptor(CallingSubClassOfSimpleTransactionalClass.class, "void method()"));
+        assertThat(methods).haveExactly(1,
+            methodDescriptor(SimpleClassWithTransactionalMethod.class, "method"));
+        assertThat(methods).haveExactly(1,
+            methodDescriptor(CallingSubClassOfSimpleClassWithTransactionalMethod.class, "anotherMethod"));
+        assertThat(methods).haveExactly(1,
+            simpleMethodDescriptor(CallingSubClassOfSimpleClassWithTransactionalMethod.class, "void method()"));
         store.commitTransaction();
     }
 }

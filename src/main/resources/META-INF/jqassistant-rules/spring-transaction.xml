@@ -68,6 +68,7 @@
         <providesConcept refId="spring-transaction:TransactionalMethod" />
         <!-- Ensure that method-level-annotations override type-level annotations -->
         <requiresConcept refId="spring-transaction:TransactionalMethodByAnnotatedClass"/>
+        <requiresConcept refId="java:MemberInheritedFrom"/>
         <description>
             Label all methods which are annotated with "@org.springframework.transaction.annotation.Transactional", "jakarta.transaction.Transactional",
             or "javax.transaction.Transactional", with "Spring" and "Transactional". It further identifies method level transaction propagation semantics. The configured transaction propagation at method level overrides the type level configuration.
@@ -83,7 +84,7 @@
              supportedAnnotationTypes AS supportedAnnotationType
            MATCH
              (type:Type)-[:DECLARES]->(transactionalMethod:Method),
-             (transactionalMethod:Method)-[:ANNOTATED_BY]->(annotation:Java:Annotation),
+             (transactionalMethod:Java:Method)-[:INHERITED_FROM*0..]->(definedMethod:Java:Method)-[:ANNOTATED_BY]->(annotation:Java:Annotation),
              (annotation)-[:OF_TYPE]->(annotationType:Type {fqn: supportedAnnotationType.annotationFqn})
            OPTIONAL MATCH
              (annotation)-[:HAS]->(propagation:Value {name: supportedAnnotationType.propagationAttributeName})-[:IS]->(propagationType:Java:Field)
@@ -92,7 +93,7 @@
              transactionalMethod,
              COALESCE(SPLIT(propagationType.signature,' ')[1], 'REQUIRED') AS effectivePropagationType
            WHERE
-             NOT transactionalMethod.visibility = "private"
+             NOT definedMethod.visibility = "private"
            SET
              transactionalMethod:Spring:Transactional
            SET
@@ -106,6 +107,7 @@
 
     <concept id="spring-transaction:TransactionalMethodByAnnotatedClass">
         <providesConcept refId="spring-transaction:TransactionalMethod" />
+        <requiresConcept refId="java:MemberInheritedFrom"/>
         <description>
             Label methods of classes which are directly or indirectly annotated with "@org.springframework.transaction.annotation.Transactional", "jakarta.transaction.Transactional",
             or "javax.transaction.Transactional" with "Spring" and "Transactional". It further identifies type level transaction propagation semantics. The configured transaction propagation at type level applies to declared methods.
@@ -122,7 +124,7 @@
            MATCH
              (transactionalClass:Type)-[:EXTENDS|IMPLEMENTS*0..]->(:Type)-[:ANNOTATED_BY]->(annotation:Java:Annotation),
              (annotation)-[:OF_TYPE]->(annotationType:Type {fqn: supportedAnnotationType.annotationFqn}),
-             (transactionalClass)-[:DECLARES]->(transactionalMethod:Method)
+             (transactionalClass)-[:DECLARES]->(definedMethod:Java:Method)<-[:INHERITED_FROM*0..]-(transactionalMethod:Java:Method)
            OPTIONAL MATCH
              (annotation)-[:HAS]->(propagation:Value {name: supportedAnnotationType.propagationAttributeName})-[:IS]->(propagationType:Java:Field)
            WITH
@@ -131,9 +133,9 @@
              COALESCE(SPLIT(propagationType.signature,' ')[1], 'REQUIRED') AS effectivePropagationType
            WHERE
              NOT (
-               transactionalMethod:Constructor
-               OR (transactionalMethod.static IS NOT NULL and transactionalMethod.static)
-               OR transactionalMethod.visibility = "private"
+               definedMethod:Constructor
+               OR (definedMethod.static IS NOT NULL and transactionalMethod.static)
+               OR definedMethod.visibility = "private"
              )
            SET
              transactionalMethod:Spring:Transactional
