@@ -4,10 +4,10 @@ import java.util.List;
 
 import com.buschmais.jqassistant.plugin.java.api.model.MethodDescriptor;
 import org.jqassistant.plugin.spring.test.set.transaction.*;
-import org.jqassistant.plugin.spring.test.set.transaction.inheritance.CallingSubClassOfSimpleClassWithTransactionalMethod;
-import org.jqassistant.plugin.spring.test.set.transaction.inheritance.CallingSubClassOfSimpleTransactionalClass;
-import org.jqassistant.plugin.spring.test.set.transaction.inheritance.SimpleClassWithTransactionalMethod;
-import org.jqassistant.plugin.spring.test.set.transaction.inheritance.SimpleTransactionalClass;
+import org.jqassistant.plugin.spring.test.set.transaction.inheritance.simple.CallingSubClassOfSimpleClassWithTransactionalMethod;
+import org.jqassistant.plugin.spring.test.set.transaction.inheritance.simple.CallingSubClassOfSimpleTransactionalClass;
+import org.jqassistant.plugin.spring.test.set.transaction.inheritance.simple.SimpleClassWithTransactionalMethod;
+import org.jqassistant.plugin.spring.test.set.transaction.inheritance.simple.SimpleTransactionalClass;
 import org.junit.jupiter.api.Test;
 
 import static com.buschmais.jqassistant.core.report.api.model.Result.Status.SUCCESS;

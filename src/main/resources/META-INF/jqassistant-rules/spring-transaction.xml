@@ -8,20 +8,21 @@
     </group>
 
     <constraint id="spring-transaction:TransactionalMethodMustNotBeInvokedFromSameClass">
+        <requiresConcept refId="java:MemberInheritedFrom"/>
         <requiresConcept refId="spring-transaction:TransactionalMethod"/>
         <requiresConcept refId="java:GeneratedType"/>
         <description>Transactional methods must not be invoked from the same class.</description>
         <cypher><![CDATA[
             MATCH
-              (artifact:Artifact)-[:CONTAINS]->(type:Type)-[:DECLARES]->(calledMethod:Method:Spring:Transactional),
-              (type:Type)-[:DECLARES]->(callingMethod:Method),
-              (callingMethod:Method)-[invokes:INVOKES]->(calledMethod)
+              (:Artifact:Main)-[:CONTAINS]->(callingType:Java:Type),
+              (callingType)-[:EXTENDS|IMPLEMENTS*0..]->(:Java:Type)-[:DECLARES]->(calledMethod:Method:Spring:Transactional),
+              (callingType)-[:DECLARES]->(callingMethod:Method)-[invokes:INVOKES]->(calledMethod)
             WHERE NOT (
-              artifact:Test
-              OR type:Generated
+              callingType:Generated
+              OR (callingMethod.synthetic IS NOT NULL and callingMethod.synthetic)
             )
             RETURN
-              type as Type, callingMethod as Method, calledMethod as TransactionalMethod, invokes.lineNumber as LineNumber
+              DISTINCT callingType as Type, callingMethod as Method, calledMethod as TransactionalMethod, invokes.lineNumber as LineNumber
         ]]></cypher>
         <report primaryColumn="callingMethod"/>
     </constraint>
