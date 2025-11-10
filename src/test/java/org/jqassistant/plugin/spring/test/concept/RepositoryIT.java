@@ -1,10 +1,11 @@
 package org.jqassistant.plugin.spring.test.concept;
 
-import org.jqassistant.plugin.spring.test.set.components.AnnotatedRepository;
-import org.jqassistant.plugin.spring.test.set.components.ImplementedRepository;
+import org.jqassistant.plugin.spring.test.set.components.repository.AnnotatedRepository;
+import org.jqassistant.plugin.spring.test.set.components.repository.ImplementedRepository;
 import org.junit.jupiter.api.Test;
 
-import static com.buschmais.jqassistant.core.report.api.model.Result.Status.*;
+import static com.buschmais.jqassistant.core.report.api.model.Result.Status.SUCCESS;
+import static com.buschmais.jqassistant.core.report.api.model.Result.Status.WARNING;
 import static com.buschmais.jqassistant.plugin.java.test.matcher.TypeDescriptorMatcher.typeDescriptor;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.hasItem;

@@ -1,12 +1,12 @@
 package org.jqassistant.plugin.spring.test.concept;
 
-import java.util.List;
-import java.util.stream.Stream;
-
 import com.buschmais.jqassistant.plugin.java.api.model.ConstructorDescriptor;
-
 import org.jqassistant.plugin.spring.test.set.application.valid.Application;
-import org.jqassistant.plugin.spring.test.set.components.*;
+import org.jqassistant.plugin.spring.test.set.components.controller.Controller;
+import org.jqassistant.plugin.spring.test.set.components.controller.RestController;
+import org.jqassistant.plugin.spring.test.set.components.repository.AnnotatedRepository;
+import org.jqassistant.plugin.spring.test.set.components.repository.ImplementedRepository;
+import org.jqassistant.plugin.spring.test.set.components.service.Service;
 import org.jqassistant.plugin.spring.test.set.fieldinjection.ServiceWithConstructorInjection;
 import org.jqassistant.plugin.spring.test.set.fieldinjection.ServiceWithFieldInjection;
 import org.jqassistant.plugin.spring.test.set.injectables.ConfigurationBeanA;
@@ -16,6 +16,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+
+import java.util.List;
+import java.util.stream.Stream;
 
 import static com.buschmais.jqassistant.core.report.api.model.Result.Status.SUCCESS;
 import static com.buschmais.jqassistant.plugin.java.test.matcher.MethodDescriptorMatcher.methodDescriptor;

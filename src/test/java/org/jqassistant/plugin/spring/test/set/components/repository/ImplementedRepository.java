@@ -1,4 +1,4 @@
-package org.jqassistant.plugin.spring.test.set.components;
+package org.jqassistant.plugin.spring.test.set.components.repository;
 
 import org.springframework.data.repository.Repository;
 

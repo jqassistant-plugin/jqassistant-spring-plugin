@@ -1,14 +1,14 @@
 package org.jqassistant.plugin.spring.test.concept;
 
 import com.buschmais.jqassistant.core.rule.api.model.RuleException;
-
-import org.jqassistant.plugin.spring.test.set.components.ControllerAdvice;
-import org.jqassistant.plugin.spring.test.set.components.RestController;
-import org.jqassistant.plugin.spring.test.set.components.RestControllerAdvice;
-import org.jqassistant.plugin.spring.test.set.components.Service;
+import org.jqassistant.plugin.spring.test.set.components.controller.ControllerAdvice;
+import org.jqassistant.plugin.spring.test.set.components.controller.RestController;
+import org.jqassistant.plugin.spring.test.set.components.controller.RestControllerAdvice;
+import org.jqassistant.plugin.spring.test.set.components.service.Service;
 import org.junit.jupiter.api.Test;
 
-import static com.buschmais.jqassistant.core.report.api.model.Result.Status.*;
+import static com.buschmais.jqassistant.core.report.api.model.Result.Status.SUCCESS;
+import static com.buschmais.jqassistant.core.report.api.model.Result.Status.WARNING;
 import static com.buschmais.jqassistant.plugin.java.test.matcher.TypeDescriptorMatcher.typeDescriptor;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.hasItem;
