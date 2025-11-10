@@ -56,8 +56,8 @@
         <description>If the constructor of an Injectable is called from another Injectable, then the caller must be a BeanProducer.</description>
         <cypher><![CDATA[
             MATCH
-              (injectable:Injectable:Type)-[:DECLARES]->(constructor:Constructor),
-              (artifact:Artifact)-[:CONTAINS]->(type:Injectable:Type)-[:DECLARES]->(method:Method),
+              (injectable:Injectable:Spring:Type)-[:DECLARES]->(constructor:Constructor),
+              (artifact:Artifact)-[:CONTAINS]->(type:Injectable:Spring:Type)-[:DECLARES]->(method:Method),
               shortestPath((method)-[:INVOKES*]->(constructor))
             WHERE NOT (
               artifact:Test
@@ -81,7 +81,7 @@
         <description>Bean producer methods must be declared in configuration components.</description>
         <cypher><![CDATA[
             MATCH
-              (artifact:Artifact)-[:CONTAINS]->(type:Type)-[:DECLARES]->(beanProducer:Method:BeanProducer)-[:RETURNS]->(injectable:Injectable)
+              (artifact:Artifact)-[:CONTAINS]->(type:Type)-[:DECLARES]->(beanProducer:Method:BeanProducer:Spring)-[:RETURNS]->(injectable:Injectable:Spring)
             WHERE NOT (
               artifact:Test
               OR type:Generated
@@ -142,7 +142,7 @@
         <description>Field injection is not allowed, use constructor injection instead.</description>
         <cypher><![CDATA[
             MATCH
-              (artifact:Artifact)-[:CONTAINS]->(type:Type)-[:DECLARES]->(field:Field:InjectionPoint)
+              (artifact:Artifact)-[:CONTAINS]->(type:Type)-[:DECLARES]->(field:Field:InjectionPoint:Spring)
             WHERE NOT (
               artifact:Test
               OR type:Generated
@@ -160,7 +160,7 @@
         <description>Fields holding injectables should be declared final.</description>
         <cypher><![CDATA[
             MATCH
-              (artifact:Artifact)-[:CONTAINS]->(type:Type:Injectable)-[declares:DECLARES]->(field:Field)-[:OF_TYPE]->(injectedType:Type:Injectable)
+              (artifact:Artifact)-[:CONTAINS]->(type:Type:Injectable:Spring)-[declares:DECLARES]->(field:Field)-[:OF_TYPE]->(injectedType:Type:Injectable:Spring)
             WHERE NOT (
               artifact:Test
               OR type:Generated
@@ -182,12 +182,12 @@
         <description>Fields of injectable types must not be manipulated, except from constructors.</description>
         <cypher><![CDATA[
             MATCH
-              (artifact:Artifact)-[:CONTAINS]->(injectable:Type:Injectable),
+              (artifact:Artifact)-[:CONTAINS]->(injectable:Type:Injectable:Spring),
               (injectable)-[:DECLARES]->(field:Field)-[:OF_TYPE]->(fieldType:Type),
               (injectable)-[:DECLARES]->(method:Method),
               (method)-[writes:WRITES]->(field)
             WHERE
-              (fieldType)-[:ASSIGNABLE_FROM*0..]->(:Injectable)
+              (fieldType)-[:ASSIGNABLE_FROM*0..]->(:Injectable:Spring)
               AND NOT (
                 artifact:Test
                 OR injectable:Generated
@@ -267,7 +267,7 @@
             MATCH
               (artifact:Artifact)-[:CONTAINS]->(type:Type)-[:DECLARES]->(field:Field)-[:OF_TYPE]->(fieldType:Type)
             WHERE
-              (fieldType)-[:ASSIGNABLE_FROM*0..]->(:Injectable)
+              (fieldType)-[:ASSIGNABLE_FROM*0..]->(:Injectable:Spring)
               AND field.static
               AND NOT (
                artifact:Test
@@ -289,7 +289,7 @@
               (artifact:Artifact)-[:CONTAINS]->(:Type)-[:DECLARES]->(field:Field)-[:OF_TYPE]->(fieldType:Type),
               (type:Type)-[:DECLARES]->(method:Method)-[:WRITES|READS]->(field)
             WHERE
-              (fieldType)-[:ASSIGNABLE_FROM*0..]->(:Injectable)
+              (fieldType)-[:ASSIGNABLE_FROM*0..]->(:Injectable:Spring)
               AND field.static
               AND NOT (
                artifact:Test
