@@ -7,6 +7,6 @@ import java.lang.annotation.Target;
 
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-@org.springframework.stereotype.Repository
-public @interface CustomRepositoryMetaAnnotation {
+@CustomRepositoryAnnotation
+public @interface TransitiveCustomRepositoryAnnotation {
 }

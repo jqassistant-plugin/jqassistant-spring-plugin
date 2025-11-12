@@ -1,9 +1,9 @@
 package org.jqassistant.plugin.spring.test.concept;
 
 import org.jqassistant.plugin.spring.test.set.components.component.ComponentWithCustomAnnotation;
-import org.jqassistant.plugin.spring.test.set.components.component.ComponentWithCustomMetaAnnotation;
+import org.jqassistant.plugin.spring.test.set.components.component.ComponentWithTransitiveCustomAnnotation;
 import org.jqassistant.plugin.spring.test.set.components.component.CustomComponentAnnotation;
-import org.jqassistant.plugin.spring.test.set.components.component.CustomComponentMetaAnnotation;
+import org.jqassistant.plugin.spring.test.set.components.component.TransitiveCustomComponentAnnotation;
 import org.jqassistant.plugin.spring.test.set.components.controller.*;
 import org.jqassistant.plugin.spring.test.set.components.dependencies.direct.*;
 import org.jqassistant.plugin.spring.test.set.components.repository.*;
@@ -29,11 +29,11 @@ class ComponentIT extends AbstractSpringIT {
         Class<?>[] configurationComponents = { ConfigurationWithBeanProducer.class, EnableGlobalAuthenticationComponent.class,
             EnableGlobalMethodSecurityComponent.class, EnableReactiveMethodSecurityComponent.class,
             EnableWebFluxSecurityComponent.class, EnableWebMvcSecurityComponent.class,
-            EnableWebSecurityComponent.class, ConfigurationWithCustomAnnotation.class,
-            ConfigurationWithCustomMetaAnnotation.class};
+            EnableWebSecurityComponent.class, ConfigurationWithTransitiveCustomAnnotation.class,
+            ConfigurationWithCustomAnnotation.class};
         scanClasses(configurationComponents);
+        scanClasses(TransitiveCustomConfigurationAnnotation.class);
         scanClasses(CustomConfigurationAnnotation.class);
-        scanClasses(CustomConfigurationMetaAnnotation.class);
         assertThat(applyConcept("spring-component:Configuration").getStatus(), equalTo(SUCCESS));
         store.beginTransaction();
         List<Object> configurations = query("MATCH (c:Spring:Configuration) RETURN c").getColumn("c");
@@ -49,15 +49,15 @@ class ComponentIT extends AbstractSpringIT {
         scanClasses(Service.class);
         assertThat(applyConcept("spring-component:Controller").getStatus(), equalTo(WARNING));
         clearConcepts();
-        scanClasses(Controller.class, ControllerWithCustomAnnotation.class, CustomControllerAnnotation.class,
-            ControllerWithCustomMetaAnnotation.class, CustomControllerMetaAnnotation.class);
+        scanClasses(Controller.class, ControllerWithTransitiveCustomAnnotation.class, TransitiveCustomControllerAnnotation.class,
+            ControllerWithCustomAnnotation.class, CustomControllerAnnotation.class);
         assertThat(applyConcept("spring-component:Controller").getStatus(), equalTo(SUCCESS));
         store.beginTransaction();
         List<Object> controller = query("MATCH (c:Spring:Controller) RETURN c").getColumn("c");
         assertThat(controller.size(), equalTo(3));
         assertThat(controller, hasItem(typeDescriptor(Controller.class)));
+        assertThat(controller, hasItem(typeDescriptor(ControllerWithTransitiveCustomAnnotation.class)));
         assertThat(controller, hasItem(typeDescriptor(ControllerWithCustomAnnotation.class)));
-        assertThat(controller, hasItem(typeDescriptor(ControllerWithCustomMetaAnnotation.class)));
         store.commitTransaction();
     }
 
@@ -66,30 +66,30 @@ class ComponentIT extends AbstractSpringIT {
         scanClasses(AnnotatedRepository.class);
         assertThat(applyConcept("spring-component:Service").getStatus(), equalTo(WARNING));
         clearConcepts();
-        scanClasses(Service.class, ServiceWithCustomAnnotation.class, CustomServiceAnnotation.class,
-            ServiceWithCustomMetaAnnotation.class, CustomServiceMetaAnnotation.class);
+        scanClasses(Service.class, ServiceWithTransitiveCustomAnnotation.class, TransitiveCustomServiceAnnotation.class,
+            ServiceWithCustomAnnotation.class, CustomServiceAnnotation.class);
         assertThat(applyConcept("spring-component:Service").getStatus(), equalTo(SUCCESS));
         store.beginTransaction();
         List<Object> services = query("MATCH (s:Spring:Service) RETURN s").getColumn("s");
         assertThat(services.size(), equalTo(3));
         assertThat(services, hasItem(typeDescriptor(Service.class)));
+        assertThat(services, hasItem(typeDescriptor(ServiceWithTransitiveCustomAnnotation.class)));
         assertThat(services, hasItem(typeDescriptor(ServiceWithCustomAnnotation.class)));
-        assertThat(services, hasItem(typeDescriptor(ServiceWithCustomMetaAnnotation.class)));
         store.commitTransaction();
     }
 
     @Test
     void repository() throws Exception {
-        scanClasses(AnnotatedRepository.class, ImplementedRepository.class, RepositoryWithCustomAnnotation.class,
-            CustomRepositoryAnnotation.class, RepositoryWithCustomMetaAnnotation.class, CustomRepositoryMetaAnnotation.class);
+        scanClasses(AnnotatedRepository.class, ImplementedRepository.class, RepositoryWithTransitiveCustomAnnotation.class,
+            TransitiveCustomRepositoryAnnotation.class, RepositoryWithCustomAnnotation.class, CustomRepositoryAnnotation.class);
         assertThat(applyConcept("spring-component:Repository").getStatus(), equalTo(SUCCESS));
         store.beginTransaction();
         List<Object> repositories = query("MATCH (r:Spring:Repository) RETURN r").getColumn("r");
         assertThat(repositories.size(), equalTo(4));
         assertThat(repositories, hasItem(typeDescriptor(AnnotatedRepository.class)));
         assertThat(repositories, hasItem(typeDescriptor(ImplementedRepository.class)));
-        assertThat(repositories,  hasItem(typeDescriptor(RepositoryWithCustomAnnotation.class)));
-        assertThat(repositories, hasItem(typeDescriptor(RepositoryWithCustomMetaAnnotation.class)));
+        assertThat(repositories,  hasItem(typeDescriptor(RepositoryWithTransitiveCustomAnnotation.class)));
+        assertThat(repositories, hasItem(typeDescriptor(RepositoryWithCustomAnnotation.class)));
         store.commitTransaction();
     }
 
@@ -107,13 +107,13 @@ class ComponentIT extends AbstractSpringIT {
 
     @Test
     void component() throws Exception {
-        scanClasses(ComponentWithCustomMetaAnnotation.class, CustomComponentMetaAnnotation.class, CustomComponentAnnotation.class, ComponentWithCustomAnnotation.class);
+        scanClasses(ComponentWithCustomAnnotation.class, CustomComponentAnnotation.class, TransitiveCustomComponentAnnotation.class, ComponentWithTransitiveCustomAnnotation.class);
         assertThat(applyConcept("spring-component:Component").getStatus(), equalTo(SUCCESS));
         store.beginTransaction();
         List<Object> metaComponents = query("MATCH (c:Spring:Component) RETURN c").getColumn("c");
         assertThat(metaComponents.size(), equalTo(2));
-        assertThat(metaComponents, hasItem(typeDescriptor(ComponentWithCustomMetaAnnotation.class)));
         assertThat(metaComponents, hasItem(typeDescriptor(ComponentWithCustomAnnotation.class)));
+        assertThat(metaComponents, hasItem(typeDescriptor(ComponentWithTransitiveCustomAnnotation.class)));
     }
 
     private void verifyComponentDependencies(String query, Class<?>... dependencies) {

@@ -7,6 +7,6 @@ import java.lang.annotation.Target;
 
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-@CustomServiceMetaAnnotation
+@org.springframework.stereotype.Service
 public @interface CustomServiceAnnotation {
 }

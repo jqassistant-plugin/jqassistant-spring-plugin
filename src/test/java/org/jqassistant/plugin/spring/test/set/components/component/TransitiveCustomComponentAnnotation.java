@@ -1,6 +1,4 @@
-package org.jqassistant.plugin.spring.test.set.components.controller;
-
-import org.springframework.stereotype.Controller;
+package org.jqassistant.plugin.spring.test.set.components.component;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -9,6 +7,6 @@ import java.lang.annotation.Target;
 
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-@Controller
-public @interface CustomControllerMetaAnnotation {
+@CustomComponentAnnotation
+public @interface TransitiveCustomComponentAnnotation {
 }

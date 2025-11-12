@@ -1,8 +1,9 @@
 package org.jqassistant.plugin.spring.test.concept;
 
-import org.jqassistant.plugin.spring.test.set.components.repository.AnnotatedRepository;
-import org.jqassistant.plugin.spring.test.set.components.repository.ImplementedRepository;
+import org.jqassistant.plugin.spring.test.set.components.repository.*;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
 
 import static com.buschmais.jqassistant.core.report.api.model.Result.Status.SUCCESS;
 import static com.buschmais.jqassistant.core.report.api.model.Result.Status.WARNING;
@@ -18,11 +19,17 @@ class RepositoryIT extends AbstractSpringIT {
         scanClasses(ImplementedRepository.class);
         assertThat(applyConcept("spring-data:AnnotatedRepository").getStatus(), equalTo(WARNING));
         clearConcepts();
-        scanClasses(AnnotatedRepository.class);
+        scanClasses(AnnotatedRepository.class, RepositoryWithCustomAnnotation.class,
+            RepositoryWithTransitiveCustomAnnotation.class, CustomRepositoryAnnotation.class,
+            TransitiveCustomRepositoryAnnotation.class);
         assertThat(applyConcept("spring-data:AnnotatedRepository").getStatus(), equalTo(SUCCESS));
 
         store.beginTransaction();
-        assertThat(query("MATCH (r:Spring:Repository) RETURN r").getColumn("r"), hasItem(typeDescriptor(AnnotatedRepository.class)));
+        List<Object> repositories = query("MATCH (r:Spring:Repository) RETURN r").getColumn("r");
+        assertThat(repositories.size(), equalTo(3));
+        assertThat(repositories, hasItem(typeDescriptor(AnnotatedRepository.class)));
+        assertThat(repositories, hasItem(typeDescriptor(RepositoryWithCustomAnnotation.class)));
+        assertThat(repositories, hasItem(typeDescriptor(RepositoryWithTransitiveCustomAnnotation.class)));
         store.commitTransaction();
     }
 

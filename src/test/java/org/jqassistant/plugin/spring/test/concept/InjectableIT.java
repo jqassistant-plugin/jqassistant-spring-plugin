@@ -2,16 +2,17 @@ package org.jqassistant.plugin.spring.test.concept;
 
 import com.buschmais.jqassistant.plugin.java.api.model.ConstructorDescriptor;
 import org.jqassistant.plugin.spring.test.set.application.valid.Application;
-import org.jqassistant.plugin.spring.test.set.components.controller.Controller;
-import org.jqassistant.plugin.spring.test.set.components.controller.RestController;
-import org.jqassistant.plugin.spring.test.set.components.repository.AnnotatedRepository;
-import org.jqassistant.plugin.spring.test.set.components.repository.ImplementedRepository;
+import org.jqassistant.plugin.spring.test.set.components.component.ComponentWithCustomAnnotation;
+import org.jqassistant.plugin.spring.test.set.components.component.ComponentWithTransitiveCustomAnnotation;
+import org.jqassistant.plugin.spring.test.set.components.component.CustomComponentAnnotation;
+import org.jqassistant.plugin.spring.test.set.components.component.TransitiveCustomComponentAnnotation;
+import org.jqassistant.plugin.spring.test.set.components.controller.*;
+import org.jqassistant.plugin.spring.test.set.components.repository.*;
+import org.jqassistant.plugin.spring.test.set.components.service.*;
 import org.jqassistant.plugin.spring.test.set.components.service.Service;
 import org.jqassistant.plugin.spring.test.set.fieldinjection.ServiceWithConstructorInjection;
 import org.jqassistant.plugin.spring.test.set.fieldinjection.ServiceWithFieldInjection;
-import org.jqassistant.plugin.spring.test.set.injectables.ConfigurationBeanA;
-import org.jqassistant.plugin.spring.test.set.injectables.ConfigurationBeanB;
-import org.jqassistant.plugin.spring.test.set.injectables.ConfigurationWithBeanProducer;
+import org.jqassistant.plugin.spring.test.set.injectables.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -71,11 +72,22 @@ class InjectableIT extends AbstractSpringIT {
     @Test
     void injectable() throws Exception {
         scanClasses(Application.class, ConfigurationWithBeanProducer.class, ConfigurationWithBeanProducer.NestedConfigurationWithBeanProducer.class,
-            AnnotatedRepository.class, ImplementedRepository.class, Controller.class, RestController.class, Service.class);
+            AnnotatedRepository.class, ImplementedRepository.class, Controller.class, RestController.class, Service.class,
+            ComponentWithCustomAnnotation.class, ComponentWithTransitiveCustomAnnotation.class,
+            CustomComponentAnnotation.class, TransitiveCustomComponentAnnotation.class,
+            ControllerWithCustomAnnotation.class, ControllerWithTransitiveCustomAnnotation.class,
+            CustomControllerAnnotation.class, TransitiveCustomControllerAnnotation.class,
+            ServiceWithCustomAnnotation.class, ServiceWithTransitiveCustomAnnotation.class,
+            CustomServiceAnnotation.class, TransitiveCustomServiceAnnotation.class,
+            RepositoryWithCustomAnnotation.class, RepositoryWithTransitiveCustomAnnotation.class,
+            CustomRepositoryAnnotation.class, TransitiveCustomRepositoryAnnotation.class,
+            ConfigurationWithCustomAnnotation.class, ConfigurationWithTransitiveCustomAnnotation.class,
+            CustomConfigurationAnnotation.class, TransitiveCustomConfigurationAnnotation.class
+        );
         assertThat(applyConcept("spring-injection:Injectable").getStatus(), equalTo(SUCCESS));
         store.beginTransaction();
         List<Object> injectables = query("MATCH (i:Type:Spring:Injectable) RETURN i").getColumn("i");
-        assertThat(injectables.size(), equalTo(10));
+        assertThat(injectables.size(), equalTo(20));
         assertThat(injectables, hasItem(typeDescriptor(Application.class)));
         assertThat(injectables, hasItem(typeDescriptor(ConfigurationBeanA.class)));
         assertThat(injectables, hasItem(typeDescriptor(ConfigurationBeanB.class)));
@@ -86,6 +98,16 @@ class InjectableIT extends AbstractSpringIT {
         assertThat(injectables, hasItem(typeDescriptor(Controller.class)));
         assertThat(injectables, hasItem(typeDescriptor(RestController.class)));
         assertThat(injectables, hasItem(typeDescriptor(Service.class)));
+        assertThat(injectables, hasItem(typeDescriptor(ComponentWithCustomAnnotation.class)));
+        assertThat(injectables, hasItem(typeDescriptor(ComponentWithTransitiveCustomAnnotation.class)));
+        assertThat(injectables, hasItem(typeDescriptor(ControllerWithCustomAnnotation.class)));
+        assertThat(injectables, hasItem(typeDescriptor(ControllerWithTransitiveCustomAnnotation.class)));
+        assertThat(injectables, hasItem(typeDescriptor(ServiceWithCustomAnnotation.class)));
+        assertThat(injectables, hasItem(typeDescriptor(ServiceWithTransitiveCustomAnnotation.class)));
+        assertThat(injectables, hasItem(typeDescriptor(RepositoryWithCustomAnnotation.class)));
+        assertThat(injectables, hasItem(typeDescriptor(RepositoryWithTransitiveCustomAnnotation.class)));
+        assertThat(injectables, hasItem(typeDescriptor(ConfigurationWithCustomAnnotation.class)));
+        assertThat(injectables, hasItem(typeDescriptor(ConfigurationWithTransitiveCustomAnnotation.class)));
         store.commitTransaction();
     }
 
