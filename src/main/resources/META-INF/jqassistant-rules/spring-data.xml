@@ -11,9 +11,12 @@
         </description>
         <cypher><![CDATA[
             MATCH
-              (repository:Type)-[:ANNOTATED_BY]->()-[:OF_TYPE]->(annotationType:Type)
+              (repository:Type)-[:ANNOTATED_BY|OF_TYPE*]->(annotationType:Type)
             WHERE
-              annotationType.fqn = "org.springframework.stereotype.Repository"
+              annotationType.fqn in [
+                "org.springframework.stereotype.Repository"
+              ]
+              AND NOT repository:Annotation
             SET
               repository:Spring:Repository:Component:Injectable
             RETURN

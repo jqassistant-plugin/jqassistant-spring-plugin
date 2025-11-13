@@ -18,12 +18,13 @@
         </description>
         <cypher><![CDATA[
             MATCH
-              (component:Type)-[:ANNOTATED_BY]->()-[:OF_TYPE]->(annotationType:Type)
+              (component:Type)-[:ANNOTATED_BY|OF_TYPE*]->(annotationType:Type)
             WHERE
               annotationType.fqn in [
                 "org.springframework.stereotype.Component",
                 "org.springframework.web.bind.annotation.ControllerAdvice"
               ]
+              AND NOT component:Annotation
             SET
               component:Spring:Component:Injectable
             RETURN
@@ -39,11 +40,12 @@
         </description>
         <cypher><![CDATA[
             MATCH
-              (controller:Type)-[:ANNOTATED_BY]->()-[:OF_TYPE]->(annotationType:Type)
+              (controller:Type)-[:ANNOTATED_BY|OF_TYPE*]->(annotationType:Type)
             WHERE
               annotationType.fqn in [
                 "org.springframework.stereotype.Controller"
               ]
+              AND NOT controller:Annotation
             SET
               controller:Spring:Controller:Component:Injectable
             RETURN
@@ -59,11 +61,12 @@
         </description>
         <cypher><![CDATA[
             MATCH
-              (service:Type)-[:ANNOTATED_BY]->()-[:OF_TYPE]->(annotationType:Type)
+              (service:Type)-[:ANNOTATED_BY|OF_TYPE*]->(annotationType:Type)
             WHERE
               annotationType.fqn in [
                 "org.springframework.stereotype.Service"
               ]
+              AND NOT service:Annotation
             SET
               service:Spring:Service:Component:Injectable
             RETURN
@@ -91,13 +94,14 @@
         </description>
         <cypher><![CDATA[
             MATCH
-              (configuration:Type)-[:ANNOTATED_BY]->()-[:OF_TYPE]->(annotationType:Type)
+              (configuration:Type)-[:ANNOTATED_BY|OF_TYPE*]->(annotationType:Type)
             WHERE
               annotationType.fqn in [
                 "org.springframework.context.annotation.Configuration",
                 "org.springframework.boot.autoconfigure.SpringBootApplication",
                 "org.springframework.data.web.config.SpringDataWebConfigurationMixin"
               ]
+              AND NOT configuration:Annotation
             SET
               configuration:Spring:Configuration:Component:Injectable
             RETURN

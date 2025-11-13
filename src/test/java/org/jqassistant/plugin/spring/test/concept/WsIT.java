@@ -11,8 +11,8 @@ import com.buschmais.jqassistant.core.rule.api.model.RuleException;
 import com.buschmais.jqassistant.plugin.java.api.model.MethodDescriptor;
 import com.buschmais.jqassistant.plugin.java.api.model.TypeDescriptor;
 
-import org.jqassistant.plugin.spring.test.set.components.Endpoint;
-import org.jqassistant.plugin.spring.test.set.components.RestController;
+import org.jqassistant.plugin.spring.test.set.components.controller.Endpoint;
+import org.jqassistant.plugin.spring.test.set.components.controller.RestController;
 import org.jqassistant.plugin.spring.test.set.test.AssertExample;
 import org.junit.jupiter.api.Test;
 import org.springframework.ws.test.client.MockWebServiceServer;
