@@ -13,6 +13,7 @@ import com.buschmais.jqassistant.plugin.java.api.model.TypeDescriptor;
 import com.buschmais.jqassistant.plugin.java.test.AbstractJavaPluginIT;
 
 import org.jqassistant.plugin.spring.test.set.transaction.*;
+import org.jqassistant.plugin.spring.test.set.transaction.inheritance.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -87,6 +88,21 @@ class TransactionalMethodMustNotBeInvokedFromSameClassIT extends AbstractJavaPlu
         store.commitTransaction();
     }
 
-
+    @Test
+    void transactionalMethodMustNotBeInvokedFromSameClassInheritance() throws Exception {
+        scanClasses(GenericNonTransactionalClass.class, GenericTransactionalClass.class, SimpleNonTransactionalClass.class, SimpleTransactionalClass.class,
+            OverridingSubClassOfGenericNonTransactionalClass.class, OverridingSubClassOfGenericTransactionalClass.class, OverridingSubClassOfSimpleNonTransactionalClass.class, OverridingSubClassOfSimpleTransactionalClass.class,
+            CallingSubClassOfGenericNonTransactionalClass.class, CallingSubClassOfGenericTransactionalClass.class, CallingSubClassOfSimpleNonTransactionalClass.class, CallingSubClassOfSimpleTransactionalClass.class,
+            SimpleClassWithTransactionalMethod.class, CallingSubClassOfSimpleClassWithTransactionalMethod.class);
+        assertThat(validateConstraint("spring-transaction:TransactionalMethodMustNotBeInvokedFromSameClass")
+            .getStatus()).isEqualTo(FAILURE);
+        store.beginTransaction();
+        final List<Result<Constraint>> constraintViolations = new ArrayList<>(reportPlugin.getConstraintResults().values());
+        assertThat(constraintViolations).hasSize(1);
+        final Result<Constraint> result = constraintViolations.get(0);
+        assertThat(result.getRule().getId()).isEqualTo("spring-transaction:TransactionalMethodMustNotBeInvokedFromSameClass");
+        assertThat(result.getRows()).hasSize(5);
+        store.commitTransaction();
+    }
 
 }
