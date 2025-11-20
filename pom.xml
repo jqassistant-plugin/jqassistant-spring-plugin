@@ -54,7 +54,7 @@
         <org.springframework.test_version>6.2.11</org.springframework.test_version>
         <org.springframework.modulith_version>1.4.3</org.springframework.modulith_version>
         <org.springframework.boot_version>3.5.6</org.springframework.boot_version>
-        <org.springframework.batch_version>5.2.3</org.springframework.batch_version>
+        <org.springframework.batch_version>6.0.0</org.springframework.batch_version>
         <javax.transaction.transaction-api_version>1.3</javax.transaction.transaction-api_version>
         <jakarta.transaction-api.version>2.0.1</jakarta.transaction-api.version>
         <!-- SonarQube -->
