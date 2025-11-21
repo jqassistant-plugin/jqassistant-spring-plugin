@@ -53,7 +53,10 @@
     <constraint id="spring-injection:InjectablesMustNotBeInstantiated">
         <requiresConcept refId="spring-injection:Injectable"/>
         <requiresConcept refId="java:GeneratedType"/>
-        <description>If the constructor of an Injectable is called from another Injectable, then the caller must be a BeanProducer.</description>
+        <description>
+            If the constructor of an Injectable is called from another Injectable, then the caller must be a Bean Producer or a private method
+            called from a Bean Producer.
+        </description>
         <cypher><![CDATA[
             MATCH
               (injectable:Injectable:Spring:Type)-[:DECLARES]->(constructor:Constructor),
@@ -66,6 +69,10 @@
               OR (
                 method:Constructor
                 AND (type)-[:EXTENDS*0..]->(injectable)
+              )
+              OR (
+                method.visibility = 'private'
+                AND (:Spring:BeanProducer)-[:INVOKES*]->(method)
               )
             )
             RETURN

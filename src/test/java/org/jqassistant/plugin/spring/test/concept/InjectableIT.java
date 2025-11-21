@@ -33,6 +33,7 @@ class InjectableIT extends AbstractSpringIT {
     private static Stream<Arguments> beanMethodParams() {
         return Stream.of(
             Arguments.of(ConfigurationWithBeanProducer.class, ConfigurationBeanA.class),
+            Arguments.of(ConfigurationWithBeanProducerAndPrivateMethod.class, ConfigurationBeanC.class),
             Arguments.of(ConfigurationWithBeanProducer.NestedConfigurationWithBeanProducer.class, ConfigurationBeanB.class)
         );
     }
@@ -72,7 +73,8 @@ class InjectableIT extends AbstractSpringIT {
     @Test
     void injectable() throws Exception {
         scanClasses(Application.class, ConfigurationWithBeanProducer.class, ConfigurationWithBeanProducer.NestedConfigurationWithBeanProducer.class,
-            AnnotatedRepository.class, ImplementedRepository.class, Controller.class, RestController.class, Service.class,
+            AnnotatedRepository.class, ImplementedRepository.class, Controller.class,
+            RestController.class, Service.class, ConfigurationWithBeanProducerAndPrivateMethod.class,
             ComponentWithCustomAnnotation.class, ComponentWithTransitiveCustomAnnotation.class,
             CustomComponentAnnotation.class, TransitiveCustomComponentAnnotation.class,
             ControllerWithCustomAnnotation.class, ControllerWithTransitiveCustomAnnotation.class,
@@ -87,11 +89,13 @@ class InjectableIT extends AbstractSpringIT {
         assertThat(applyConcept("spring-injection:Injectable").getStatus(), equalTo(SUCCESS));
         store.beginTransaction();
         List<Object> injectables = query("MATCH (i:Type:Spring:Injectable) RETURN i").getColumn("i");
-        assertThat(injectables.size(), equalTo(20));
+        assertThat(injectables.size(), equalTo(22));
         assertThat(injectables, hasItem(typeDescriptor(Application.class)));
         assertThat(injectables, hasItem(typeDescriptor(ConfigurationBeanA.class)));
         assertThat(injectables, hasItem(typeDescriptor(ConfigurationBeanB.class)));
+        assertThat(injectables, hasItem(typeDescriptor(ConfigurationBeanC.class)));
         assertThat(injectables, hasItem(typeDescriptor(ConfigurationWithBeanProducer.class)));
+        assertThat(injectables, hasItem(typeDescriptor(ConfigurationWithBeanProducerAndPrivateMethod.class)));
         assertThat(injectables, hasItem(typeDescriptor(ConfigurationWithBeanProducer.NestedConfigurationWithBeanProducer.class)));
         assertThat(injectables, hasItem(typeDescriptor(AnnotatedRepository.class)));
         assertThat(injectables, hasItem(typeDescriptor(ImplementedRepository.class)));

@@ -11,7 +11,9 @@ import com.buschmais.jqassistant.plugin.java.api.model.JavaClassesDirectoryDescr
 import com.buschmais.jqassistant.plugin.java.test.AbstractJavaPluginIT;
 
 import org.hamcrest.Matcher;
+import org.jqassistant.plugin.spring.test.set.injectables.ConfigurationBeanC;
 import org.jqassistant.plugin.spring.test.set.injectables.ConfigurationWithBeanProducer;
+import org.jqassistant.plugin.spring.test.set.injectables.ConfigurationWithBeanProducerAndPrivateMethod;
 import org.jqassistant.plugin.spring.test.set.injectables.ControllerInstantiatingService;
 import org.jqassistant.plugin.spring.test.set.injectables.NonInjectableInstantiatingService;
 import org.jqassistant.plugin.spring.test.set.injectables.Service;
@@ -33,7 +35,9 @@ class InjectablesMustNotBeInstatiatedIT extends AbstractJavaPluginIT {
 
     @Test
     void injectableCreatesInstance() throws Exception {
-        scanClasses("a", ControllerInstantiatingService.class, Service.class, ConfigurationWithBeanProducer.class, ConfigurationBean.class);
+        scanClasses("a", ControllerInstantiatingService.class, Service.class,
+            ConfigurationWithBeanProducer.class, ConfigurationBean.class,
+            ConfigurationWithBeanProducerAndPrivateMethod.class, ConfigurationBeanC.class);
         Result<Constraint> result = validateConstraint("spring-injection:InjectablesMustNotBeInstantiated");
         assertThat(result.getStatus(), equalTo(FAILURE));
         store.beginTransaction();
@@ -56,7 +60,8 @@ class InjectablesMustNotBeInstatiatedIT extends AbstractJavaPluginIT {
 
     @Test
     void nonInjectableCreatesInstance() throws Exception {
-        scanClasses("a", NonInjectableInstantiatingService.class, Service.class, ConfigurationWithBeanProducer.class, ConfigurationBean.class);
+        scanClasses("a", NonInjectableInstantiatingService.class, Service.class, ConfigurationWithBeanProducer.class,
+            ConfigurationBean.class, ConfigurationWithBeanProducerAndPrivateMethod.class, ConfigurationBeanC.class);
         Result<Constraint> result = validateConstraint("spring-injection:InjectablesMustNotBeInstantiated");
         assertThat(result.getStatus(), equalTo(SUCCESS));
     }
