@@ -14,7 +14,7 @@
         <description>Transactional methods must not be invoked from the same class.</description>
         <cypher><![CDATA[
             MATCH
-              (:Artifact:Main)-[:CONTAINS]->(callingType:Java:Type),
+              (:Artifact)-[:CONTAINS]->(callingType:Java:Type),
               (callingType)-[:EXTENDS|IMPLEMENTS*0..]->(:Java:Type)-[:DECLARES]->(calledMethod:Method:Spring:Transactional),
               (callingType)-[:DECLARES]->(callingMethod:Method)-[invokes:INVOKES]->(calledMethod)
             WHERE NOT (
@@ -24,7 +24,7 @@
             RETURN
               DISTINCT callingType as Type, callingMethod as Method, calledMethod as TransactionalMethod, invokes.lineNumber as LineNumber
         ]]></cypher>
-        <report primaryColumn="callingMethod"/>
+        <report primaryColumn="Method"/>
     </constraint>
 
     <constraint id="spring-transaction:PrivateMethodMustNotBeAnnotatedWithTransactional">
