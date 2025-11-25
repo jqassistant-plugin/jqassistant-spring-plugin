@@ -4,6 +4,10 @@ import java.util.List;
 
 import com.buschmais.jqassistant.plugin.java.api.model.MethodDescriptor;
 import org.jqassistant.plugin.spring.test.set.transaction.*;
+import org.jqassistant.plugin.spring.test.set.transaction.inheritance.generic.CallingSubClassOfGenericClassWithTransactionalMethod;
+import org.jqassistant.plugin.spring.test.set.transaction.inheritance.generic.CallingSubClassOfGenericTransactionalClass;
+import org.jqassistant.plugin.spring.test.set.transaction.inheritance.generic.GenericClassWithTransactionalMethod;
+import org.jqassistant.plugin.spring.test.set.transaction.inheritance.generic.GenericTransactionalClass;
 import org.jqassistant.plugin.spring.test.set.transaction.inheritance.simple.CallingSubClassOfSimpleClassWithTransactionalMethod;
 import org.jqassistant.plugin.spring.test.set.transaction.inheritance.simple.CallingSubClassOfSimpleTransactionalClass;
 import org.jqassistant.plugin.spring.test.set.transaction.inheritance.simple.SimpleClassWithTransactionalMethod;
@@ -21,14 +25,17 @@ class TransactionalMethodIT extends AbstractSpringIT {
     void transactionalMethod() throws Exception {
         scanClasses(SpringTransactionalMethod.class, JtaTransactionalMethod.class, JtaJakartaTransactionalMethod.class,
             SpringTransactionalClass.class, SpringTransactionalSubClass.class, SpringTransactionalInterface.class,
-            SpringTransactionalImplementingClass.class, JtaTransactionalClass.class,
+            SpringTransactionalImplementingClass.class, JtaTransactionalClass.class, NonTransactionalSubClassOfSpringTransactionalMethod.class,
             JtaJakartaTransactionalClass.class,
             SimpleTransactionalClass.class, CallingSubClassOfSimpleTransactionalClass.class,
-            SimpleClassWithTransactionalMethod.class, CallingSubClassOfSimpleClassWithTransactionalMethod.class);
+            SimpleClassWithTransactionalMethod.class, CallingSubClassOfSimpleClassWithTransactionalMethod.class,
+            GenericTransactionalClass.class, CallingSubClassOfGenericTransactionalClass.class,
+            GenericClassWithTransactionalMethod.class, CallingSubClassOfGenericClassWithTransactionalMethod.class);
         assertThat(applyConcept("spring-transaction:TransactionalMethod").getStatus()).isEqualTo(SUCCESS);
         store.beginTransaction();
         final List<MethodDescriptor> methods = query("MATCH (m:Spring:Method:Transactional) RETURN m").getColumn("m");
-        assertThat(methods).hasSize(16);
+        assertThat(methods).hasSize(22);
+
         // method level annotations
         assertThat(methods).haveExactly(1,
             methodDescriptor(SpringTransactionalMethod.class, "transactionalMethod"));
@@ -38,6 +45,9 @@ class TransactionalMethodIT extends AbstractSpringIT {
             methodDescriptor(JtaTransactionalMethod.class, "transactionalMethod"));
         assertThat(methods).haveExactly(1,
             methodDescriptor(JtaJakartaTransactionalMethod.class, "transactionalMethod"));
+        assertThat(methods).doNotHave(
+            methodDescriptor(NonTransactionalSubClassOfSpringTransactionalMethod.class, "transactionalMethod"));
+
         // class level annotations
         assertThat(methods).haveExactly(1,
             methodDescriptor(SpringTransactionalClass.class, "transactionalMethod"));
@@ -53,6 +63,8 @@ class TransactionalMethodIT extends AbstractSpringIT {
             methodDescriptor(JtaTransactionalClass.class, "transactionalMethod"));
         assertThat(methods).haveExactly(1,
             methodDescriptor(JtaJakartaTransactionalClass.class, "transactionalMethod"));
+
+        // Simple inheritance
         assertThat(methods).haveExactly(1,
             methodDescriptor(SimpleTransactionalClass.class, "method"));
         assertThat(methods).haveExactly(1,
@@ -65,6 +77,21 @@ class TransactionalMethodIT extends AbstractSpringIT {
             methodDescriptor(CallingSubClassOfSimpleClassWithTransactionalMethod.class, "anotherMethod"));
         assertThat(methods).haveExactly(1,
             simpleMethodDescriptor(CallingSubClassOfSimpleClassWithTransactionalMethod.class, "void method()"));
+
+        // Generic inheritance
+        assertThat(methods).haveExactly(1,
+            methodDescriptor(GenericTransactionalClass.class, "method", Object.class));
+        assertThat(methods).haveExactly(1,
+            methodDescriptor(CallingSubClassOfGenericTransactionalClass.class, "anotherMethod"));
+        assertThat(methods).haveExactly(1,
+            simpleMethodDescriptor(CallingSubClassOfGenericTransactionalClass.class, "void method(java.lang.Object)"));
+        assertThat(methods).haveExactly(1,
+            methodDescriptor(GenericClassWithTransactionalMethod.class, "method", Object.class));
+        assertThat(methods).haveExactly(1,
+            methodDescriptor(CallingSubClassOfGenericClassWithTransactionalMethod.class, "anotherMethod"));
+        assertThat(methods).haveExactly(1,
+            simpleMethodDescriptor(CallingSubClassOfGenericClassWithTransactionalMethod.class, "void method(java.lang.Object)"));
+
         store.commitTransaction();
     }
 }
