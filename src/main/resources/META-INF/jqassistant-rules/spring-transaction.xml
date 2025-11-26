@@ -3,15 +3,15 @@
                    xsi:schemaLocation="http://schema.jqassistant.org/rule/v2.2 https://jqassistant.github.io/jqassistant/current/schema/jqassistant-rule-v2.2.xsd">
 
     <group id="spring-transaction:Default">
-        <includeConstraint refId="spring-transaction:TransactionalMethodMustNotBeInvokedFromSameClass"/>
+        <includeConstraint refId="spring-transaction:TransactionalMethodMustNotBeInvokedFromSameClassOrSubclass"/>
         <includeConstraint refId="spring-transaction:PrivateMethodMustNotBeAnnotatedWithTransactional"/>
     </group>
 
-    <constraint id="spring-transaction:TransactionalMethodMustNotBeInvokedFromSameClass">
+    <constraint id="spring-transaction:TransactionalMethodMustNotBeInvokedFromSameClassOrSubclass">
         <requiresConcept refId="java:MemberInheritedFrom"/>
         <requiresConcept refId="spring-transaction:TransactionalMethod"/>
         <requiresConcept refId="java:GeneratedType"/>
-        <description>Transactional methods must not be invoked from the same class.</description>
+        <description>Transactional methods must not be invoked from the same class or from a subclass within the inheritance hierarchy.</description>
         <cypher><![CDATA[
             MATCH
               (:Artifact)-[:CONTAINS]->(callingType:Java:Type),

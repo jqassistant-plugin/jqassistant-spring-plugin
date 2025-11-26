@@ -35,14 +35,14 @@ class TransactionalMethodMustNotBeInvokedFromSameClassIT extends AbstractJavaPlu
         SpringTransactionalImplementingClass.class, SpringTransactionalMethod.class})
     void transactionMethodsMustNotBeCalledDirectlyWithViolations(Class<?> clazz) throws Exception {
         scanClasses(SpringTransactionalInterface.class, clazz);
-        assertThat(validateConstraint("spring-transaction:TransactionalMethodMustNotBeInvokedFromSameClass")
+        assertThat(validateConstraint("spring-transaction:TransactionalMethodMustNotBeInvokedFromSameClassOrSubclass")
             .getStatus()).isEqualTo(FAILURE);
         store.beginTransaction();
         List<Result<Constraint>> constraintViolations = new ArrayList<>(reportPlugin.getConstraintResults().values());
         assertThat(constraintViolations).hasSize(1);
         Result<Constraint> result = constraintViolations.get(0);
         assertThat(result.getRule().getId())
-            .isEqualTo("spring-transaction:TransactionalMethodMustNotBeInvokedFromSameClass");
+            .isEqualTo("spring-transaction:TransactionalMethodMustNotBeInvokedFromSameClassOrSubclass");
         assertThat(result.getRows()).hasSize(1);
         final Row row = result.getRows().get(0);
         assertThat(row.getColumns().get("Type").getValue()).asInstanceOf(type(TypeDescriptor.class))
@@ -57,14 +57,14 @@ class TransactionalMethodMustNotBeInvokedFromSameClassIT extends AbstractJavaPlu
     @Test
     void transactionMethodsMustNotBeCalledDirectlyWithViolationsInSubClass() throws Exception {
         scanClasses(SpringTransactionalClass.class, SpringTransactionalSubClass.class);
-        assertThat(validateConstraint("spring-transaction:TransactionalMethodMustNotBeInvokedFromSameClass")
+        assertThat(validateConstraint("spring-transaction:TransactionalMethodMustNotBeInvokedFromSameClassOrSubclass")
             .getStatus()).isEqualTo(FAILURE);
         store.beginTransaction();
         List<Result<Constraint>> constraintViolations = new ArrayList<>(reportPlugin.getConstraintResults().values());
         assertThat(constraintViolations).hasSize(1);
         Result<Constraint> result = constraintViolations.get(0);
         assertThat(result.getRule().getId())
-            .isEqualTo("spring-transaction:TransactionalMethodMustNotBeInvokedFromSameClass");
+            .isEqualTo("spring-transaction:TransactionalMethodMustNotBeInvokedFromSameClassOrSubclass");
         assertThat(result.getRows()).hasSize(2);
         Map<String, Row> resultMap = result.getRows().stream().collect(Collectors
             .toMap(
@@ -96,12 +96,12 @@ class TransactionalMethodMustNotBeInvokedFromSameClassIT extends AbstractJavaPlu
         scanClasses(SimpleNonTransactionalClass.class, SimpleTransactionalClass.class, SimpleClassWithTransactionalMethod.class,
             CallingSubClassOfSimpleNonTransactionalClass.class, CallingSubClassOfSimpleTransactionalClass.class, CallingSubClassOfSimpleClassWithTransactionalMethod.class,
             OverridingSubClassOfSimpleNonTransactionalClass.class, OverridingSubClassOfSimpleTransactionalClass.class, OverridingSubClassOfSimpleClassWithTransactionalMethod.class);
-        assertThat(validateConstraint("spring-transaction:TransactionalMethodMustNotBeInvokedFromSameClass").getStatus()).isEqualTo(FAILURE);
+        assertThat(validateConstraint("spring-transaction:TransactionalMethodMustNotBeInvokedFromSameClassOrSubclass").getStatus()).isEqualTo(FAILURE);
         store.beginTransaction();
         final List<Result<Constraint>> constraintViolations = new ArrayList<>(reportPlugin.getConstraintResults().values());
         assertThat(constraintViolations).hasSize(1);
         final Result<Constraint> result = constraintViolations.get(0);
-        assertThat(result.getRule().getId()).isEqualTo("spring-transaction:TransactionalMethodMustNotBeInvokedFromSameClass");
+        assertThat(result.getRule().getId()).isEqualTo("spring-transaction:TransactionalMethodMustNotBeInvokedFromSameClassOrSubclass");
         assertThat(result.getRows()).hasSize(4);
         final Map<String, Row> resultMap = result.getRows().stream().collect(Collectors.toMap(row -> (row.getColumns().get("Type").getLabel()), Function.identity()));
 
@@ -145,12 +145,12 @@ class TransactionalMethodMustNotBeInvokedFromSameClassIT extends AbstractJavaPlu
         scanClasses(GenericNonTransactionalClass.class, GenericTransactionalClass.class, GenericClassWithTransactionalMethod.class,
             CallingSubClassOfGenericNonTransactionalClass.class, CallingSubClassOfGenericTransactionalClass.class, CallingSubClassOfGenericClassWithTransactionalMethod.class,
             OverridingSubClassOfGenericNonTransactionalClass.class, OverridingSubClassOfGenericTransactionalClass.class, OverridingSubClassOfGenericClassWithTransactionalMethod.class);
-        assertThat(validateConstraint("spring-transaction:TransactionalMethodMustNotBeInvokedFromSameClass").getStatus()).isEqualTo(FAILURE);
+        assertThat(validateConstraint("spring-transaction:TransactionalMethodMustNotBeInvokedFromSameClassOrSubclass").getStatus()).isEqualTo(FAILURE);
         store.beginTransaction();
         final List<Result<Constraint>> constraintViolations = new ArrayList<>(reportPlugin.getConstraintResults().values());
         assertThat(constraintViolations).hasSize(1);
         final Result<Constraint> result = constraintViolations.get(0);
-        assertThat(result.getRule().getId()).isEqualTo("spring-transaction:TransactionalMethodMustNotBeInvokedFromSameClass");
+        assertThat(result.getRule().getId()).isEqualTo("spring-transaction:TransactionalMethodMustNotBeInvokedFromSameClassOrSubclass");
         assertThat(result.getRows()).hasSize(4);
         final Map<String, Row> resultMap = result.getRows().stream().collect(Collectors.toMap(row -> (row.getColumns().get("Type").getLabel()), Function.identity()));
 
