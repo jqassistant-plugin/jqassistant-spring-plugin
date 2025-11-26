@@ -84,7 +84,8 @@ class InjectableIT extends AbstractSpringIT {
             RepositoryWithCustomAnnotation.class, RepositoryWithTransitiveCustomAnnotation.class,
             CustomRepositoryAnnotation.class, TransitiveCustomRepositoryAnnotation.class,
             ConfigurationWithCustomAnnotation.class, ConfigurationWithTransitiveCustomAnnotation.class,
-            CustomConfigurationAnnotation.class, TransitiveCustomConfigurationAnnotation.class
+            CustomConfigurationAnnotation.class, TransitiveCustomConfigurationAnnotation.class,
+            TypeWithAutoConfigurationAnnotation.class, TypeWithConfigurationPropertiesAnnotation.class
         );
         assertThat(applyConcept("spring-injection:Injectable").getStatus(), equalTo(SUCCESS));
         store.beginTransaction();
@@ -112,6 +113,8 @@ class InjectableIT extends AbstractSpringIT {
         assertThat(injectables, hasItem(typeDescriptor(RepositoryWithTransitiveCustomAnnotation.class)));
         assertThat(injectables, hasItem(typeDescriptor(ConfigurationWithCustomAnnotation.class)));
         assertThat(injectables, hasItem(typeDescriptor(ConfigurationWithTransitiveCustomAnnotation.class)));
+        assertThat(injectables, hasItem(typeDescriptor(TypeWithAutoConfigurationAnnotation.class)));
+        assertThat(injectables, hasItem(typeDescriptor(TypeWithConfigurationPropertiesAnnotation.class)));
         store.commitTransaction();
     }
 

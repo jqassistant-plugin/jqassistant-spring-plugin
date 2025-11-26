@@ -32,6 +32,26 @@
         ]]></cypher>
     </concept>
 
+    <concept id="spring-boot:ConfigurationProperties">
+        <providesConcept refId="spring-injection:Injectable"/>
+        <description>
+            Labels types which are annotated with "@org.springframework.boot.context.properties.ConfigurationProperties" with "Injectable".
+        </description>
+        <cypher><![CDATA[
+            MATCH
+              (:Artifact)-[:CONTAINS]->(configurationProperties:Java:Type),
+              (configurationProperties)-[:ANNOTATED_BY]->()-[:OF_TYPE]->(annotationType:Java:Type)
+            WHERE
+              annotationType.fqn = "org.springframework.boot.context.properties.ConfigurationProperties"
+            SET
+              configurationProperties:Spring:Boot:Injectable
+            RETURN
+              configurationProperties AS ConfigurationProperties
+            ORDER BY
+              configurationProperties.fqn
+        ]]></cypher>
+    </concept>
+
     <constraint id="spring-boot:AllTypesInApplicationPackage">
         <requiresConcept refId="spring-boot:Application"/>
         <requiresConcept refId="java:GeneratedType"/>

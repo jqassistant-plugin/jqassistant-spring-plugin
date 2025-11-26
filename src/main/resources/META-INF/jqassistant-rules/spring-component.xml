@@ -99,7 +99,8 @@
               annotationType.fqn in [
                 "org.springframework.context.annotation.Configuration",
                 "org.springframework.boot.autoconfigure.SpringBootApplication",
-                "org.springframework.data.web.config.SpringDataWebConfigurationMixin"
+                "org.springframework.data.web.config.SpringDataWebConfigurationMixin",
+                "org.springframework.boot.autoconfigure.AutoConfiguration"
               ]
               AND NOT configuration:Annotation
             SET
