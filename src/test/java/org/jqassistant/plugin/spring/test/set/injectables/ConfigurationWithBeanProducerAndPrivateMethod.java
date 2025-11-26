@@ -11,6 +11,10 @@ public class ConfigurationWithBeanProducerAndPrivateMethod {
         return instantiate();
     }
 
+    public ConfigurationBeanC nonBeanProducerInstantiatingBean() {
+        return instantiate();
+    }
+
     private ConfigurationBeanC instantiate() {
         return new ConfigurationBeanC();
     }

@@ -72,11 +72,14 @@
               )
               OR (
                 method.visibility = 'private'
-                AND (:Spring:BeanProducer)-[:INVOKES*]->(method)
+                AND (:Spring:BeanProducer)-[:INVOKES]->(method)
               )
             )
             RETURN
               type as Type, method as Method, injectable as Injectable
+            ORDER BY
+              type.fqn,
+              method.fqn
         ]]></cypher>
         <report primaryColumn="Method"/>
     </constraint>
