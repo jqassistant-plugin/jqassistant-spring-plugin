@@ -3,27 +3,28 @@
                    xsi:schemaLocation="http://schema.jqassistant.org/rule/v2.2 https://jqassistant.github.io/jqassistant/current/schema/jqassistant-rule-v2.2.xsd">
 
     <group id="spring-transaction:Default">
-        <includeConstraint refId="spring-transaction:TransactionalMethodMustNotBeInvokedFromSameClass"/>
+        <includeConstraint refId="spring-transaction:TransactionalMethodMustNotBeInvokedFromSameClassOrSubclass"/>
         <includeConstraint refId="spring-transaction:PrivateMethodMustNotBeAnnotatedWithTransactional"/>
     </group>
 
-    <constraint id="spring-transaction:TransactionalMethodMustNotBeInvokedFromSameClass">
+    <constraint id="spring-transaction:TransactionalMethodMustNotBeInvokedFromSameClassOrSubclass">
+        <requiresConcept refId="java:MemberInheritedFrom"/>
         <requiresConcept refId="spring-transaction:TransactionalMethod"/>
         <requiresConcept refId="java:GeneratedType"/>
-        <description>Transactional methods must not be invoked from the same class.</description>
+        <description>Transactional methods must not be invoked from the same class or from a subclass within the inheritance hierarchy.</description>
         <cypher><![CDATA[
             MATCH
-              (artifact:Artifact)-[:CONTAINS]->(type:Type)-[:DECLARES]->(calledMethod:Method:Spring:Transactional),
-              (type:Type)-[:DECLARES]->(callingMethod:Method),
-              (callingMethod:Method)-[invokes:INVOKES]->(calledMethod)
+              (:Artifact)-[:CONTAINS]->(callingType:Java:Type),
+              (callingType)-[:EXTENDS|IMPLEMENTS*0..]->(:Java:Type)-[:DECLARES]->(calledMethod:Method:Spring:Transactional),
+              (callingType)-[:DECLARES]->(callingMethod:Method)-[invokes:INVOKES]->(calledMethod)
             WHERE NOT (
-              artifact:Test
-              OR type:Generated
+              callingType:Generated
+              OR (callingMethod.synthetic IS NOT NULL and callingMethod.synthetic)
             )
             RETURN
-              type as Type, callingMethod as Method, calledMethod as TransactionalMethod, invokes.lineNumber as LineNumber
+              DISTINCT callingType as Type, callingMethod as Method, calledMethod as TransactionalMethod, invokes.lineNumber as LineNumber
         ]]></cypher>
-        <report primaryColumn="callingMethod"/>
+        <report primaryColumn="Method"/>
     </constraint>
 
     <constraint id="spring-transaction:PrivateMethodMustNotBeAnnotatedWithTransactional">
@@ -68,6 +69,7 @@
         <providesConcept refId="spring-transaction:TransactionalMethod" />
         <!-- Ensure that method-level-annotations override type-level annotations -->
         <requiresConcept refId="spring-transaction:TransactionalMethodByAnnotatedClass"/>
+        <requiresConcept refId="java:MemberInheritedFrom"/>
         <description>
             Label all methods which are annotated with "@org.springframework.transaction.annotation.Transactional", "jakarta.transaction.Transactional",
             or "javax.transaction.Transactional", with "Spring" and "Transactional". It further identifies method level transaction propagation semantics. The configured transaction propagation at method level overrides the type level configuration.
@@ -83,7 +85,7 @@
              supportedAnnotationTypes AS supportedAnnotationType
            MATCH
              (type:Type)-[:DECLARES]->(transactionalMethod:Method),
-             (transactionalMethod:Method)-[:ANNOTATED_BY]->(annotation:Java:Annotation),
+             (transactionalMethod:Java:Method)-[:INHERITED_FROM*0..]->(definedMethod:Java:Method)-[:ANNOTATED_BY]->(annotation:Java:Annotation),
              (annotation)-[:OF_TYPE]->(annotationType:Type {fqn: supportedAnnotationType.annotationFqn})
            OPTIONAL MATCH
              (annotation)-[:HAS]->(propagation:Value {name: supportedAnnotationType.propagationAttributeName})-[:IS]->(propagationType:Java:Field)
@@ -92,7 +94,7 @@
              transactionalMethod,
              COALESCE(SPLIT(propagationType.signature,' ')[1], 'REQUIRED') AS effectivePropagationType
            WHERE
-             NOT transactionalMethod.visibility = "private"
+             NOT definedMethod.visibility = "private"
            SET
              transactionalMethod:Spring:Transactional
            SET
@@ -106,6 +108,7 @@
 
     <concept id="spring-transaction:TransactionalMethodByAnnotatedClass">
         <providesConcept refId="spring-transaction:TransactionalMethod" />
+        <requiresConcept refId="java:MemberInheritedFrom"/>
         <description>
             Label methods of classes which are directly or indirectly annotated with "@org.springframework.transaction.annotation.Transactional", "jakarta.transaction.Transactional",
             or "javax.transaction.Transactional" with "Spring" and "Transactional". It further identifies type level transaction propagation semantics. The configured transaction propagation at type level applies to declared methods.
@@ -122,7 +125,7 @@
            MATCH
              (transactionalClass:Type)-[:EXTENDS|IMPLEMENTS*0..]->(:Type)-[:ANNOTATED_BY]->(annotation:Java:Annotation),
              (annotation)-[:OF_TYPE]->(annotationType:Type {fqn: supportedAnnotationType.annotationFqn}),
-             (transactionalClass)-[:DECLARES]->(transactionalMethod:Method)
+             (transactionalClass)-[:DECLARES]->(definedMethod:Java:Method)<-[:INHERITED_FROM*0..]-(transactionalMethod:Java:Method)
            OPTIONAL MATCH
              (annotation)-[:HAS]->(propagation:Value {name: supportedAnnotationType.propagationAttributeName})-[:IS]->(propagationType:Java:Field)
            WITH
@@ -131,9 +134,9 @@
              COALESCE(SPLIT(propagationType.signature,' ')[1], 'REQUIRED') AS effectivePropagationType
            WHERE
              NOT (
-               transactionalMethod:Constructor
-               OR (transactionalMethod.static IS NOT NULL and transactionalMethod.static)
-               OR transactionalMethod.visibility = "private"
+               definedMethod:Constructor
+               OR (definedMethod.static IS NOT NULL and definedMethod.static)
+               OR definedMethod.visibility = "private"
              )
            SET
              transactionalMethod:Spring:Transactional
