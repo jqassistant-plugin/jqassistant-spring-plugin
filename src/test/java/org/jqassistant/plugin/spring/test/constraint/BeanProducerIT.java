@@ -12,6 +12,7 @@ import com.buschmais.jqassistant.plugin.java.test.AbstractJavaPluginIT;
 
 import org.jqassistant.plugin.spring.test.set.injectables.ConfigurationBeanA;
 import org.jqassistant.plugin.spring.test.set.injectables.ConfigurationWithBeanProducer;
+import org.jqassistant.plugin.spring.test.set.injectables.ConfigurationWithBeanProducerAndPrivateMethod;
 import org.jqassistant.plugin.spring.test.set.injectables.ServiceInvokingBeanProducer;
 import org.jqassistant.plugin.spring.test.set.injectables.ServiceWithBeanProducer;
 import org.junit.jupiter.api.Test;
@@ -28,7 +29,8 @@ class BeanProducerIT extends AbstractJavaPluginIT {
 
     @Test
     public void beanProducerInConfigurationComponent() throws Exception {
-        scanClasses(ConfigurationWithBeanProducer.class, ConfigurationWithBeanProducer.NestedConfigurationWithBeanProducer.class);
+        scanClasses(ConfigurationWithBeanProducer.class, ConfigurationWithBeanProducer.NestedConfigurationWithBeanProducer.class,
+            ConfigurationWithBeanProducerAndPrivateMethod.class);
         assertThat(
             validateConstraint("spring-injection:BeanProducerMustBeDeclaredInConfigurationComponent").getStatus(),
             equalTo(SUCCESS));
