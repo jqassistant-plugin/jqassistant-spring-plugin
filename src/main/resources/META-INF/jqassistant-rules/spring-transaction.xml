@@ -135,7 +135,7 @@
            WHERE
              NOT (
                definedMethod:Constructor
-               OR (definedMethod.static IS NOT NULL and transactionalMethod.static)
+               OR (definedMethod.static IS NOT NULL and definedMethod.static)
                OR definedMethod.visibility = "private"
              )
            SET
