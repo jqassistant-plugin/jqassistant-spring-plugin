@@ -90,7 +90,7 @@ class InjectableIT extends AbstractSpringIT {
         assertThat(applyConcept("spring-injection:Injectable").getStatus(), equalTo(SUCCESS));
         store.beginTransaction();
         List<Object> injectables = query("MATCH (i:Type:Spring:Injectable) RETURN i").getColumn("i");
-        assertThat(injectables.size(), equalTo(22));
+        assertThat(injectables.size(), equalTo(24));
         assertThat(injectables, hasItem(typeDescriptor(Application.class)));
         assertThat(injectables, hasItem(typeDescriptor(ConfigurationBeanA.class)));
         assertThat(injectables, hasItem(typeDescriptor(ConfigurationBeanB.class)));
