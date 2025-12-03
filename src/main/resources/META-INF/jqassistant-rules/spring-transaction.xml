@@ -14,11 +14,12 @@
         <description>Transactional methods must not be invoked from the same class or from a subclass within the inheritance hierarchy.</description>
         <cypher><![CDATA[
             MATCH
-              (:Artifact)-[:CONTAINS]->(callingType:Java:Type),
+              (artifact:Artifact)-[:CONTAINS]->(callingType:Java:Type),
               (callingType)-[:EXTENDS|IMPLEMENTS*0..]->(:Java:Type)-[:DECLARES]->(calledMethod:Method:Spring:Transactional),
               (callingType)-[:DECLARES]->(callingMethod:Method)-[invokes:INVOKES]->(calledMethod)
             WHERE NOT (
-              callingType:Generated
+              artifact:Test
+              OR callingType:Generated
               OR (callingMethod.synthetic IS NOT NULL and callingMethod.synthetic)
             )
             RETURN
