@@ -50,7 +50,7 @@
     </scm>
 
     <properties>
-        <org.springframework.ws-test_version>4.1.1</org.springframework.ws-test_version>
+        <org.springframework.ws-test_version>5.0.0</org.springframework.ws-test_version>
         <org.springframework.test_version>6.2.11</org.springframework.test_version>
         <org.springframework.modulith_version>2.0.0</org.springframework.modulith_version>
         <org.springframework.boot_version>3.5.6</org.springframework.boot_version>
