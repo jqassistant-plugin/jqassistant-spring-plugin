@@ -56,7 +56,7 @@
     <concept id="spring-component:Service">
         <providesConcept refId="spring-component:Component" />
         <providesConcept refId="spring-injection:Injectable"/>
-        <description>Labels all types annotated with "@org.springframework.stereotype.Service" with "Spring", "Service"
+        <description>Labels all types annotated with "@org.springframework.stereotype.Service" with "Spring", "Service",
             "Component" and "Injectable".
         </description>
         <cypher><![CDATA[
