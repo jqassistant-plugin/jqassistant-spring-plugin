@@ -85,12 +85,13 @@ class InjectableIT extends AbstractSpringIT {
             CustomRepositoryAnnotation.class, TransitiveCustomRepositoryAnnotation.class,
             ConfigurationWithCustomAnnotation.class, ConfigurationWithTransitiveCustomAnnotation.class,
             CustomConfigurationAnnotation.class, TransitiveCustomConfigurationAnnotation.class,
-            TypeWithAutoConfigurationAnnotation.class, TypeWithConfigurationPropertiesAnnotation.class
+            TypeWithAutoConfigurationAnnotation.class, TypeWithConfigurationPropertiesAnnotation.class,
+            JavaxConstraintValidator.class, JakartaConstraintValidator.class
         );
         assertThat(applyConcept("spring-injection:Injectable").getStatus(), equalTo(SUCCESS));
         store.beginTransaction();
         List<Object> injectables = query("MATCH (i:Type:Spring:Injectable) RETURN i").getColumn("i");
-        assertThat(injectables.size(), equalTo(24));
+        assertThat(injectables.size(), equalTo(28));
         assertThat(injectables, hasItem(typeDescriptor(Application.class)));
         assertThat(injectables, hasItem(typeDescriptor(ConfigurationBeanA.class)));
         assertThat(injectables, hasItem(typeDescriptor(ConfigurationBeanB.class)));
@@ -115,6 +116,30 @@ class InjectableIT extends AbstractSpringIT {
         assertThat(injectables, hasItem(typeDescriptor(ConfigurationWithTransitiveCustomAnnotation.class)));
         assertThat(injectables, hasItem(typeDescriptor(TypeWithAutoConfigurationAnnotation.class)));
         assertThat(injectables, hasItem(typeDescriptor(TypeWithConfigurationPropertiesAnnotation.class)));
+        assertThat(injectables, hasItem(typeDescriptor(javax.validation.ConstraintValidator.class)));
+        assertThat(injectables, hasItem(typeDescriptor(jakarta.validation.ConstraintValidator.class)));
+        assertThat(injectables, hasItem(typeDescriptor(JavaxConstraintValidator.class)));
+        assertThat(injectables, hasItem(typeDescriptor(JakartaConstraintValidator.class)));
+        store.commitTransaction();
+    }
+
+    private static Stream<Arguments> constraintValidatorParams() {
+        return Stream.of(
+            Arguments.of(JavaxConstraintValidator.class, javax.validation.ConstraintValidator.class),
+            Arguments.of(JakartaConstraintValidator.class, jakarta.validation.ConstraintValidator.class)
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource("constraintValidatorParams")
+    void constraintValidator(Class<?> validatorClass, Class<?> validatorInterface) throws Exception {
+        scanClasses(validatorClass);
+        assertThat(applyConcept("spring-injection:ConstraintValidator").getStatus(), equalTo(SUCCESS));
+        store.beginTransaction();
+        List<Object> injectables = query("MATCH (i:Type:Spring:Injectable) RETURN i").getColumn("i");
+        assertThat(injectables.size(), equalTo(2));
+        assertThat(injectables, hasItem(typeDescriptor(validatorClass)));
+        assertThat(injectables, hasItem(typeDescriptor(validatorInterface)));
         store.commitTransaction();
     }
 

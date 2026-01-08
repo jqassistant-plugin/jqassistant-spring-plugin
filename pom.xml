@@ -57,6 +57,7 @@
         <org.springframework.batch_version>6.0.0</org.springframework.batch_version>
         <javax.transaction.transaction-api_version>1.3</javax.transaction.transaction-api_version>
         <jakarta.transaction-api.version>2.0.1</jakarta.transaction-api.version>
+        <jakarta.validation-api.version>3.1.1</jakarta.validation-api.version>
         <!-- SonarQube -->
         <sonar.organization>jqassistant-plugin</sonar.organization>
         <sonar.projectKey>jqassistant-plugin_jqassistant-spring-plugin</sonar.projectKey>
@@ -191,6 +192,12 @@
             <groupId>jakarta.transaction</groupId>
             <artifactId>jakarta.transaction-api</artifactId>
             <version>${jakarta.transaction-api.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.validation</groupId>
+            <artifactId>jakarta.validation-api</artifactId>
+            <version>${jakarta.validation-api.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
