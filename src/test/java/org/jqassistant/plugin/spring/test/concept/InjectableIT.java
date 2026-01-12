@@ -134,6 +134,8 @@ class InjectableIT extends AbstractSpringIT {
     @ParameterizedTest
     @MethodSource("constraintValidatorParams")
     void constraintValidator(Class<?> validatorClass, Class<?> validatorInterface) throws Exception {
+        // The validator interface itself is part of the framework. Hence, it is not explicitly scanned but identified
+        // anyway when the implementing class is scanned.
         scanClasses(validatorClass);
         assertThat(applyConcept("spring-injection:ConstraintValidator").getStatus()).isEqualTo(SUCCESS);
         store.beginTransaction();
