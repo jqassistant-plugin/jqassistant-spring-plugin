@@ -50,6 +50,25 @@
         ]]></cypher>
     </concept>
 
+    <concept id="spring-injection:ConstraintValidator">
+        <!-- See https://docs.spring.io/spring-framework/reference/core/validation/beanvalidation.html#validation-beanvalidation-spring-constraints -->
+        <providesConcept refId="spring-injection:Injectable"/>
+        <description>Labels types that directly or indirectly implement javax.validation.ConstraintValidator or jakarta.validation.ConstraintValidator with "Spring" and "Injectable".</description>
+        <cypher><![CDATA[
+            MATCH
+                (injectableType:Java:Type)-[:IMPLEMENTS|EXTENDS*0..]->(constraintValidator:Java:Type)
+            WHERE
+                constraintValidator.fqn IN [
+                    "javax.validation.ConstraintValidator",
+                    "jakarta.validation.ConstraintValidator"
+                ]
+            SET
+                injectableType:Spring:Injectable
+            RETURN
+                injectableType as Injectable
+            ]]></cypher>
+    </concept>
+
     <constraint id="spring-injection:InjectablesMustNotBeInstantiated">
         <requiresConcept refId="spring-injection:Injectable"/>
         <requiresConcept refId="java:GeneratedType"/>
