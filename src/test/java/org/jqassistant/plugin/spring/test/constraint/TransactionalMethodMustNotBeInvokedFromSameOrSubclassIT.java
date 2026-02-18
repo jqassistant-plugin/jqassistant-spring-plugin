@@ -27,7 +27,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.InstanceOfAssertFactories.type;
 import static org.jqassistant.plugin.spring.test.SimpleMethodDescriptorCondition.simpleMethodDescriptor;
 
-class TransactionalMethodMustNotBeInvokedFromSameClassIT extends AbstractJavaPluginIT {
+class TransactionalMethodMustNotBeInvokedFromSameOrSubclassIT extends AbstractJavaPluginIT {
 
     @ParameterizedTest
     @ValueSource(classes = {JtaJakartaTransactionalClass.class, JtaTransactionalMethod.class,
