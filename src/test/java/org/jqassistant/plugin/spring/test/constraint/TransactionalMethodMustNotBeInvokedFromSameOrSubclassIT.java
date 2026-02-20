@@ -27,7 +27,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.InstanceOfAssertFactories.type;
 import static org.jqassistant.plugin.spring.test.SimpleMethodDescriptorCondition.simpleMethodDescriptor;
 
-class TransactionalMethodMustNotBeInvokedFromSameClassIT extends AbstractJavaPluginIT {
+class TransactionalMethodMustNotBeInvokedFromSameOrSubclassIT extends AbstractJavaPluginIT {
 
     @ParameterizedTest
     @ValueSource(classes = {JtaJakartaTransactionalClass.class, JtaTransactionalMethod.class,
@@ -185,6 +185,67 @@ class TransactionalMethodMustNotBeInvokedFromSameClassIT extends AbstractJavaPlu
             .is(methodDescriptor(OverridingSubClassOfGenericClassWithTransactionalMethod.class, "method", Long.class));
         assertThat(overridingSubClassOfGenericClassWithTransactionalMethodResult.getColumns().get("TransactionalMethod").getValue()).asInstanceOf(type(MethodDescriptor.class))
             .is(methodDescriptor(GenericClassWithTransactionalMethod.class, "method", Object.class));
+
+        store.commitTransaction();
+    }
+
+    @Test
+    void transactionalMethodMustNotBeInvokedFromNestedClass() throws Exception {
+        final Class<?> clazz = SpringTransactionalClassWithNestedClass.class;
+        final Class<?> nestedClass = clazz.getDeclaredClasses()[0];
+        scanClasses(clazz, nestedClass);
+        assertThat(validateConstraint("spring-transaction:TransactionalMethodMustNotBeInvokedFromSameClassOrSubclass")
+            .getStatus()).isEqualTo(FAILURE);
+
+        store.beginTransaction();
+
+        final List<Result<Constraint>> constraintViolations =
+            new ArrayList<>(reportPlugin.getConstraintResults().values());
+        assertThat(constraintViolations).hasSize(1);
+
+        assertThat(constraintViolations.get(0).getRule().getId())
+            .isEqualTo("spring-transaction:TransactionalMethodMustNotBeInvokedFromSameClassOrSubclass");
+
+        final Result<Constraint> result = constraintViolations.get(0);
+        assertThat(result.getRows()).hasSize(1);
+        final Row row = result.getRows().get(0);
+        assertThat(row.getColumns().get("Type").getValue()).asInstanceOf(type(TypeDescriptor.class))
+            .is(typeDescriptor(nestedClass));
+        assertThat(row.getColumns().get("Method").getValue()).asInstanceOf(type(MethodDescriptor.class))
+            .is(methodDescriptor(nestedClass, "callingTransactional"));
+        assertThat(row.getColumns().get("TransactionalMethod").getValue()).asInstanceOf(type(MethodDescriptor.class))
+            .is(methodDescriptor(clazz, "transactionalMethod"));
+
+        store.commitTransaction();
+    }
+
+    @Test
+    void transactionalMethodMustNotBeInvokedFromNestedClassInSubClass() throws Exception {
+        final Class<?> clazz = SubClassWithCallingNestedClass.class;
+        final Class<?> nestedClass = clazz.getDeclaredClasses()[0];
+        final Class<?> superClass = clazz.getSuperclass();
+        scanClasses(clazz, nestedClass, superClass);
+        assertThat(validateConstraint("spring-transaction:TransactionalMethodMustNotBeInvokedFromSameClassOrSubclass")
+            .getStatus()).isEqualTo(FAILURE);
+
+        store.beginTransaction();
+
+        final List<Result<Constraint>> constraintViolations =
+            new ArrayList<>(reportPlugin.getConstraintResults().values());
+        assertThat(constraintViolations).hasSize(1);
+
+        assertThat(constraintViolations.get(0).getRule().getId())
+            .isEqualTo("spring-transaction:TransactionalMethodMustNotBeInvokedFromSameClassOrSubclass");
+
+        final Result<Constraint> result = constraintViolations.get(0);
+        assertThat(result.getRows()).hasSize(1);
+        final Row row = result.getRows().get(0);
+        assertThat(row.getColumns().get("Type").getValue()).asInstanceOf(type(TypeDescriptor.class))
+            .is(typeDescriptor(nestedClass));
+        assertThat(row.getColumns().get("Method").getValue()).asInstanceOf(type(MethodDescriptor.class))
+            .is(methodDescriptor(nestedClass, "callingTransactional"));
+        assertThat(row.getColumns().get("TransactionalMethod").getValue()).asInstanceOf(type(MethodDescriptor.class))
+            .is(methodDescriptor(superClass, "method"));
 
         store.commitTransaction();
     }
