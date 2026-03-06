@@ -19,4 +19,14 @@ public class JtaJakartaTransactionalClass {
         privateMethod(); // Private methods are not transactional and may be called.
     }
 
+    // This method always runs without a transaction. The REQUIRED semantic of transactionalMethod() would have no effect if called.
+    @Transactional(value = Transactional.TxType.NEVER)
+    public void transactionalMethodWithNeverSemantics(){
+        transactionalMethod();
+    }
+
+    public void transactionalMethodWithRequiredSemantics(){
+        transactionalMethod();
+    }
+
 }

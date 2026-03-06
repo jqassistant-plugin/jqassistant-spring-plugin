@@ -9,4 +9,8 @@ public class SimpleTransactionalClass {
 
     }
 
+    public void oneMoreMethod() {
+
+    }
+
 }

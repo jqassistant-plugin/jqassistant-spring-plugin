@@ -9,4 +9,9 @@ public class SimpleClassWithTransactionalMethod {
 
     }
 
+    @Transactional
+    public void oneMoreMethod() {
+
+    }
+
 }

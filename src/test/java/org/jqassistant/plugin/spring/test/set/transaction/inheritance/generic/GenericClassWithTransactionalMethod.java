@@ -9,4 +9,9 @@ public class GenericClassWithTransactionalMethod<T> {
 
     }
 
+    @Transactional
+    public void oneMoreMethod(T parameter) {
+
+    }
+
 }

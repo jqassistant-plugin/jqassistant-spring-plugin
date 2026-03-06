@@ -9,4 +9,8 @@ public class GenericTransactionalClass<T> {
 
     }
 
+    public void oneMoreMethod(T parameter) {
+
+    }
+
 }
