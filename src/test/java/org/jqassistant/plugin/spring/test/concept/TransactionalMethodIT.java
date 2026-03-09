@@ -34,7 +34,7 @@ class TransactionalMethodIT extends AbstractSpringIT {
         assertThat(applyConcept("spring-transaction:TransactionalMethod").getStatus()).isEqualTo(SUCCESS);
         store.beginTransaction();
         final List<MethodDescriptor> methods = query("MATCH (m:Spring:Method:Transactional) RETURN m").getColumn("m");
-        assertThat(methods).hasSize(46);
+        assertThat(methods).hasSize(48);
 
         // method level annotations
         assertThat(methods).haveExactly(1,
@@ -53,6 +53,10 @@ class TransactionalMethodIT extends AbstractSpringIT {
             methodDescriptor(JtaTransactionalMethod.class, "transactionalMethodWithRequiredSemantics"));
         assertThat(methods).haveExactly(1,
             methodDescriptor(JtaJakartaTransactionalMethod.class, "transactionalMethodWithRequiredSemantics"));
+        assertThat(methods).haveExactly(1,
+            methodDescriptor(JtaJakartaTransactionalMethod.class, "transactionalMethodWithNeverSemantics"));
+        assertThat(methods).haveExactly(1,
+            methodDescriptor(JtaJakartaTransactionalMethod.class, "anotherTransactionalMethodWithRequiredSemantics"));
         assertThat(methods).doNotHave(
             methodDescriptor(NonTransactionalSubClassOfSpringTransactionalMethod.class, "transactionalMethodWithRequiredSemantics"));
 
