@@ -10,10 +10,10 @@ public class CallingSubClassOfGenericTransactionalClass extends GenericTransacti
         methodWithRequiredSemantics(1L);
     }
 
-    // This method always runs without a transaction. The REQUIRED semantic of oneMoreMethodWithRequiredSemantics() would have no effect if called.
+    // This method always runs without a transaction. The REQUIRED semantic of methodWithOverriddenSemantics() would have no effect if called.
     @Transactional(propagation = Propagation.NEVER)
     public void callingMethodWithNeverSemantics() {
-        oneMoreMethodWithRequiredSemantics(1L);
+        methodWithOverriddenSemantics(1L);
     }
 
 }

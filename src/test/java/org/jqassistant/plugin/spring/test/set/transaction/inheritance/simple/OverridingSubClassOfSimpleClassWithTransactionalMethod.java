@@ -11,12 +11,12 @@ public class OverridingSubClassOfSimpleClassWithTransactionalMethod extends Simp
         super.methodWithRequiredSemantics();
     }
 
-    // This method always runs without a transaction. The REQUIRED semantics of oneMoreMethodWithRequiredSemantics() would have no effect if called.
+    // This method always runs without a transaction. The REQUIRED semantics of methodWithOverriddenSemantics() would have no effect if called.
     // Transaction semantics is overridden.
     @Override
     @Transactional(propagation = Propagation.NEVER)
-    public void oneMoreMethodWithRequiredSemantics() {
-        super.oneMoreMethodWithRequiredSemantics();
+    public void methodWithOverriddenSemantics() {
+        super.methodWithOverriddenSemantics();
     }
 
 }

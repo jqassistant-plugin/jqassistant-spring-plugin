@@ -10,10 +10,10 @@ public class SubClassWithCallingNestedClass extends SimpleTransactionalClass {
             SubClassWithCallingNestedClass.super.methodWithRequiredSemantics();
         }
 
-        // This method always runs without a transaction. The REQUIRED semantics of oneMoreMethodWithRequiredSemantics() would have no effect if called.
+        // This method always runs without a transaction. The REQUIRED semantics of methodWithOverriddenSemantics() would have no effect if called.
         @Transactional(propagation = Propagation.NEVER)
         void transactionalMethodWithNeverSemantics() {
-            SubClassWithCallingNestedClass.super.oneMoreMethodWithRequiredSemantics();
+            SubClassWithCallingNestedClass.super.methodWithOverriddenSemantics();
         }
     }
 

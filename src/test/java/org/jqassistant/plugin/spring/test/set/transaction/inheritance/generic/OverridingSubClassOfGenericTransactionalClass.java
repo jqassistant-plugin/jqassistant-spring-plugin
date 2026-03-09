@@ -11,12 +11,12 @@ public class OverridingSubClassOfGenericTransactionalClass extends GenericTransa
         super.methodWithRequiredSemantics(l);
     }
 
-    // This method always runs without a transaction. The REQUIRED semantics of oneMoreMethodWithRequiredSemantics() would have no effect if called.
+    // This method always runs without a transaction. The REQUIRED semantics of methodWithOverriddenSemantics() would have no effect if called.
     // Transaction semantics is overridden.
     @Override
     @Transactional(propagation = Propagation.NEVER)
-    public void oneMoreMethodWithRequiredSemantics(Long l) {
-        super.oneMoreMethodWithRequiredSemantics(l);
+    public void methodWithOverriddenSemantics(Long l) {
+        super.methodWithOverriddenSemantics(l);
     }
 
 }

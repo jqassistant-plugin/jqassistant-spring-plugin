@@ -9,7 +9,7 @@ public class SimpleTransactionalClass {
 
     }
 
-    public void oneMoreMethodWithRequiredSemantics() {
+    public void methodWithOverriddenSemantics() {
 
     }
 

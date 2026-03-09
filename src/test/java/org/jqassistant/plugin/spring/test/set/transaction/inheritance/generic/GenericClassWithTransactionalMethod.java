@@ -10,7 +10,7 @@ public class GenericClassWithTransactionalMethod<T> {
     }
 
     @Transactional
-    public void oneMoreMethodWithRequiredSemantics(T parameter) {
+    public void methodWithOverriddenSemantics(T parameter) {
 
     }
 

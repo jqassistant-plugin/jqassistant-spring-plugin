@@ -10,7 +10,7 @@ public class SimpleClassWithTransactionalMethod {
     }
 
     @Transactional
-    public void oneMoreMethodWithRequiredSemantics() {
+    public void methodWithOverriddenSemantics() {
 
     }
 
