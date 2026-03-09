@@ -42,4 +42,14 @@ public class SpringTransactionalImplementingClass implements SpringTransactional
     public void anotherTransactionalMethodWithRequiredSemantics(){
         transactionalMethodWithRequiredSemantics();
     }
+
+    @Transactional
+    public void requiredTransactionalCallingRequiredTransactionalTransitively() {
+        privateCallingTransactional();
+    }
+
+    @Transactional(propagation = Propagation.NEVER)
+    public void neverTransactionalCallingRequiredTransactionalTransitively() {
+        privateCallingTransactional();
+    }
 }

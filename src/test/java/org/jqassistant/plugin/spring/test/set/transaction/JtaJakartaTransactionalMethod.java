@@ -31,4 +31,14 @@ public class JtaJakartaTransactionalMethod {
     public void anotherTransactionalMethodWithRequiredSemantics(){
         transactionalMethodWithRequiredSemantics();
     }
+
+    @Transactional
+    public void requiredTransactionalCallingRequiredTransactionalTransitively() {
+        privateCallingTransactional();
+    }
+
+    @Transactional(value = Transactional.TxType.NEVER)
+    public void neverTransactionalCallingRequiredTransactionalTransitively() {
+        privateCallingTransactional();
+    }
 }

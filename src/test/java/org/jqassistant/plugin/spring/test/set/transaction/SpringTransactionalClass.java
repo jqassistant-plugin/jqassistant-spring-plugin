@@ -33,4 +33,13 @@ public class SpringTransactionalClass {
         transactionalMethodWithRequiredSemantics();
     }
 
+    public void requiredTransactionalCallingRequiredTransactionalTransitively() {
+        privateCallingTransactional();
+    }
+
+    @Transactional(propagation = Propagation.NEVER)
+    public void neverTransactionalCallingRequiredTransactionalTransitively() {
+        privateCallingTransactional();
+    }
+
 }

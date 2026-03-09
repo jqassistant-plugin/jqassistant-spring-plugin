@@ -54,6 +54,8 @@
               targetTxMethod as TargetTransactionalMethod,
               targetTxMethod.transactionPropagation AS TargetSemantics,
               invokes[0].lineNumber as LineNumber
+            ORDER BY
+              Type.fqn, SourceTransactionalMethod.name, TargetTransactionalMethod.name
         ]]></cypher>
         <report primaryColumn="Method"/>
     </constraint>
