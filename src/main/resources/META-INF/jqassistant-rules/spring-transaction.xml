@@ -11,8 +11,9 @@
         <requiresConcept refId="java:MemberInheritedFrom"/>
         <requiresConcept refId="spring-transaction:TransactionalMethod"/>
         <requiresConcept refId="java:GeneratedType"/>
-        <description>Transactional methods must not be invoked from the same class or from a subclass within the inheritance hierarchy if the transactional semantics of the invoked method require a change to the current transaction.</description>
+        <description>Transactional methods must not be invoked from the same class or from a subclass within the inheritance hierarchy if the transactional semantics of the invoked method require a change to the current transaction handling.</description>
         <cypher><![CDATA[
+            // If the target transaction semantics is SUPPORTS, the transaction handling will not change regardless of the source transaction semantics. It is therefore handled separately in the WHERE clause.
             WITH [
               {sourceTx: 'REQUIRED', targetTx: 'REQUIRED'},
               {sourceTx: 'REQUIRES_NEW', targetTx: 'REQUIRED'},

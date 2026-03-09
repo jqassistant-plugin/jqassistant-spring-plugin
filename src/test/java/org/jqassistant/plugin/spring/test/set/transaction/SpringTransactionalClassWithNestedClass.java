@@ -8,21 +8,21 @@ public class SpringTransactionalClassWithNestedClass {
 
     class InnerClass {
         void callingTransactional() {
-            SpringTransactionalClassWithNestedClass.this.transactionalMethod();
+            SpringTransactionalClassWithNestedClass.this.transactionalMethodWithRequiredSemantics();
         }
 
         void callingPrivateMethod() {
             SpringTransactionalClassWithNestedClass.this.privateMethod();
         }
 
-        // This method always runs without a transaction. The REQUIRED semantics of transactionalMethod() would have no effect if called.
+        // This method always runs without a transaction. The REQUIRED semantics of transactionalMethodWithRequiredSemantics() would have no effect if called.
         @Transactional(propagation = Propagation.NEVER)
         void transactionalMethodWithNeverSemantics() {
-            SpringTransactionalClassWithNestedClass.this.transactionalMethod();
+            SpringTransactionalClassWithNestedClass.this.transactionalMethodWithRequiredSemantics();
         }
     }
 
-    void transactionalMethod(){
+    void transactionalMethodWithRequiredSemantics(){
     }
 
     private void privateMethod() {

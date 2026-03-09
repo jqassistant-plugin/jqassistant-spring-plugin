@@ -6,11 +6,11 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class SpringTransactionalClass {
 
-    public void transactionalMethod(){
+    public void transactionalMethodWithRequiredSemantics(){
     }
 
-    private void callingTransactional() {
-        transactionalMethod();
+    private void privateCallingTransactional() {
+        transactionalMethodWithRequiredSemantics();
     }
 
     public static void staticMethod() {
@@ -23,14 +23,14 @@ public class SpringTransactionalClass {
         privateMethod(); // Private methods are not transactional and may be called.
     }
 
-    // This method always runs without a transaction. The REQUIRED semantics of transactionalMethod() would have no effect if called.
+    // This method always runs without a transaction. The REQUIRED semantics of transactionalMethodWithRequiredSemantics() would have no effect if called.
     @Transactional(propagation = Propagation.NEVER)
     public void transactionalMethodWithNeverSemantics(){
-        transactionalMethod();
+        transactionalMethodWithRequiredSemantics();
     }
 
-    public void transactionalMethodWithRequiredSemantics(){
-        transactionalMethod();
+    public void anotherTransactionalMethodWithRequiredSemantics(){
+        transactionalMethodWithRequiredSemantics();
     }
 
 }

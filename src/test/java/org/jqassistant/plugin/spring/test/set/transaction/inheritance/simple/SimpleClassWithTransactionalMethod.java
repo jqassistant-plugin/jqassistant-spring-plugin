@@ -5,12 +5,12 @@ import org.springframework.transaction.annotation.Transactional;
 public class SimpleClassWithTransactionalMethod {
 
     @Transactional
-    public void method() {
+    public void methodWithRequiredSemantics() {
 
     }
 
     @Transactional
-    public void oneMoreMethod() {
+    public void oneMoreMethodWithRequiredSemantics() {
 
     }
 

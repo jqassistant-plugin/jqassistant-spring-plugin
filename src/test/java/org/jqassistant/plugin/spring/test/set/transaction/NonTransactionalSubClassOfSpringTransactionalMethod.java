@@ -4,7 +4,7 @@ public class NonTransactionalSubClassOfSpringTransactionalMethod extends SpringT
 
     // Method is not actually transactional, since method-level annotations are not inherited.
     @Override
-    public void transactionalMethod() {
+    public void transactionalMethodWithRequiredSemantics() {
     }
 
 }

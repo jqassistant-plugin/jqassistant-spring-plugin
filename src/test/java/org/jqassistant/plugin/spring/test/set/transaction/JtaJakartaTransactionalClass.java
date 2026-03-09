@@ -5,11 +5,11 @@ import jakarta.transaction.Transactional;
 @Transactional
 public class JtaJakartaTransactionalClass {
 
-    public void transactionalMethod(){
+    public void transactionalMethodWithRequiredSemantics(){
     }
 
-    private void callingTransactional() {
-        transactionalMethod();
+    private void privateCallingTransactional() {
+        transactionalMethodWithRequiredSemantics();
     }
 
     private void privateMethod() {
@@ -19,14 +19,14 @@ public class JtaJakartaTransactionalClass {
         privateMethod(); // Private methods are not transactional and may be called.
     }
 
-    // This method always runs without a transaction. The REQUIRED semantic of transactionalMethod() would have no effect if called.
+    // This method always runs without a transaction. The REQUIRED semantic of transactionalMethodWithRequiredSemantics() would have no effect if called.
     @Transactional(value = Transactional.TxType.NEVER)
     public void transactionalMethodWithNeverSemantics(){
-        transactionalMethod();
+        transactionalMethodWithRequiredSemantics();
     }
 
-    public void transactionalMethodWithRequiredSemantics(){
-        transactionalMethod();
+    public void anotherTransactionalMethodWithRequiredSemantics(){
+        transactionalMethodWithRequiredSemantics();
     }
 
 }

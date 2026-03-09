@@ -5,24 +5,24 @@ import org.springframework.transaction.annotation.Transactional;
 
 public class SpringTransactionalSubClass extends SpringTransactionalClass {
 
-    public void transactionalSubClassMethod() {
+    public void transactionalSubClassMethodWithRequiredSemantics() {
     }
 
-    private void callingTransactionalSubClassMethod() {
-        transactionalSubClassMethod();
+    private void privateCallingTransactionalSubClassMethod() {
+        transactionalSubClassMethodWithRequiredSemantics();
     }
 
     private void privateSubClassMethod() {
     }
 
-    // This method always runs without a transaction. The REQUIRED semantics of transactionalSubClassMethod() would have no effect if called.
+    // This method always runs without a transaction. The REQUIRED semantics of transactionalSubClassMethodWithRequiredSemantics() would have no effect if called.
     @Transactional(propagation = Propagation.NEVER)
     public void transactionalSubClassMethodWithNeverSemantics(){
-        transactionalSubClassMethod();
+        transactionalSubClassMethodWithRequiredSemantics();
     }
 
-    public void transactionalSubClassMethodWithRequiredSemantics(){
-        transactionalSubClassMethod();
+    public void anotherTransactionalSubClassMethodWithRequiredSemantics(){
+        transactionalSubClassMethodWithRequiredSemantics();
     }
 
 }

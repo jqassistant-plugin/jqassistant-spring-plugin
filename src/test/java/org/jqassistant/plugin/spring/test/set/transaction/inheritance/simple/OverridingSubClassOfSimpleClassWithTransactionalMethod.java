@@ -7,15 +7,16 @@ import org.springframework.transaction.annotation.Transactional;
 public class OverridingSubClassOfSimpleClassWithTransactionalMethod extends SimpleClassWithTransactionalMethod{
 
     @Override
-    public void method() {
-        super.method();
+    public void methodWithRequiredSemantics() {
+        super.methodWithRequiredSemantics();
     }
 
-    // This method always runs without a transaction. The REQUIRED semantics of oneMoreMethod() would have no effect if called.
+    // This method always runs without a transaction. The REQUIRED semantics of oneMoreMethodWithRequiredSemantics() would have no effect if called.
+    // Transaction semantics is overridden.
     @Override
     @Transactional(propagation = Propagation.NEVER)
-    public void oneMoreMethod() {
-        super.oneMoreMethod();
+    public void oneMoreMethodWithRequiredSemantics() {
+        super.oneMoreMethodWithRequiredSemantics();
     }
 
 }

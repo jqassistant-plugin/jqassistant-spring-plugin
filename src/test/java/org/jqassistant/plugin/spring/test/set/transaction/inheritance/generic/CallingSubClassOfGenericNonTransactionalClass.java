@@ -5,7 +5,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class CallingSubClassOfGenericNonTransactionalClass extends GenericNonTransactionalClass<Long> {
 
-    public void anotherMethod() {
+    public void methodWithRequiredSemantics() {
         method(1L);
     }
 

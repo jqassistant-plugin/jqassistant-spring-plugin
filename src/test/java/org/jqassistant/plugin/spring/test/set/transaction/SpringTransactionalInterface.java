@@ -5,6 +5,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public interface SpringTransactionalInterface {
 
-    void transactionalMethod();
+    void transactionalMethodWithRequiredSemantics();
 
 }

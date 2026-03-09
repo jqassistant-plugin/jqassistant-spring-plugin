@@ -5,12 +5,12 @@ import javax.transaction.Transactional;
 public class JtaTransactionalMethod {
 
     @Transactional
-    public void transactionalMethod() {
+    public void transactionalMethodWithRequiredSemantics() {
 
     }
 
-    private void callingTransactional() {
-        transactionalMethod();
+    private void privateCallingTransactional() {
+        transactionalMethodWithRequiredSemantics();
     }
 
     @Transactional // Illegal combination of private and @Transactional is subject to tests
@@ -21,15 +21,15 @@ public class JtaTransactionalMethod {
         privateMethod(); // Private methods are not transactional and may be called.
     }
 
-    // This method always runs without a transaction. The REQUIRED semantics of transactionalMethod() would have no effect if called.
+    // This method always runs without a transaction. The REQUIRED semantics of transactionalMethodWithRequiredSemantics() would have no effect if called.
     @Transactional(value = Transactional.TxType.NEVER)
     public void transactionalMethodWithNeverSemantics(){
-        transactionalMethod();
+        transactionalMethodWithRequiredSemantics();
     }
 
     @Transactional
-    public void transactionalMethodWithRequiredSemantics(){
-        transactionalMethod();
+    public void anotherTransactionalMethodWithRequiredSemantics(){
+        transactionalMethodWithRequiredSemantics();
     }
 
 

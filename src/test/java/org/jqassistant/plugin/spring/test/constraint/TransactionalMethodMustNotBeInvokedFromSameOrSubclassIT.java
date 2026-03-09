@@ -50,7 +50,7 @@ class TransactionalMethodMustNotBeInvokedFromSameOrSubclassIT extends AbstractJa
         assertThat(row.getColumns().get("SourceTransactionalMethod").getValue()).asInstanceOf(type(MethodDescriptor.class))
             .is(methodDescriptor(clazz, "transactionalMethodWithNeverSemantics"));
         assertThat(row.getColumns().get("TargetTransactionalMethod").getValue()).asInstanceOf(type(MethodDescriptor.class))
-            .is(methodDescriptor(clazz, "transactionalMethod"));
+            .is(methodDescriptor(clazz, "transactionalMethodWithRequiredSemantics"));
         store.commitTransaction();
     }
 
@@ -78,7 +78,7 @@ class TransactionalMethodMustNotBeInvokedFromSameOrSubclassIT extends AbstractJa
         assertThat(subClassRow.getColumns().get("SourceTransactionalMethod").getValue()).asInstanceOf(type(MethodDescriptor.class))
             .is(methodDescriptor(SpringTransactionalSubClass.class, "transactionalSubClassMethodWithNeverSemantics"));
         assertThat(subClassRow.getColumns().get("TargetTransactionalMethod").getValue()).asInstanceOf(type(MethodDescriptor.class))
-            .is(methodDescriptor(SpringTransactionalSubClass.class, "transactionalSubClassMethod"));
+            .is(methodDescriptor(SpringTransactionalSubClass.class, "transactionalSubClassMethodWithRequiredSemantics"));
 
         final Row superClassRow = resultMap.get(SpringTransactionalClass.class.getSimpleName());
         assertThat(superClassRow.getColumns().get("Type").getValue()).asInstanceOf(type(TypeDescriptor.class))
@@ -86,7 +86,7 @@ class TransactionalMethodMustNotBeInvokedFromSameOrSubclassIT extends AbstractJa
         assertThat(superClassRow.getColumns().get("SourceTransactionalMethod").getValue()).asInstanceOf(type(MethodDescriptor.class))
             .is(methodDescriptor(SpringTransactionalClass.class, "transactionalMethodWithNeverSemantics"));
         assertThat(superClassRow.getColumns().get("TargetTransactionalMethod").getValue()).asInstanceOf(type(MethodDescriptor.class))
-            .is(methodDescriptor(SpringTransactionalClass.class, "transactionalMethod"));
+            .is(methodDescriptor(SpringTransactionalClass.class, "transactionalMethodWithRequiredSemantics"));
 
         store.commitTransaction();
     }
@@ -111,7 +111,7 @@ class TransactionalMethodMustNotBeInvokedFromSameOrSubclassIT extends AbstractJa
         assertThat(callingSubClassOfSimpleTransactionalClassResult.getColumns().get("SourceTransactionalMethod").getValue()).asInstanceOf(type(MethodDescriptor.class))
             .is(methodDescriptor(CallingSubClassOfSimpleTransactionalClass.class, "transactionalMethodWithNeverSemantics"));
         assertThat(callingSubClassOfSimpleTransactionalClassResult.getColumns().get("TargetTransactionalMethod").getValue()).asInstanceOf(type(MethodDescriptor.class))
-            .is(simpleMethodDescriptor(CallingSubClassOfSimpleTransactionalClass.class, "void method()"));
+            .is(simpleMethodDescriptor(CallingSubClassOfSimpleTransactionalClass.class, "void methodWithRequiredSemantics()"));
 
         final Row callingSubClassOfSimpleClassWithTransactionalMethodResult = resultMap.get(CallingSubClassOfSimpleClassWithTransactionalMethod.class.getName());
         assertThat(callingSubClassOfSimpleClassWithTransactionalMethodResult.getColumns().get("Type").getValue()).asInstanceOf(type(TypeDescriptor.class))
@@ -119,23 +119,23 @@ class TransactionalMethodMustNotBeInvokedFromSameOrSubclassIT extends AbstractJa
         assertThat(callingSubClassOfSimpleClassWithTransactionalMethodResult.getColumns().get("SourceTransactionalMethod").getValue()).asInstanceOf(type(MethodDescriptor.class))
             .is(methodDescriptor(CallingSubClassOfSimpleClassWithTransactionalMethod.class, "transactionalMethodWithNeverSemantics"));
         assertThat(callingSubClassOfSimpleClassWithTransactionalMethodResult.getColumns().get("TargetTransactionalMethod").getValue()).asInstanceOf(type(MethodDescriptor.class))
-            .is(simpleMethodDescriptor(CallingSubClassOfSimpleClassWithTransactionalMethod.class, "void method()"));
+            .is(simpleMethodDescriptor(CallingSubClassOfSimpleClassWithTransactionalMethod.class, "void methodWithRequiredSemantics()"));
 
         final Row overridingSubClassOfSimpleTransactionalClassResult = resultMap.get(OverridingSubClassOfSimpleTransactionalClass.class.getName());
         assertThat(overridingSubClassOfSimpleTransactionalClassResult.getColumns().get("Type").getValue()).asInstanceOf(type(TypeDescriptor.class))
             .is(typeDescriptor(OverridingSubClassOfSimpleTransactionalClass.class));
         assertThat(overridingSubClassOfSimpleTransactionalClassResult.getColumns().get("SourceTransactionalMethod").getValue()).asInstanceOf(type(MethodDescriptor.class))
-            .is(methodDescriptor(OverridingSubClassOfSimpleTransactionalClass.class, "oneMoreMethod"));
+            .is(methodDescriptor(OverridingSubClassOfSimpleTransactionalClass.class, "oneMoreMethodWithRequiredSemantics"));
         assertThat(overridingSubClassOfSimpleTransactionalClassResult.getColumns().get("TargetTransactionalMethod").getValue()).asInstanceOf(type(MethodDescriptor.class))
-            .is(methodDescriptor(SimpleTransactionalClass.class, "oneMoreMethod"));
+            .is(methodDescriptor(SimpleTransactionalClass.class, "oneMoreMethodWithRequiredSemantics"));
 
         final Row overridingSubClassOfSimpleClassWithTransactionalMethodResult = resultMap.get(OverridingSubClassOfSimpleClassWithTransactionalMethod.class.getName());
         assertThat(overridingSubClassOfSimpleClassWithTransactionalMethodResult.getColumns().get("Type").getValue()).asInstanceOf(type(TypeDescriptor.class))
             .is(typeDescriptor(OverridingSubClassOfSimpleClassWithTransactionalMethod.class));
         assertThat(overridingSubClassOfSimpleClassWithTransactionalMethodResult.getColumns().get("SourceTransactionalMethod").getValue()).asInstanceOf(type(MethodDescriptor.class))
-            .is(methodDescriptor(OverridingSubClassOfSimpleClassWithTransactionalMethod.class, "oneMoreMethod"));
+            .is(methodDescriptor(OverridingSubClassOfSimpleClassWithTransactionalMethod.class, "oneMoreMethodWithRequiredSemantics"));
         assertThat(overridingSubClassOfSimpleClassWithTransactionalMethodResult.getColumns().get("TargetTransactionalMethod").getValue()).asInstanceOf(type(MethodDescriptor.class))
-            .is(methodDescriptor(SimpleClassWithTransactionalMethod.class, "oneMoreMethod"));
+            .is(methodDescriptor(SimpleClassWithTransactionalMethod.class, "oneMoreMethodWithRequiredSemantics"));
 
         store.commitTransaction();
     }
@@ -158,33 +158,33 @@ class TransactionalMethodMustNotBeInvokedFromSameOrSubclassIT extends AbstractJa
         assertThat(callingSubClassOfGenericClassWithTransactionalMethodResult.getColumns().get("Type").getValue()).asInstanceOf(type(TypeDescriptor.class))
             .is(typeDescriptor(CallingSubClassOfGenericClassWithTransactionalMethod.class));
         assertThat(callingSubClassOfGenericClassWithTransactionalMethodResult.getColumns().get("SourceTransactionalMethod").getValue()).asInstanceOf(type(MethodDescriptor.class))
-            .is(methodDescriptor(CallingSubClassOfGenericClassWithTransactionalMethod.class, "callingOneMoreMethod"));
+            .is(methodDescriptor(CallingSubClassOfGenericClassWithTransactionalMethod.class, "callingMethodWithNeverSemantics"));
         assertThat(callingSubClassOfGenericClassWithTransactionalMethodResult.getColumns().get("TargetTransactionalMethod").getValue()).asInstanceOf(type(MethodDescriptor.class))
-            .is(simpleMethodDescriptor(CallingSubClassOfGenericClassWithTransactionalMethod.class, "void oneMoreMethod(java.lang.Object)"));
+            .is(simpleMethodDescriptor(CallingSubClassOfGenericClassWithTransactionalMethod.class, "void oneMoreMethodWithRequiredSemantics(java.lang.Object)"));
 
         final Row callingSubClassOfGenericTransactionalClassResult = resultMap.get(CallingSubClassOfGenericTransactionalClass.class.getName());
         assertThat(callingSubClassOfGenericTransactionalClassResult.getColumns().get("Type").getValue()).asInstanceOf(type(TypeDescriptor.class))
             .is(typeDescriptor(CallingSubClassOfGenericTransactionalClass.class));
         assertThat(callingSubClassOfGenericTransactionalClassResult.getColumns().get("SourceTransactionalMethod").getValue()).asInstanceOf(type(MethodDescriptor.class))
-            .is(methodDescriptor(CallingSubClassOfGenericTransactionalClass.class, "callingOneMoreMethod"));
+            .is(methodDescriptor(CallingSubClassOfGenericTransactionalClass.class, "callingMethodWithNeverSemantics"));
         assertThat(callingSubClassOfGenericTransactionalClassResult.getColumns().get("TargetTransactionalMethod").getValue()).asInstanceOf(type(MethodDescriptor.class))
-            .is(simpleMethodDescriptor(CallingSubClassOfGenericTransactionalClass.class, "void oneMoreMethod(java.lang.Object)"));
+            .is(simpleMethodDescriptor(CallingSubClassOfGenericTransactionalClass.class, "void oneMoreMethodWithRequiredSemantics(java.lang.Object)"));
 
         final Row overridingSubClassOfGenericTransactionalClassResult = resultMap.get(OverridingSubClassOfGenericTransactionalClass.class.getName());
         assertThat(overridingSubClassOfGenericTransactionalClassResult.getColumns().get("Type").getValue()).asInstanceOf(type(TypeDescriptor.class))
             .is(typeDescriptor(OverridingSubClassOfGenericTransactionalClass.class));
         assertThat(overridingSubClassOfGenericTransactionalClassResult.getColumns().get("SourceTransactionalMethod").getValue()).asInstanceOf(type(MethodDescriptor.class))
-            .is(methodDescriptor(OverridingSubClassOfGenericTransactionalClass.class, "oneMoreMethod", Long.class));
+            .is(methodDescriptor(OverridingSubClassOfGenericTransactionalClass.class, "oneMoreMethodWithRequiredSemantics", Long.class));
         assertThat(overridingSubClassOfGenericTransactionalClassResult.getColumns().get("TargetTransactionalMethod").getValue()).asInstanceOf(type(MethodDescriptor.class))
-            .is(methodDescriptor(GenericTransactionalClass.class, "oneMoreMethod", Object.class));
+            .is(methodDescriptor(GenericTransactionalClass.class, "oneMoreMethodWithRequiredSemantics", Object.class));
 
         final Row overridingSubClassOfGenericClassWithTransactionalMethodResult = resultMap.get(OverridingSubClassOfGenericClassWithTransactionalMethod.class.getName());
         assertThat(overridingSubClassOfGenericClassWithTransactionalMethodResult.getColumns().get("Type").getValue()).asInstanceOf(type(TypeDescriptor.class))
             .is(typeDescriptor(OverridingSubClassOfGenericClassWithTransactionalMethod.class));
         assertThat(overridingSubClassOfGenericClassWithTransactionalMethodResult.getColumns().get("SourceTransactionalMethod").getValue()).asInstanceOf(type(MethodDescriptor.class))
-            .is(methodDescriptor(OverridingSubClassOfGenericClassWithTransactionalMethod.class, "oneMoreMethod", Long.class));
+            .is(methodDescriptor(OverridingSubClassOfGenericClassWithTransactionalMethod.class, "oneMoreMethodWithRequiredSemantics", Long.class));
         assertThat(overridingSubClassOfGenericClassWithTransactionalMethodResult.getColumns().get("TargetTransactionalMethod").getValue()).asInstanceOf(type(MethodDescriptor.class))
-            .is(methodDescriptor(GenericClassWithTransactionalMethod.class, "oneMoreMethod", Object.class));
+            .is(methodDescriptor(GenericClassWithTransactionalMethod.class, "oneMoreMethodWithRequiredSemantics", Object.class));
 
         store.commitTransaction();
     }
@@ -214,7 +214,7 @@ class TransactionalMethodMustNotBeInvokedFromSameOrSubclassIT extends AbstractJa
         assertThat(row.getColumns().get("SourceTransactionalMethod").getValue()).asInstanceOf(type(MethodDescriptor.class))
             .is(methodDescriptor(nestedClass, "transactionalMethodWithNeverSemantics"));
         assertThat(row.getColumns().get("TargetTransactionalMethod").getValue()).asInstanceOf(type(MethodDescriptor.class))
-            .is(methodDescriptor(clazz, "transactionalMethod"));
+            .is(methodDescriptor(clazz, "transactionalMethodWithRequiredSemantics"));
 
         store.commitTransaction();
     }
@@ -245,7 +245,7 @@ class TransactionalMethodMustNotBeInvokedFromSameOrSubclassIT extends AbstractJa
         assertThat(row.getColumns().get("SourceTransactionalMethod").getValue()).asInstanceOf(type(MethodDescriptor.class))
             .is(methodDescriptor(nestedClass, "transactionalMethodWithNeverSemantics"));
         assertThat(row.getColumns().get("TargetTransactionalMethod").getValue()).asInstanceOf(type(MethodDescriptor.class))
-            .is(methodDescriptor(superClass, "oneMoreMethod"));
+            .is(methodDescriptor(superClass, "oneMoreMethodWithRequiredSemantics"));
 
         store.commitTransaction();
     }
