@@ -34,63 +34,139 @@ class TransactionalMethodIT extends AbstractSpringIT {
         assertThat(applyConcept("spring-transaction:TransactionalMethod").getStatus()).isEqualTo(SUCCESS);
         store.beginTransaction();
         final List<MethodDescriptor> methods = query("MATCH (m:Spring:Method:Transactional) RETURN m").getColumn("m");
-        assertThat(methods).hasSize(22);
+        assertThat(methods).hasSize(62);
 
         // method level annotations
         assertThat(methods).haveExactly(1,
-            methodDescriptor(SpringTransactionalMethod.class, "transactionalMethod"));
+            methodDescriptor(SpringTransactionalMethod.class, "transactionalMethodWithRequiredSemantics"));
         assertThat(methods).doNotHave(
             methodDescriptor(SpringTransactionalMethod.class, "nonTransactionalMethod"));
         assertThat(methods).haveExactly(1,
-            methodDescriptor(JtaTransactionalMethod.class, "transactionalMethod"));
+            methodDescriptor(SpringTransactionalMethod.class, "transactionalMethodWithNeverSemantics"));
         assertThat(methods).haveExactly(1,
-            methodDescriptor(JtaJakartaTransactionalMethod.class, "transactionalMethod"));
+            methodDescriptor(SpringTransactionalMethod.class, "transactionalMethodWithRequiredSemantics"));
+        assertThat(methods).haveExactly(1,
+            methodDescriptor(SpringTransactionalMethod.class, "requiredTransactionalCallingRequiredTransactionalTransitively"));
+        assertThat(methods).haveExactly(1,
+            methodDescriptor(SpringTransactionalMethod.class, "neverTransactionalCallingRequiredTransactionalTransitively"));
+        assertThat(methods).haveExactly(1,
+            methodDescriptor(JtaTransactionalMethod.class, "transactionalMethodWithRequiredSemantics"));
+        assertThat(methods).haveExactly(1,
+            methodDescriptor(JtaTransactionalMethod.class, "transactionalMethodWithNeverSemantics"));
+        assertThat(methods).haveExactly(1,
+            methodDescriptor(JtaTransactionalMethod.class, "transactionalMethodWithRequiredSemantics"));
+        assertThat(methods).haveExactly(1,
+            methodDescriptor(JtaTransactionalMethod.class, "requiredTransactionalCallingRequiredTransactionalTransitively"));
+        assertThat(methods).haveExactly(1,
+            methodDescriptor(JtaTransactionalMethod.class, "neverTransactionalCallingRequiredTransactionalTransitively"));
+        assertThat(methods).haveExactly(1,
+            methodDescriptor(JtaJakartaTransactionalMethod.class, "transactionalMethodWithRequiredSemantics"));
+        assertThat(methods).haveExactly(1,
+            methodDescriptor(JtaJakartaTransactionalMethod.class, "transactionalMethodWithNeverSemantics"));
+        assertThat(methods).haveExactly(1,
+            methodDescriptor(JtaJakartaTransactionalMethod.class, "anotherTransactionalMethodWithRequiredSemantics"));
+        assertThat(methods).haveExactly(1,
+            methodDescriptor(JtaJakartaTransactionalMethod.class, "requiredTransactionalCallingRequiredTransactionalTransitively"));
+        assertThat(methods).haveExactly(1,
+            methodDescriptor(JtaJakartaTransactionalMethod.class, "neverTransactionalCallingRequiredTransactionalTransitively"));
         assertThat(methods).doNotHave(
-            methodDescriptor(NonTransactionalSubClassOfSpringTransactionalMethod.class, "transactionalMethod"));
+            methodDescriptor(NonTransactionalSubClassOfSpringTransactionalMethod.class, "transactionalMethodWithRequiredSemantics"));
 
         // class level annotations
         assertThat(methods).haveExactly(1,
-            methodDescriptor(SpringTransactionalClass.class, "transactionalMethod"));
+            methodDescriptor(SpringTransactionalClass.class, "transactionalMethodWithRequiredSemantics"));
         assertThat(methods).haveExactly(1,
-            methodDescriptor(SpringTransactionalSubClass.class, "transactionalSubClassMethod"));
+            methodDescriptor(SpringTransactionalClass.class, "transactionalMethodWithNeverSemantics"));
         assertThat(methods).haveExactly(1,
-            methodDescriptor(SpringTransactionalInterface.class, "transactionalMethod"));
+            methodDescriptor(SpringTransactionalClass.class, "transactionalMethodWithRequiredSemantics"));
         assertThat(methods).haveExactly(1,
-            methodDescriptor(SpringTransactionalImplementingClass.class, "transactionalMethod"));
+            methodDescriptor(SpringTransactionalClass.class, "requiredTransactionalCallingRequiredTransactionalTransitively"));
+        assertThat(methods).haveExactly(1,
+            methodDescriptor(SpringTransactionalClass.class, "neverTransactionalCallingRequiredTransactionalTransitively"));
+        assertThat(methods).haveExactly(1,
+            methodDescriptor(SpringTransactionalSubClass.class, "transactionalSubClassMethodWithRequiredSemantics"));
+        assertThat(methods).haveExactly(1,
+            methodDescriptor(SpringTransactionalSubClass.class, "transactionalSubClassMethodWithNeverSemantics"));
+        assertThat(methods).haveExactly(1,
+            methodDescriptor(SpringTransactionalSubClass.class, "transactionalSubClassMethodWithRequiredSemantics"));
+        assertThat(methods).haveExactly(1,
+            methodDescriptor(SpringTransactionalInterface.class, "transactionalMethodWithRequiredSemantics"));
+        assertThat(methods).haveExactly(1,
+            methodDescriptor(SpringTransactionalImplementingClass.class, "transactionalMethodWithRequiredSemantics"));
         assertThat(methods).haveExactly(1,
             methodDescriptor(SpringTransactionalImplementingClass.class, "transactionalImplementingClassMethod"));
         assertThat(methods).haveExactly(1,
-            methodDescriptor(JtaTransactionalClass.class, "transactionalMethod"));
+            methodDescriptor(SpringTransactionalImplementingClass.class, "transactionalMethodWithNeverSemantics"));
         assertThat(methods).haveExactly(1,
-            methodDescriptor(JtaJakartaTransactionalClass.class, "transactionalMethod"));
+            methodDescriptor(SpringTransactionalImplementingClass.class, "transactionalMethodWithRequiredSemantics"));
+        assertThat(methods).haveExactly(1,
+            methodDescriptor(SpringTransactionalImplementingClass.class, "requiredTransactionalCallingRequiredTransactionalTransitively"));
+        assertThat(methods).haveExactly(1,
+            methodDescriptor(SpringTransactionalImplementingClass.class, "neverTransactionalCallingRequiredTransactionalTransitively"));
+        assertThat(methods).haveExactly(1,
+            methodDescriptor(JtaTransactionalClass.class, "transactionalMethodWithRequiredSemantics"));
+        assertThat(methods).haveExactly(1,
+            methodDescriptor(JtaTransactionalClass.class, "transactionalMethodWithNeverSemantics"));
+        assertThat(methods).haveExactly(1,
+            methodDescriptor(JtaTransactionalClass.class, "transactionalMethodWithRequiredSemantics"));
+        assertThat(methods).haveExactly(1,
+            methodDescriptor(JtaJakartaTransactionalClass.class, "transactionalMethodWithRequiredSemantics"));
+        assertThat(methods).haveExactly(1,
+            methodDescriptor(JtaJakartaTransactionalClass.class, "transactionalMethodWithNeverSemantics"));
+        assertThat(methods).haveExactly(1,
+            methodDescriptor(JtaJakartaTransactionalClass.class, "transactionalMethodWithRequiredSemantics"));
+        assertThat(methods).haveExactly(1,
+            methodDescriptor(JtaJakartaTransactionalClass.class, "requiredTransactionalCallingRequiredTransactionalTransitively"));
+        assertThat(methods).haveExactly(1,
+            methodDescriptor(JtaJakartaTransactionalClass.class, "neverTransactionalCallingRequiredTransactionalTransitively"));
 
         // Simple inheritance
         assertThat(methods).haveExactly(1,
-            methodDescriptor(SimpleTransactionalClass.class, "method"));
+            methodDescriptor(SimpleTransactionalClass.class, "methodWithRequiredSemantics"));
         assertThat(methods).haveExactly(1,
-            methodDescriptor(CallingSubClassOfSimpleTransactionalClass.class, "anotherMethod"));
+            methodDescriptor(SimpleTransactionalClass.class, "methodWithOverriddenSemantics"));
         assertThat(methods).haveExactly(1,
-            simpleMethodDescriptor(CallingSubClassOfSimpleTransactionalClass.class, "void method()"));
+            methodDescriptor(CallingSubClassOfSimpleTransactionalClass.class, "anotherMethodWithRequiredSemantics"));
         assertThat(methods).haveExactly(1,
-            methodDescriptor(SimpleClassWithTransactionalMethod.class, "method"));
+            methodDescriptor(CallingSubClassOfSimpleTransactionalClass.class, "transactionalMethodWithNeverSemantics"));
         assertThat(methods).haveExactly(1,
-            methodDescriptor(CallingSubClassOfSimpleClassWithTransactionalMethod.class, "anotherMethod"));
+            simpleMethodDescriptor(CallingSubClassOfSimpleTransactionalClass.class, "void methodWithRequiredSemantics()"));
         assertThat(methods).haveExactly(1,
-            simpleMethodDescriptor(CallingSubClassOfSimpleClassWithTransactionalMethod.class, "void method()"));
+            methodDescriptor(SimpleClassWithTransactionalMethod.class, "methodWithRequiredSemantics"));
+        assertThat(methods).haveExactly(1,
+            methodDescriptor(SimpleClassWithTransactionalMethod.class, "methodWithOverriddenSemantics"));
+        assertThat(methods).haveExactly(1,
+            methodDescriptor(CallingSubClassOfSimpleClassWithTransactionalMethod.class, "anotherMethodWithRequiredSemantics"));
+        assertThat(methods).haveExactly(1,
+            methodDescriptor(CallingSubClassOfSimpleClassWithTransactionalMethod.class, "transactionalMethodWithNeverSemantics"));
+        assertThat(methods).haveExactly(1,
+            simpleMethodDescriptor(CallingSubClassOfSimpleClassWithTransactionalMethod.class, "void methodWithRequiredSemantics()"));
 
         // Generic inheritance
         assertThat(methods).haveExactly(1,
-            methodDescriptor(GenericTransactionalClass.class, "method", Object.class));
+            methodDescriptor(GenericTransactionalClass.class, "methodWithRequiredSemantics", Object.class));
         assertThat(methods).haveExactly(1,
-            methodDescriptor(CallingSubClassOfGenericTransactionalClass.class, "anotherMethod"));
+            methodDescriptor(GenericTransactionalClass.class, "methodWithOverriddenSemantics", Object.class));
         assertThat(methods).haveExactly(1,
-            simpleMethodDescriptor(CallingSubClassOfGenericTransactionalClass.class, "void method(java.lang.Object)"));
+            methodDescriptor(CallingSubClassOfGenericTransactionalClass.class, "anotherMethodWithRequiredSemantics"));
         assertThat(methods).haveExactly(1,
-            methodDescriptor(GenericClassWithTransactionalMethod.class, "method", Object.class));
+            simpleMethodDescriptor(CallingSubClassOfGenericTransactionalClass.class, "void methodWithRequiredSemantics(java.lang.Object)"));
         assertThat(methods).haveExactly(1,
-            methodDescriptor(CallingSubClassOfGenericClassWithTransactionalMethod.class, "anotherMethod"));
+            methodDescriptor(CallingSubClassOfGenericTransactionalClass.class, "callingMethodWithNeverSemantics"));
         assertThat(methods).haveExactly(1,
-            simpleMethodDescriptor(CallingSubClassOfGenericClassWithTransactionalMethod.class, "void method(java.lang.Object)"));
+            simpleMethodDescriptor(CallingSubClassOfGenericTransactionalClass.class, "void methodWithOverriddenSemantics(java.lang.Object)"));
+        assertThat(methods).haveExactly(1,
+            methodDescriptor(GenericClassWithTransactionalMethod.class, "methodWithRequiredSemantics", Object.class));
+        assertThat(methods).haveExactly(1,
+            methodDescriptor(GenericClassWithTransactionalMethod.class, "methodWithOverriddenSemantics", Object.class));
+        assertThat(methods).haveExactly(1,
+            methodDescriptor(CallingSubClassOfGenericClassWithTransactionalMethod.class, "anotherMethodWithRequiredSemantics"));
+        assertThat(methods).haveExactly(1,
+            simpleMethodDescriptor(CallingSubClassOfGenericClassWithTransactionalMethod.class, "void methodWithRequiredSemantics(java.lang.Object)"));
+        assertThat(methods).haveExactly(1,
+            methodDescriptor(CallingSubClassOfGenericClassWithTransactionalMethod.class, "callingMethodWithNeverSemantics"));
+        assertThat(methods).haveExactly(1,
+            simpleMethodDescriptor(CallingSubClassOfGenericClassWithTransactionalMethod.class, "void methodWithOverriddenSemantics(java.lang.Object)"));
 
         store.commitTransaction();
     }

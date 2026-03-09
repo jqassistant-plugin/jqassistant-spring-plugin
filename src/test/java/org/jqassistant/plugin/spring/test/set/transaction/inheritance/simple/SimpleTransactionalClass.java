@@ -5,7 +5,11 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class SimpleTransactionalClass {
 
-    public void method() {
+    public void methodWithRequiredSemantics() {
+
+    }
+
+    public void methodWithOverriddenSemantics() {
 
     }
 

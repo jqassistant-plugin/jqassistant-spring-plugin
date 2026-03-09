@@ -5,7 +5,12 @@ import org.springframework.transaction.annotation.Transactional;
 public class GenericClassWithTransactionalMethod<T> {
 
     @Transactional
-    public void method(T parameter) {
+    public void methodWithRequiredSemantics(T parameter) {
+
+    }
+
+    @Transactional
+    public void methodWithOverriddenSemantics(T parameter) {
 
     }
 
