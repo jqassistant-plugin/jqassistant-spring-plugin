@@ -7,7 +7,12 @@ import org.springframework.transaction.annotation.Transactional;
 public class SpringTransactionalClassWithNestedClass {
 
     class InnerClass {
-        void callingTransactional() {
+        void nonTransactionalMethod() {
+            SpringTransactionalClassWithNestedClass.this.transactionalMethodWithRequiredSemantics();
+        }
+
+        @Transactional
+        void transactionalMethodWithRequiredSemantics() {
             SpringTransactionalClassWithNestedClass.this.transactionalMethodWithRequiredSemantics();
         }
 
