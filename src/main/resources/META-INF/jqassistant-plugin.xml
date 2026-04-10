@@ -9,6 +9,7 @@
         <resource>spring-boot.xml</resource>
         <resource>spring-component.xml</resource>
         <resource>spring-data.xml</resource>
+        <resource>spring-feign.xml</resource>
         <resource>spring-injection.xml</resource>
         <resource>spring-modulith.xml</resource>
         <resource>spring-mvc.xml</resource>
