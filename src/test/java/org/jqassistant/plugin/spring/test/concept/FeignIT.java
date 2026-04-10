@@ -21,6 +21,9 @@ public class FeignIT extends AbstractSpringIT {
         assertThat(conceptResult.getStatus()).isEqualTo(Result.Status.SUCCESS);
         assertThat(conceptResult.getRows().size()).isEqualTo(1);
         assertThat((TypeDescriptor) conceptResult.getRows().get(0).getColumns().get("FeignClient").getValue()).is(typeDescriptor(TestFeignClient.class));
+        TestResult queryResult = query("MATCH (feignClient:Spring:Injectable:Feign:Client) RETURN feignClient");
+        assertThat(queryResult.getRows().size()).isEqualTo(1);
+        assertThat(queryResult.<TypeDescriptor>getColumn("feignClient")).haveExactly(1, typeDescriptor(TestFeignClient.class));
         store.commitTransaction();
     }
 
@@ -43,6 +46,9 @@ public class FeignIT extends AbstractSpringIT {
         assertThat(conceptResult.getStatus()).isEqualTo(Result.Status.SUCCESS);
         assertThat(conceptResult.getRows().size()).isEqualTo(1);
         assertThat((TypeDescriptor) conceptResult.getRows().get(0).getColumns().get("FeignConfiguration").getValue()).is(typeDescriptor(FeignClientConfiguration.class));
+        TestResult queryResult = query("MATCH (feignConfiguration:Spring:Injectable:Feign:Configuration:Component) RETURN feignConfiguration");
+        assertThat(queryResult.getRows().size()).isEqualTo(1);
+        assertThat(queryResult.<TypeDescriptor>getColumn("feignConfiguration")).haveExactly(1, typeDescriptor(FeignClientConfiguration.class));
         store.commitTransaction();
     }
 

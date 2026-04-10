@@ -21,7 +21,7 @@
 
     <!--
         It is recommended to not annotate a Feign configuration with @Configuration.
-        However, it is still managed by spring and therefore injectable regarding the specific FeignClient ApplicationContext.
+        However, it is still managed by Spring and therefore injectable regarding the specific FeignClient ApplicationContext.
         see https://docs.spring.io/spring-cloud-openfeign/docs/current/reference/html/#spring-cloud-feign-overriding-defaults
     -->
     <concept id="spring-feign:FeignConfiguration">
@@ -37,14 +37,12 @@
             MATCH
               (feignClient:Spring:Feign:Client)-[:ANNOTATED_BY]->(annotation:Java:Annotation),
               (annotation)-[:OF_TYPE]->(annotationType:Type {fqn: "org.springframework.cloud.openfeign.FeignClient"}),
-              (annotation)-[:HAS]->()-[:CONTAINS]->()-[:IS]->(feignConfiguration:Java:Type)
+              (annotation)-[:HAS]->(:Value {name: "configuration"})-[:CONTAINS]->()-[:IS]->(feignConfiguration:Java:Type)
             SET
               feignConfiguration:Spring:Feign:Configuration:Component:Injectable
             RETURN
               feignConfiguration AS FeignConfiguration
         ]]></cypher>
     </concept>
-
-
 
 </jqassistant-rules>
