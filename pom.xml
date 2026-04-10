@@ -55,6 +55,7 @@
         <org.springframework.modulith_version>2.0.3</org.springframework.modulith_version>
         <org.springframework.boot_version>3.5.6</org.springframework.boot_version>
         <org.springframework.batch_version>6.0.2</org.springframework.batch_version>
+        <org.springframework.cloud-feign_version>5.0.0</org.springframework.cloud-feign_version>
         <javax.transaction.transaction-api_version>1.3</javax.transaction.transaction-api_version>
         <jakarta.transaction-api.version>2.0.1</jakarta.transaction-api.version>
         <jakarta.validation-api.version>3.1.1</jakarta.validation-api.version>
@@ -180,6 +181,12 @@
             <groupId>org.springframework.ws</groupId>
             <artifactId>spring-ws-test</artifactId>
             <version>${org.springframework.ws-test_version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+            <version>${org.springframework.cloud-feign_version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>

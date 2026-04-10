@@ -1,0 +1,50 @@
+<jqassistant-rules xmlns="http://schema.jqassistant.org/rule/v1.10"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://schema.jqassistant.org/rule/v1.10 https://schema.jqassistant.org/plugin/jqassistant-rule-v1.10.xsd">
+
+    <concept id="spring-feign:FeignClient">
+        <providesConcept refId="spring-injection:Injectable"/>
+        <description>Labels all types annotated with "@org.springframework.cloud.openfeign.FeignClient" with "Spring",
+            "Client", "Feign", and "Injectable".
+        </description>
+        <cypher><![CDATA[
+            MATCH
+              (feignClient:Type)-[:ANNOTATED_BY]->()-[:OF_TYPE]->(annotationType:Type)
+            WHERE
+              annotationType.fqn = "org.springframework.cloud.openfeign.FeignClient"
+            SET
+              feignClient:Spring:Feign:Client:Injectable
+            RETURN
+              feignClient as FeignClient
+        ]]></cypher>
+    </concept>
+
+    <!--
+        It is recommended to not annotate a Feign configuration with @Configuration.
+        However, it is still managed by spring and therefore injectable regarding the specific FeignClient ApplicationContext.
+        see https://docs.spring.io/spring-cloud-openfeign/docs/current/reference/html/#spring-cloud-feign-overriding-defaults
+    -->
+    <concept id="spring-feign:FeignConfiguration">
+        <providesConcept refId="spring-component:Configuration"/>
+        <providesConcept refId="spring-component:Component"/>
+        <providesConcept refId="spring-injection:Injectable"/>
+        <requiresConcept refId="spring-feign:FeignClient"/>
+        <description>
+            Labels all types that are referenced via the configuration attribute of "@org.springframework.cloud.openfeign.FeignClient" with
+            "Spring", "Configuration", "Component", "Injectable", and "Feign".
+        </description>
+        <cypher><![CDATA[
+            MATCH
+              (feignClient:Spring:Feign:Client)-[:ANNOTATED_BY]->(annotation:Java:Annotation),
+              (annotation)-[:OF_TYPE]->(annotationType:Type {fqn: "org.springframework.cloud.openfeign.FeignClient"}),
+              (annotation)-[:HAS]->()-[:CONTAINS]->()-[:IS]->(feignConfiguration:Java:Type)
+            SET
+              feignConfiguration:Spring:Feign:Configuration:Component:Injectable
+            RETURN
+              feignConfiguration AS FeignConfiguration
+        ]]></cypher>
+    </concept>
+
+
+
+</jqassistant-rules>

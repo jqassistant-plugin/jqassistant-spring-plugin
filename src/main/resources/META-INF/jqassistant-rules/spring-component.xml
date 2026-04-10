@@ -87,7 +87,20 @@
     </concept>
 
     <concept id="spring-component:Configuration">
+        <providesConcept refId="spring-component:Component"/>
+        <providesConcept refId="spring-injection:Injectable"/>
+        <description>Returns all configuration beans.</description>
+        <cypher><![CDATA[
+            MATCH
+              (configuration:Spring:Configuration:Component:Injectable)
+            RETURN
+              configuration as Configuration
+        ]]></cypher>
+    </concept>
+
+    <concept id="spring-component:AnnotatedConfiguration">
         <providesConcept refId="spring-component:Component" />
+        <providesConcept refId="spring-component:Configuration"/>
         <providesConcept refId="spring-injection:Injectable"/>
         <description>Labels all types annotated with "@org.springframework.context.annotation.Configuration" with
             "Spring", "Configuration", "Component" and "Injectable".

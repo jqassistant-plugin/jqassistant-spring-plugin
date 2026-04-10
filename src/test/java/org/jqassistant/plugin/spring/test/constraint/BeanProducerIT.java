@@ -9,7 +9,8 @@ import com.buschmais.jqassistant.plugin.java.api.model.InvokesDescriptor;
 import com.buschmais.jqassistant.plugin.java.api.model.MethodDescriptor;
 import com.buschmais.jqassistant.plugin.java.api.model.TypeDescriptor;
 import com.buschmais.jqassistant.plugin.java.test.AbstractJavaPluginIT;
-
+import org.jqassistant.plugin.spring.test.set.feign.FeignClientConfiguration;
+import org.jqassistant.plugin.spring.test.set.feign.TestFeignClient;
 import org.jqassistant.plugin.spring.test.set.injectables.ConfigurationBeanA;
 import org.jqassistant.plugin.spring.test.set.injectables.ConfigurationWithBeanProducer;
 import org.jqassistant.plugin.spring.test.set.injectables.ConfigurationWithBeanProducerAndPrivateMethod;
@@ -30,7 +31,7 @@ class BeanProducerIT extends AbstractJavaPluginIT {
     @Test
     public void beanProducerInConfigurationComponent() throws Exception {
         scanClasses(ConfigurationWithBeanProducer.class, ConfigurationWithBeanProducer.NestedConfigurationWithBeanProducer.class,
-            ConfigurationWithBeanProducerAndPrivateMethod.class);
+            ConfigurationWithBeanProducerAndPrivateMethod.class, FeignClientConfiguration.class, TestFeignClient.class);
         assertThat(
             validateConstraint("spring-injection:BeanProducerMustBeDeclaredInConfigurationComponent").getStatus(),
             equalTo(SUCCESS));
