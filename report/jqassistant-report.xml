@@ -1,0 +1,1302 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jqassistant-report xmlns="http://schema.jqassistant.org/report/v2.9">
+  <context>
+    <build>
+      <name>jQAssistant Spring Framework Plugin</name>
+      <timestamp>2026-04-10T10:38:15.17Z</timestamp>
+      <properties></properties>
+    </build>
+  </context>
+  <group id="jqassistant-plugin:Default" date="2026-04-10T10:39:55">
+    <group id="jqassistant-plugin-maven:Default" date="2026-04-10T10:39:55">
+      <constraint id="jqassistant-plugin-maven:GroupId">
+        <description>The groupId for jQAssistant plugin Maven projects must follow the pattern 'org.jqassistant.plugin.&lt;project&gt;'.</description>
+        <verificationResult>
+          <success>true</success>
+          <rowCount>0</rowCount>
+        </verificationResult>
+        <status>success</status>
+        <severity level="2">major</severity>
+        <duration>90</duration>
+      </constraint>
+      <concept id="jqassistant-plugin-maven:ParentProject" abstract="false">
+        <description>Labels all Maven projects which declare "org.jqassistant.plugin:parent" as parent module with "Parent".</description>
+        <result>
+          <columns count="1" primary="parent">
+            <column>parent</column>
+          </columns>
+          <rows count="1">
+            <row key="d16daeae9860e8a456f57d5b4c3876384a52ed71eb972c370b098511c1048833">
+              <column name="parent">
+                <element language="Generic">Named</element>
+                <source fileName="/home/runner/work/jqassistant-spring-plugin/jqassistant-spring-plugin"></source>
+                <value>jQAssistant Spring Framework Plugin</value>
+              </column>
+            </row>
+          </rows>
+        </result>
+        <verificationResult>
+          <success>true</success>
+          <rowCount>1</rowCount>
+        </verificationResult>
+        <status>success</status>
+        <severity level="4">info</severity>
+        <duration>105</duration>
+      </concept>
+      <constraint id="jqassistant-plugin-maven:MavenModulesMustUseParentGroupId">
+        <description>All Maven projects must define the same groupId as the parent of the plugin project.</description>
+        <verificationResult>
+          <success>true</success>
+          <rowCount>0</rowCount>
+        </verificationResult>
+        <status>success</status>
+        <severity level="2">major</severity>
+        <duration>72</duration>
+        <required-concept id="jqassistant-plugin-maven:ParentProject">
+          <status>success</status>
+        </required-concept>
+      </constraint>
+      <constraint id="jqassistant-plugin-maven:ParentProjectMustDefineDeveloper">
+        <description>At least one developer must be specified in the "developers" section of the parent pom.xml of a plugin project.</description>
+        <verificationResult>
+          <success>true</success>
+          <rowCount>0</rowCount>
+        </verificationResult>
+        <status>success</status>
+        <severity level="2">major</severity>
+        <duration>97</duration>
+        <required-concept id="jqassistant-plugin-maven:ParentProject">
+          <status>success</status>
+        </required-concept>
+      </constraint>
+      <constraint id="jqassistant-plugin-maven:ParentProjectMustDefineScmSection">
+        <description>A SCM section having both connection and developerConnection set to "scm:git:https://github.com/jqassistant-plugin/_repository-name_" must be specified in the parent pom.xml of a plugin project.</description>
+        <verificationResult>
+          <success>true</success>
+          <rowCount>0</rowCount>
+        </verificationResult>
+        <status>success</status>
+        <severity level="2">major</severity>
+        <duration>102</duration>
+        <required-concept id="jqassistant-plugin-maven:ParentProject">
+          <status>success</status>
+        </required-concept>
+      </constraint>
+      <constraint id="jqassistant-plugin-maven:ParentProjectMustDefineUrl">
+        <description>The project URL must be defined in the parent pom.xml of a plugin project.</description>
+        <verificationResult>
+          <success>true</success>
+          <rowCount>0</rowCount>
+        </verificationResult>
+        <status>success</status>
+        <severity level="2">major</severity>
+        <duration>173</duration>
+        <required-concept id="jqassistant-plugin-maven:ParentProject">
+          <status>success</status>
+        </required-concept>
+      </constraint>
+      <duration>846</duration>
+    </group>
+    <group id="jqassistant-plugin-test:Default" date="2026-04-10T10:39:56">
+      <concept id="junit5:ParameterizedTestMethod" abstract="false">
+        <description>Finds all test methods (i.e. annotated with "@org.junit.jupiter.api.ParameterizedTest") and
+labels them with "Test", "Parameterized", and "Junit5".</description>
+        <result>
+          <columns count="1" primary="Test">
+            <column>Test</column>
+          </columns>
+          <rows count="7">
+            <row key="b900443a0d417fc922f0fc0a31bc84f1068a6cd3e91dc4bb2681e9de3992b221">
+              <column name="Test">
+                <element language="Java">Method</element>
+                <source fileName="/org/jqassistant/plugin/spring/test/concept/InjectableIT.java" startLine="139" endLine="147">
+                  <parent fileName="/home/runner/.m2/repository/org/jqassistant/plugin/jqassistant-spring-plugin/2.7.0-SNAPSHOT/jqassistant-spring-plugin-2.7.0-SNAPSHOT-tests.test-jar" group="org.jqassistant.plugin" name="jqassistant-spring-plugin" type="test-jar" version="2.7.0-SNAPSHOT" classifier="tests"></parent>
+                </source>
+                <value>void constraintValidator(java.lang.Class,java.lang.Class)</value>
+              </column>
+            </row>
+            <row key="d8374a940249c2d2f2aeb4ba2ca9edcb5d6ff827a307d9dc3e00b754096bcb5e">
+              <column name="Test">
+                <element language="Java">Method</element>
+                <source fileName="/org/jqassistant/plugin/spring/test/concept/TransactionPropagationIT.java" startLine="23" endLine="53">
+                  <parent fileName="/home/runner/.m2/repository/org/jqassistant/plugin/jqassistant-spring-plugin/2.7.0-SNAPSHOT/jqassistant-spring-plugin-2.7.0-SNAPSHOT-tests.test-jar" group="org.jqassistant.plugin" name="jqassistant-spring-plugin" type="test-jar" version="2.7.0-SNAPSHOT" classifier="tests"></parent>
+                </source>
+                <value>void propagationOnTypeAndMethodLevel(java.lang.Class)</value>
+              </column>
+            </row>
+            <row key="bf5fdbfd98efd74cb12c2312dc5ef76b86a1f5e8491d55130b34b02f9458fc0e">
+              <column name="Test">
+                <element language="Java">Method</element>
+                <source fileName="/org/jqassistant/plugin/spring/test/constraint/TransactionalMethodMustNotBeInvokedFromSameOrSubclassIT.java" startLine="321" endLine="357">
+                  <parent fileName="/home/runner/.m2/repository/org/jqassistant/plugin/jqassistant-spring-plugin/2.7.0-SNAPSHOT/jqassistant-spring-plugin-2.7.0-SNAPSHOT-tests.test-jar" group="org.jqassistant.plugin" name="jqassistant-spring-plugin" type="test-jar" version="2.7.0-SNAPSHOT" classifier="tests"></parent>
+                </source>
+                <value>void nonTransactionalMethodCallingTransactionalMethod(java.lang.Class)</value>
+              </column>
+            </row>
+            <row key="2ba8be394bd1c9182ba6d382414480706948a96f7a7a54c01e7d66c912ede2a6">
+              <column name="Test">
+                <element language="Java">Method</element>
+                <source fileName="/org/jqassistant/plugin/spring/test/constraint/PrivateMethodMustNotBeAnnotatedWithTransactionalIT.java" startLine="30" endLine="50">
+                  <parent fileName="/home/runner/.m2/repository/org/jqassistant/plugin/jqassistant-spring-plugin/2.7.0-SNAPSHOT/jqassistant-spring-plugin-2.7.0-SNAPSHOT-tests.test-jar" group="org.jqassistant.plugin" name="jqassistant-spring-plugin" type="test-jar" version="2.7.0-SNAPSHOT" classifier="tests"></parent>
+                </source>
+                <value>void privateMethodMustNotBeAnnotatedWithTransactional(java.lang.Class)</value>
+              </column>
+            </row>
+            <row key="dc0533480481dce7b60c6e649c3addfe3337ca121d3c7c4acc10e62e8c4c4e79">
+              <column name="Test">
+                <element language="Java">Method</element>
+                <source fileName="/org/jqassistant/plugin/spring/test/concept/InjectableIT.java" startLine="45" endLine="55">
+                  <parent fileName="/home/runner/.m2/repository/org/jqassistant/plugin/jqassistant-spring-plugin/2.7.0-SNAPSHOT/jqassistant-spring-plugin-2.7.0-SNAPSHOT-tests.test-jar" group="org.jqassistant.plugin" name="jqassistant-spring-plugin" type="test-jar" version="2.7.0-SNAPSHOT" classifier="tests"></parent>
+                </source>
+                <value>void beanMethod(java.lang.Class,java.lang.Class)</value>
+              </column>
+            </row>
+            <row key="f55727bbf2b13783375316adc18c3b9c90428266ce44638a942c4fd1e892c67c">
+              <column name="Test">
+                <element language="Java">Method</element>
+                <source fileName="/org/jqassistant/plugin/spring/test/constraint/TransactionalMethodMustNotBeInvokedFromSameOrSubclassIT.java" startLine="37" endLine="68">
+                  <parent fileName="/home/runner/.m2/repository/org/jqassistant/plugin/jqassistant-spring-plugin/2.7.0-SNAPSHOT/jqassistant-spring-plugin-2.7.0-SNAPSHOT-tests.test-jar" group="org.jqassistant.plugin" name="jqassistant-spring-plugin" type="test-jar" version="2.7.0-SNAPSHOT" classifier="tests"></parent>
+                </source>
+                <value>void transactionMethodsMustNotBeCalledDirectlyWithViolations(java.lang.Class)</value>
+              </column>
+            </row>
+            <row key="9ea4e82e741c7d0cc32b47086af05192a3f32a0147017360ce5980aa16681c3c">
+              <column name="Test">
+                <element language="Java">Method</element>
+                <source fileName="/org/jqassistant/plugin/spring/test/concept/TransactionPropagationIT.java" startLine="59" endLine="82">
+                  <parent fileName="/home/runner/.m2/repository/org/jqassistant/plugin/jqassistant-spring-plugin/2.7.0-SNAPSHOT/jqassistant-spring-plugin-2.7.0-SNAPSHOT-tests.test-jar" group="org.jqassistant.plugin" name="jqassistant-spring-plugin" type="test-jar" version="2.7.0-SNAPSHOT" classifier="tests"></parent>
+                </source>
+                <value>void propagationOnMethodLevel(java.lang.Class)</value>
+              </column>
+            </row>
+          </rows>
+        </result>
+        <verificationResult>
+          <success>true</success>
+          <rowCount>7</rowCount>
+        </verificationResult>
+        <status>success</status>
+        <severity level="4">info</severity>
+        <duration>75</duration>
+      </concept>
+      <concept id="junit5:TestMethod" abstract="false">
+        <description>Finds all test methods (i.e. annotated with "@org.junit.jupiter.api.Test") and
+labels them with "Test" and "Junit5".</description>
+        <result>
+          <columns count="1" primary="Test">
+            <column>Test</column>
+          </columns>
+          <rows count="64">
+            <row key="62a1de8e6d28cec0ffe3388280f49a4bcd67d9c80c9979e0006ad6b18c777bcc">
+              <column name="Test">
+                <element language="Java">Method</element>
+                <source fileName="/org/jqassistant/plugin/spring/test/constraint/PrivateMethodMustNotBeAnnotatedWithTransactionalIT.java" startLine="54" endLine="72">
+                  <parent fileName="/home/runner/.m2/repository/org/jqassistant/plugin/jqassistant-spring-plugin/2.7.0-SNAPSHOT/jqassistant-spring-plugin-2.7.0-SNAPSHOT-tests.test-jar" group="org.jqassistant.plugin" name="jqassistant-spring-plugin" type="test-jar" version="2.7.0-SNAPSHOT" classifier="tests"></parent>
+                </source>
+                <value>void privateMethodMustNotBeAnnotatedWithTransactionalNoViolations()</value>
+              </column>
+            </row>
+            <row key="6e1b23746b1ef6e3b1bec8dfdbad9f1fdc086c76a4b3050aa238dd3df2489d09">
+              <column name="Test">
+                <element language="Java">Method</element>
+                <source fileName="/org/jqassistant/plugin/spring/test/concept/ComponentIT.java" startLine="66" endLine="79">
+                  <parent fileName="/home/runner/.m2/repository/org/jqassistant/plugin/jqassistant-spring-plugin/2.7.0-SNAPSHOT/jqassistant-spring-plugin-2.7.0-SNAPSHOT-tests.test-jar" group="org.jqassistant.plugin" name="jqassistant-spring-plugin" type="test-jar" version="2.7.0-SNAPSHOT" classifier="tests"></parent>
+                </source>
+                <value>void service()</value>
+              </column>
+            </row>
+            <row key="70014f9b0234bc04d68974b258cf1da2e5268d0f4b4a5fcbed7578b417b9e163">
+              <column name="Test">
+                <element language="Java">Method</element>
+                <source fileName="/org/jqassistant/plugin/spring/test/constraint/BeanProducerIT.java" startLine="42" endLine="57">
+                  <parent fileName="/home/runner/.m2/repository/org/jqassistant/plugin/jqassistant-spring-plugin/2.7.0-SNAPSHOT/jqassistant-spring-plugin-2.7.0-SNAPSHOT-tests.test-jar" group="org.jqassistant.plugin" name="jqassistant-spring-plugin" type="test-jar" version="2.7.0-SNAPSHOT" classifier="tests"></parent>
+                </source>
+                <value>void beanProducerInServiceComponent()</value>
+              </column>
+            </row>
+            <row key="34891f04cc662a940afbd43d0b93e1c5004e6dc589eef97b8243070380f5239b">
+              <column name="Test">
+                <element language="Java">Method</element>
+                <source fileName="/org/jqassistant/plugin/spring/test/concept/FeignIT.java" startLine="18" endLine="28">
+                  <parent fileName="/home/runner/.m2/repository/org/jqassistant/plugin/jqassistant-spring-plugin/2.7.0-SNAPSHOT/jqassistant-spring-plugin-2.7.0-SNAPSHOT-tests.test-jar" group="org.jqassistant.plugin" name="jqassistant-spring-plugin" type="test-jar" version="2.7.0-SNAPSHOT" classifier="tests"></parent>
+                </source>
+                <value>void feignClient()</value>
+              </column>
+            </row>
+            <row key="8ca6806e04fe47dd5dbd6880793fd37d25834c5c2ec5de77a5f44294119f7a66">
+              <column name="Test">
+                <element language="Java">Method</element>
+                <source fileName="/org/jqassistant/plugin/spring/test/constraint/InjectablesMustNotBeInstatiatedIT.java" startLine="36" endLine="67">
+                  <parent fileName="/home/runner/.m2/repository/org/jqassistant/plugin/jqassistant-spring-plugin/2.7.0-SNAPSHOT/jqassistant-spring-plugin-2.7.0-SNAPSHOT-tests.test-jar" group="org.jqassistant.plugin" name="jqassistant-spring-plugin" type="test-jar" version="2.7.0-SNAPSHOT" classifier="tests"></parent>
+                </source>
+                <value>void injectableCreatesInstance()</value>
+              </column>
+            </row>
+            <row key="a60f7b910fa625e49928ecda2fd0b52f7d598a5d7e9f5cfd09fed7cd5c8c4c63">
+              <column name="Test">
+                <element language="Java">Method</element>
+                <source fileName="/org/jqassistant/plugin/spring/test/concept/FeignIT.java" startLine="57" endLine="63">
+                  <parent fileName="/home/runner/.m2/repository/org/jqassistant/plugin/jqassistant-spring-plugin/2.7.0-SNAPSHOT/jqassistant-spring-plugin-2.7.0-SNAPSHOT-tests.test-jar" group="org.jqassistant.plugin" name="jqassistant-spring-plugin" type="test-jar" version="2.7.0-SNAPSHOT" classifier="tests"></parent>
+                </source>
+                <value>void feignClientConfigurationProvidesInjectable()</value>
+              </column>
+            </row>
+            <row key="c7d265d1eba74509aa41c29c82e1e0b134039564e3619179296f33ed6ddc9bad">
+              <column name="Test">
+                <element language="Java">Method</element>
+                <source fileName="/org/jqassistant/plugin/spring/test/constraint/SpringInterfacesIT.java" startLine="41" endLine="42">
+                  <parent fileName="/home/runner/.m2/repository/org/jqassistant/plugin/jqassistant-spring-plugin/2.7.0-SNAPSHOT/jqassistant-spring-plugin-2.7.0-SNAPSHOT-tests.test-jar" group="org.jqassistant.plugin" name="jqassistant-spring-plugin" type="test-jar" version="2.7.0-SNAPSHOT" classifier="tests"></parent>
+                </source>
+                <value>void avoidApplicationContextAware()</value>
+              </column>
+            </row>
+            <row key="730f7c3a2d7f4b9677813e9dd3f95ff13bcd4b1f1d2b4c9634151a5d9bbad949">
+              <column name="Test">
+                <element language="Java">Method</element>
+                <source fileName="/org/jqassistant/plugin/spring/test/concept/ModulithIT.java" startLine="48" endLine="67">
+                  <parent fileName="/home/runner/.m2/repository/org/jqassistant/plugin/jqassistant-spring-plugin/2.7.0-SNAPSHOT/jqassistant-spring-plugin-2.7.0-SNAPSHOT-tests.test-jar" group="org.jqassistant.plugin" name="jqassistant-spring-plugin" type="test-jar" version="2.7.0-SNAPSHOT" classifier="tests"></parent>
+                </source>
+                <value>void providedConceptAssertMethod()</value>
+              </column>
+            </row>
+            <row key="898fcc1a2b3a3e0454f359bce7ba1e2c13b74d773b3720b543b96f88ee648318">
+              <column name="Test">
+                <element language="Java">Method</element>
+                <source fileName="/org/jqassistant/plugin/spring/test/constraint/SpringInterfacesIT.java" startLine="31" endLine="32">
+                  <parent fileName="/home/runner/.m2/repository/org/jqassistant/plugin/jqassistant-spring-plugin/2.7.0-SNAPSHOT/jqassistant-spring-plugin-2.7.0-SNAPSHOT-tests.test-jar" group="org.jqassistant.plugin" name="jqassistant-spring-plugin" type="test-jar" version="2.7.0-SNAPSHOT" classifier="tests"></parent>
+                </source>
+                <value>void avoidDisposableBean()</value>
+              </column>
+            </row>
+            <row key="6429b3adfa5b4785fd854c1fb59dc99ff4c39b916f1712204ad37f922c7d74d1">
+              <column name="Test">
+                <element language="Java">Method</element>
+                <source fileName="/org/jqassistant/plugin/spring/test/concept/ComponentIT.java" startLine="49" endLine="62">
+                  <parent fileName="/home/runner/.m2/repository/org/jqassistant/plugin/jqassistant-spring-plugin/2.7.0-SNAPSHOT/jqassistant-spring-plugin-2.7.0-SNAPSHOT-tests.test-jar" group="org.jqassistant.plugin" name="jqassistant-spring-plugin" type="test-jar" version="2.7.0-SNAPSHOT" classifier="tests"></parent>
+                </source>
+                <value>void controller()</value>
+              </column>
+            </row>
+            <row key="c7c39266561f557d39990ba2f8a68be6ed7513ada866b597c23da6a83fdfb438">
+              <column name="Test">
+                <element language="Java">Method</element>
+                <source fileName="/org/jqassistant/plugin/spring/test/constraint/DependencyStructureIT.java" startLine="47" endLine="49">
+                  <parent fileName="/home/runner/.m2/repository/org/jqassistant/plugin/jqassistant-spring-plugin/2.7.0-SNAPSHOT/jqassistant-spring-plugin-2.7.0-SNAPSHOT-tests.test-jar" group="org.jqassistant.plugin" name="jqassistant-spring-plugin" type="test-jar" version="2.7.0-SNAPSHOT" classifier="tests"></parent>
+                </source>
+                <value>void validServiceDependencies()</value>
+              </column>
+            </row>
+            <row key="7a414cac95536f4c7eec82c17c9fe87d19a1e1cdb1fbcb73faefa1caff6c1ec6">
+              <column name="Test">
+                <element language="Java">Method</element>
+                <source fileName="/org/jqassistant/plugin/spring/test/constraint/FieldsOfInjectablesMustNotBeManipulatedIT.java" startLine="72" endLine="84">
+                  <parent fileName="/home/runner/.m2/repository/org/jqassistant/plugin/jqassistant-spring-plugin/2.7.0-SNAPSHOT/jqassistant-spring-plugin-2.7.0-SNAPSHOT-tests.test-jar" group="org.jqassistant.plugin" name="jqassistant-spring-plugin" type="test-jar" version="2.7.0-SNAPSHOT" classifier="tests"></parent>
+                </source>
+                <value>void syntheticFields()</value>
+              </column>
+            </row>
+            <row key="d6d9bedee396b646847f666666030c3343945ca410d4d6d41c584eb89b803aaa">
+              <column name="Test">
+                <element language="Java">Method</element>
+                <source fileName="/org/jqassistant/plugin/spring/test/constraint/DependencyStructureIT.java" startLine="40" endLine="43">
+                  <parent fileName="/home/runner/.m2/repository/org/jqassistant/plugin/jqassistant-spring-plugin/2.7.0-SNAPSHOT/jqassistant-spring-plugin-2.7.0-SNAPSHOT-tests.test-jar" group="org.jqassistant.plugin" name="jqassistant-spring-plugin" type="test-jar" version="2.7.0-SNAPSHOT" classifier="tests"></parent>
+                </source>
+                <value>void invalidControllerDependencies()</value>
+              </column>
+            </row>
+            <row key="6a37adf3f3b22b346fff9c1e3252ffc1f24bc7cd4213c833930637a0ad0e4035">
+              <column name="Test">
+                <element language="Java">Method</element>
+                <source fileName="/org/jqassistant/plugin/spring/test/constraint/SpringInterfacesIT.java" startLine="46" endLine="47">
+                  <parent fileName="/home/runner/.m2/repository/org/jqassistant/plugin/jqassistant-spring-plugin/2.7.0-SNAPSHOT/jqassistant-spring-plugin-2.7.0-SNAPSHOT-tests.test-jar" group="org.jqassistant.plugin" name="jqassistant-spring-plugin" type="test-jar" version="2.7.0-SNAPSHOT" classifier="tests"></parent>
+                </source>
+                <value>void avoidApplicationEventPublisherAwareBean()</value>
+              </column>
+            </row>
+            <row key="1470e24396c1df83c5d66e3610652c7e101a1415e8d46657f6cf1a32e7dea3a9">
+              <column name="Test">
+                <element language="Java">Method</element>
+                <source fileName="/org/jqassistant/plugin/spring/test/concept/InjectableIT.java" startLine="59" endLine="72">
+                  <parent fileName="/home/runner/.m2/repository/org/jqassistant/plugin/jqassistant-spring-plugin/2.7.0-SNAPSHOT/jqassistant-spring-plugin-2.7.0-SNAPSHOT-tests.test-jar" group="org.jqassistant.plugin" name="jqassistant-spring-plugin" type="test-jar" version="2.7.0-SNAPSHOT" classifier="tests"></parent>
+                </source>
+                <value>void injectionPoint()</value>
+              </column>
+            </row>
+            <row key="9c66ce30b46f0c226d2eb1eb95fc7db4fd2ccf667f75bc6888c47d0463df6676">
+              <column name="Test">
+                <element language="Java">Method</element>
+                <source fileName="/org/jqassistant/plugin/spring/test/constraint/TransactionalMethodMustNotBeInvokedFromSameOrSubclassIT.java" startLine="275" endLine="315">
+                  <parent fileName="/home/runner/.m2/repository/org/jqassistant/plugin/jqassistant-spring-plugin/2.7.0-SNAPSHOT/jqassistant-spring-plugin-2.7.0-SNAPSHOT-tests.test-jar" group="org.jqassistant.plugin" name="jqassistant-spring-plugin" type="test-jar" version="2.7.0-SNAPSHOT" classifier="tests"></parent>
+                </source>
+                <value>void transactionalMethodMustNotBeInvokedFromNestedClassInSubClass()</value>
+              </column>
+            </row>
+            <row key="5c669e29209579a4b14368e5f1a3d742514c3ed0554478e5627465148c0b634a">
+              <column name="Test">
+                <element language="Java">Method</element>
+                <source fileName="/org/jqassistant/plugin/spring/test/constraint/InjectablesMustNotBeReferredToStaticallyIT.java" startLine="56" endLine="77">
+                  <parent fileName="/home/runner/.m2/repository/org/jqassistant/plugin/jqassistant-spring-plugin/2.7.0-SNAPSHOT/jqassistant-spring-plugin-2.7.0-SNAPSHOT-tests.test-jar" group="org.jqassistant.plugin" name="jqassistant-spring-plugin" type="test-jar" version="2.7.0-SNAPSHOT" classifier="tests"></parent>
+                </source>
+                <value>void reportsStaticReferenceToInjectable()</value>
+              </column>
+            </row>
+            <row key="5bc3338380be7203b83e0bbfaba87f51bd08d63f1420bac842b1713f79fe6caa">
+              <column name="Test">
+                <element language="Java">Method</element>
+                <source fileName="/org/jqassistant/plugin/spring/test/concept/ComponentIT.java" startLine="83" endLine="94">
+                  <parent fileName="/home/runner/.m2/repository/org/jqassistant/plugin/jqassistant-spring-plugin/2.7.0-SNAPSHOT/jqassistant-spring-plugin-2.7.0-SNAPSHOT-tests.test-jar" group="org.jqassistant.plugin" name="jqassistant-spring-plugin" type="test-jar" version="2.7.0-SNAPSHOT" classifier="tests"></parent>
+                </source>
+                <value>void repository()</value>
+              </column>
+            </row>
+            <row key="9aa159e1f3629fa6af4a5f754cde390dbd81557cdab3eecdeae0c786e038de81">
+              <column name="Test">
+                <element language="Java">Method</element>
+                <source fileName="/org/jqassistant/plugin/spring/test/constraint/BeanProducerIT.java" startLine="61" endLine="82">
+                  <parent fileName="/home/runner/.m2/repository/org/jqassistant/plugin/jqassistant-spring-plugin/2.7.0-SNAPSHOT/jqassistant-spring-plugin-2.7.0-SNAPSHOT-tests.test-jar" group="org.jqassistant.plugin" name="jqassistant-spring-plugin" type="test-jar" version="2.7.0-SNAPSHOT" classifier="tests"></parent>
+                </source>
+                <value>void beanProducerMustNotBeInvokedDirectly()</value>
+              </column>
+            </row>
+            <row key="4a1735236bf3b95ddc0cc6bf2989fbf611049df5274aa134c0a2ccd8c7a46dd8">
+              <column name="Test">
+                <element language="Java">Method</element>
+                <source fileName="/org/jqassistant/plugin/spring/test/constraint/AllTypesInApplicationPackageIT.java" startLine="36" endLine="55">
+                  <parent fileName="/home/runner/.m2/repository/org/jqassistant/plugin/jqassistant-spring-plugin/2.7.0-SNAPSHOT/jqassistant-spring-plugin-2.7.0-SNAPSHOT-tests.test-jar" group="org.jqassistant.plugin" name="jqassistant-spring-plugin" type="test-jar" version="2.7.0-SNAPSHOT" classifier="tests"></parent>
+                </source>
+                <value>void typeOutsideApplicationPackage()</value>
+              </column>
+            </row>
+            <row key="730f7c3a2d7f4b9677813e9dd3f95ff13bcd4b1f1d2b4c9634151a5d9bbad949">
+              <column name="Test">
+                <element language="Java">Method</element>
+                <source fileName="/org/jqassistant/plugin/spring/test/concept/TestIT.java" startLine="49" endLine="67">
+                  <parent fileName="/home/runner/.m2/repository/org/jqassistant/plugin/jqassistant-spring-plugin/2.7.0-SNAPSHOT/jqassistant-spring-plugin-2.7.0-SNAPSHOT-tests.test-jar" group="org.jqassistant.plugin" name="jqassistant-spring-plugin" type="test-jar" version="2.7.0-SNAPSHOT" classifier="tests"></parent>
+                </source>
+                <value>void providedConceptAssertMethod()</value>
+              </column>
+            </row>
+            <row key="ac8e403088ca1d2cfc3f4dd1129d0b9180a48a9d054b9bdc7654a6cbe5acd2cb">
+              <column name="Test">
+                <element language="Java">Method</element>
+                <source fileName="/org/jqassistant/plugin/spring/test/constraint/FieldInjectionIT.java" startLine="39" endLine="41">
+                  <parent fileName="/home/runner/.m2/repository/org/jqassistant/plugin/jqassistant-spring-plugin/2.7.0-SNAPSHOT/jqassistant-spring-plugin-2.7.0-SNAPSHOT-tests.test-jar" group="org.jqassistant.plugin" name="jqassistant-spring-plugin" type="test-jar" version="2.7.0-SNAPSHOT" classifier="tests"></parent>
+                </source>
+                <value>void serviceWithConstructorInjection()</value>
+              </column>
+            </row>
+            <row key="a27e1f81e68d4779329184e30dc0feac069a5682c17792f9d6a4f99acc4379cd">
+              <column name="Test">
+                <element language="Java">Method</element>
+                <source fileName="/org/jqassistant/plugin/spring/test/constraint/InjectablesMustNotBeInstatiatedIT.java" startLine="92" endLine="102">
+                  <parent fileName="/home/runner/.m2/repository/org/jqassistant/plugin/jqassistant-spring-plugin/2.7.0-SNAPSHOT/jqassistant-spring-plugin-2.7.0-SNAPSHOT-tests.test-jar" group="org.jqassistant.plugin" name="jqassistant-spring-plugin" type="test-jar" version="2.7.0-SNAPSHOT" classifier="tests"></parent>
+                </source>
+                <value>void testClasses()</value>
+              </column>
+            </row>
+            <row key="63b6cf0e6c8b17225a44d1ba679b1e444fd570b86d8632ac7a8d971c1f7dceef">
+              <column name="Test">
+                <element language="Java">Method</element>
+                <source fileName="/org/jqassistant/plugin/spring/test/constraint/FieldInjectionIT.java" startLine="76" endLine="80">
+                  <parent fileName="/home/runner/.m2/repository/org/jqassistant/plugin/jqassistant-spring-plugin/2.7.0-SNAPSHOT/jqassistant-spring-plugin-2.7.0-SNAPSHOT-tests.test-jar" group="org.jqassistant.plugin" name="jqassistant-spring-plugin" type="test-jar" version="2.7.0-SNAPSHOT" classifier="tests"></parent>
+                </source>
+                <value>void doesNotRejectFinalInjectableField()</value>
+              </column>
+            </row>
+            <row key="02815de5d80560859e5db4b768ef7666e4b483a4450896a6dd4b55011cac59da">
+              <column name="Test">
+                <element language="Java">Method</element>
+                <source fileName="/org/jqassistant/plugin/spring/test/concept/InjectableIT.java" startLine="76" endLine="125">
+                  <parent fileName="/home/runner/.m2/repository/org/jqassistant/plugin/jqassistant-spring-plugin/2.7.0-SNAPSHOT/jqassistant-spring-plugin-2.7.0-SNAPSHOT-tests.test-jar" group="org.jqassistant.plugin" name="jqassistant-spring-plugin" type="test-jar" version="2.7.0-SNAPSHOT" classifier="tests"></parent>
+                </source>
+                <value>void injectable()</value>
+              </column>
+            </row>
+            <row key="30b1e03bc21e668f3f17cdf903de519176dd4c9cc41c8aaa73bbe64c14db0386">
+              <column name="Test">
+                <element language="Java">Method</element>
+                <source fileName="/org/jqassistant/plugin/spring/test/constraint/TransactionalMethodMustNotBeInvokedFromSameOrSubclassIT.java" startLine="232" endLine="271">
+                  <parent fileName="/home/runner/.m2/repository/org/jqassistant/plugin/jqassistant-spring-plugin/2.7.0-SNAPSHOT/jqassistant-spring-plugin-2.7.0-SNAPSHOT-tests.test-jar" group="org.jqassistant.plugin" name="jqassistant-spring-plugin" type="test-jar" version="2.7.0-SNAPSHOT" classifier="tests"></parent>
+                </source>
+                <value>void transactionalMethodMustNotBeInvokedFromNestedClass()</value>
+              </column>
+            </row>
+            <row key="a755fe5eaf35860ec429b77d6f26e071296752d312d8898f7fddfb4a709f578f">
+              <column name="Test">
+                <element language="Java">Method</element>
+                <source fileName="/org/jqassistant/plugin/spring/test/constraint/TransactionalMethodMustNotBeInvokedFromSameOrSubclassIT.java" startLine="118" endLine="171">
+                  <parent fileName="/home/runner/.m2/repository/org/jqassistant/plugin/jqassistant-spring-plugin/2.7.0-SNAPSHOT/jqassistant-spring-plugin-2.7.0-SNAPSHOT-tests.test-jar" group="org.jqassistant.plugin" name="jqassistant-spring-plugin" type="test-jar" version="2.7.0-SNAPSHOT" classifier="tests"></parent>
+                </source>
+                <value>void transactionalMethodMustNotBeInvokedFromSameClassSimpleInheritance()</value>
+              </column>
+            </row>
+            <row key="dc694d02b9d915a5dbe090226a31942f878869b65057cfc68e40a2eb5d39ca91">
+              <column name="Test">
+                <element language="Java">Method</element>
+                <source fileName="/org/jqassistant/plugin/spring/test/constraint/FieldInjectionIT.java" startLine="33" endLine="35">
+                  <parent fileName="/home/runner/.m2/repository/org/jqassistant/plugin/jqassistant-spring-plugin/2.7.0-SNAPSHOT/jqassistant-spring-plugin-2.7.0-SNAPSHOT-tests.test-jar" group="org.jqassistant.plugin" name="jqassistant-spring-plugin" type="test-jar" version="2.7.0-SNAPSHOT" classifier="tests"></parent>
+                </source>
+                <value>void serviceWithFieldInjection()</value>
+              </column>
+            </row>
+            <row key="52fce1d7be0eee355da948b221dac0bf9b1a5668e9b59f386f96d9be87abeb0c">
+              <column name="Test">
+                <element language="Java">Method</element>
+                <source fileName="/org/jqassistant/plugin/spring/test/constraint/FieldsOfInjectablesMustNotBeManipulatedIT.java" startLine="62" endLine="67">
+                  <parent fileName="/home/runner/.m2/repository/org/jqassistant/plugin/jqassistant-spring-plugin/2.7.0-SNAPSHOT/jqassistant-spring-plugin-2.7.0-SNAPSHOT-tests.test-jar" group="org.jqassistant.plugin" name="jqassistant-spring-plugin" type="test-jar" version="2.7.0-SNAPSHOT" classifier="tests"></parent>
+                </source>
+                <value>void configurationProperties()</value>
+              </column>
+            </row>
+            <row key="623d20b1882ebad1c395de0fc5f2571f87ad854022a57738c8e961edc2a107e8">
+              <column name="Test">
+                <element language="Java">Method</element>
+                <source fileName="/org/jqassistant/plugin/spring/test/concept/WsIT.java" startLine="30" endLine="32">
+                  <parent fileName="/home/runner/.m2/repository/org/jqassistant/plugin/jqassistant-spring-plugin/2.7.0-SNAPSHOT/jqassistant-spring-plugin-2.7.0-SNAPSHOT-tests.test-jar" group="org.jqassistant.plugin" name="jqassistant-spring-plugin" type="test-jar" version="2.7.0-SNAPSHOT" classifier="tests"></parent>
+                </source>
+                <value>void endpoint()</value>
+              </column>
+            </row>
+            <row key="bc656ad6cee7012b1973e202372c6870f57b76a763e97b70c6963cfa8ff0b0f7">
+              <column name="Test">
+                <element language="Java">Method</element>
+                <source fileName="/org/jqassistant/plugin/spring/test/constraint/TransactionalMethodMustNotBeInvokedFromSameOrSubclassIT.java" startLine="72" endLine="114">
+                  <parent fileName="/home/runner/.m2/repository/org/jqassistant/plugin/jqassistant-spring-plugin/2.7.0-SNAPSHOT/jqassistant-spring-plugin-2.7.0-SNAPSHOT-tests.test-jar" group="org.jqassistant.plugin" name="jqassistant-spring-plugin" type="test-jar" version="2.7.0-SNAPSHOT" classifier="tests"></parent>
+                </source>
+                <value>void transactionMethodsMustNotBeCalledDirectlyWithViolationsInSubClass()</value>
+              </column>
+            </row>
+            <row key="da7599e651f85f5bd420370ce57c16776adcb16f2be03ce5ff387fc42850e6fe">
+              <column name="Test">
+                <element language="Java">Method</element>
+                <source fileName="/org/jqassistant/plugin/spring/test/concept/MvcIT.java" startLine="32" endLine="34">
+                  <parent fileName="/home/runner/.m2/repository/org/jqassistant/plugin/jqassistant-spring-plugin/2.7.0-SNAPSHOT/jqassistant-spring-plugin-2.7.0-SNAPSHOT-tests.test-jar" group="org.jqassistant.plugin" name="jqassistant-spring-plugin" type="test-jar" version="2.7.0-SNAPSHOT" classifier="tests"></parent>
+                </source>
+                <value>void restControllerAdvice()</value>
+              </column>
+            </row>
+            <row key="9e2a3b9c0f98328ea84aaf4210257c6a913dafccefc41b5d1d25bd170a1c33c8">
+              <column name="Test">
+                <element language="Java">Method</element>
+                <source fileName="/org/jqassistant/plugin/spring/test/concept/MvcIT.java" startLine="27" endLine="28">
+                  <parent fileName="/home/runner/.m2/repository/org/jqassistant/plugin/jqassistant-spring-plugin/2.7.0-SNAPSHOT/jqassistant-spring-plugin-2.7.0-SNAPSHOT-tests.test-jar" group="org.jqassistant.plugin" name="jqassistant-spring-plugin" type="test-jar" version="2.7.0-SNAPSHOT" classifier="tests"></parent>
+                </source>
+                <value>void controllerAdvice()</value>
+              </column>
+            </row>
+            <row key="77774ed77dbb7c64de70190ecfcc097da6d70c0dc5533921a864a89bf9866fbe">
+              <column name="Test">
+                <element language="Java">Method</element>
+                <source fileName="/org/jqassistant/plugin/spring/test/constraint/SpringInterfacesIT.java" startLine="36" endLine="37">
+                  <parent fileName="/home/runner/.m2/repository/org/jqassistant/plugin/jqassistant-spring-plugin/2.7.0-SNAPSHOT/jqassistant-spring-plugin-2.7.0-SNAPSHOT-tests.test-jar" group="org.jqassistant.plugin" name="jqassistant-spring-plugin" type="test-jar" version="2.7.0-SNAPSHOT" classifier="tests"></parent>
+                </source>
+                <value>void avoidBeanFactoryAware()</value>
+              </column>
+            </row>
+            <row key="8f46549a598a1f3d5aab442121de5fbe934ab7c9413f73e902fee0d6a9f1b4ec">
+              <column name="Test">
+                <element language="Java">Method</element>
+                <source fileName="/org/jqassistant/plugin/spring/test/constraint/AllTypesInApplicationPackageIT.java" startLine="29" endLine="32">
+                  <parent fileName="/home/runner/.m2/repository/org/jqassistant/plugin/jqassistant-spring-plugin/2.7.0-SNAPSHOT/jqassistant-spring-plugin-2.7.0-SNAPSHOT-tests.test-jar" group="org.jqassistant.plugin" name="jqassistant-spring-plugin" type="test-jar" version="2.7.0-SNAPSHOT" classifier="tests"></parent>
+                </source>
+                <value>void allTypesInsideApplicationPackage()</value>
+              </column>
+            </row>
+            <row key="5b33773b34eacbaca2cdcaae4515dcc67a6b04d14a732c75776ce7afdfbf9eaf">
+              <column name="Test">
+                <element language="Java">Method</element>
+                <source fileName="/org/jqassistant/plugin/spring/test/constraint/DependencyStructureIT.java" startLine="60" endLine="62">
+                  <parent fileName="/home/runner/.m2/repository/org/jqassistant/plugin/jqassistant-spring-plugin/2.7.0-SNAPSHOT/jqassistant-spring-plugin-2.7.0-SNAPSHOT-tests.test-jar" group="org.jqassistant.plugin" name="jqassistant-spring-plugin" type="test-jar" version="2.7.0-SNAPSHOT" classifier="tests"></parent>
+                </source>
+                <value>void validRepositoryDependencies()</value>
+              </column>
+            </row>
+            <row key="e5f359cbbe5edc4b7b1a760b53bff8311a9529c2a3f022ef182675824911c09d">
+              <column name="Test">
+                <element language="Java">Method</element>
+                <source fileName="/org/jqassistant/plugin/spring/test/constraint/InjectablesMustNotBeInstatiatedIT.java" startLine="71" endLine="88">
+                  <parent fileName="/home/runner/.m2/repository/org/jqassistant/plugin/jqassistant-spring-plugin/2.7.0-SNAPSHOT/jqassistant-spring-plugin-2.7.0-SNAPSHOT-tests.test-jar" group="org.jqassistant.plugin" name="jqassistant-spring-plugin" type="test-jar" version="2.7.0-SNAPSHOT" classifier="tests"></parent>
+                </source>
+                <value>void nonInjectableCreatesInstance()</value>
+              </column>
+            </row>
+            <row key="13f80f34840aec2ba170676f16f107fbc9533a9b36a2b9567f3e8e4127aaeec3">
+              <column name="Test">
+                <element language="Java">Method</element>
+                <source fileName="/org/jqassistant/plugin/spring/test/concept/ComponentIT.java" startLine="98" endLine="106">
+                  <parent fileName="/home/runner/.m2/repository/org/jqassistant/plugin/jqassistant-spring-plugin/2.7.0-SNAPSHOT/jqassistant-spring-plugin-2.7.0-SNAPSHOT-tests.test-jar" group="org.jqassistant.plugin" name="jqassistant-spring-plugin" type="test-jar" version="2.7.0-SNAPSHOT" classifier="tests"></parent>
+                </source>
+                <value>void directComponentDependencies()</value>
+              </column>
+            </row>
+            <row key="595c7caa2be330001c88119aa782eb1cc21a71493dcb5a753423d869941744a3">
+              <column name="Test">
+                <element language="Java">Method</element>
+                <source fileName="/org/jqassistant/plugin/spring/test/constraint/InjectablesMustNotBeInstatiatedIT.java" startLine="106" endLine="109">
+                  <parent fileName="/home/runner/.m2/repository/org/jqassistant/plugin/jqassistant-spring-plugin/2.7.0-SNAPSHOT/jqassistant-spring-plugin-2.7.0-SNAPSHOT-tests.test-jar" group="org.jqassistant.plugin" name="jqassistant-spring-plugin" type="test-jar" version="2.7.0-SNAPSHOT" classifier="tests"></parent>
+                </source>
+                <value>void configInstantiatesSubClassOfInjectable()</value>
+              </column>
+            </row>
+            <row key="f44695edacdc96a981dfa5661f2d46e638cb272540a7cdcc14385a91a9c6f462">
+              <column name="Test">
+                <element language="Java">Method</element>
+                <source fileName="/org/jqassistant/plugin/spring/test/concept/WsIT.java" startLine="48" endLine="66">
+                  <parent fileName="/home/runner/.m2/repository/org/jqassistant/plugin/jqassistant-spring-plugin/2.7.0-SNAPSHOT/jqassistant-spring-plugin-2.7.0-SNAPSHOT-tests.test-jar" group="org.jqassistant.plugin" name="jqassistant-spring-plugin" type="test-jar" version="2.7.0-SNAPSHOT" classifier="tests"></parent>
+                </source>
+                <value>void mockWebServiceServerVerifyMethod()</value>
+              </column>
+            </row>
+            <row key="ab280c7ab2251b57f0d908d3bf09522246c9c60164e4ddf53c49848cbb65fc43">
+              <column name="Test">
+                <element language="Java">Method</element>
+                <source fileName="/org/jqassistant/plugin/spring/test/concept/ComponentIT.java" startLine="29" endLine="45">
+                  <parent fileName="/home/runner/.m2/repository/org/jqassistant/plugin/jqassistant-spring-plugin/2.7.0-SNAPSHOT/jqassistant-spring-plugin-2.7.0-SNAPSHOT-tests.test-jar" group="org.jqassistant.plugin" name="jqassistant-spring-plugin" type="test-jar" version="2.7.0-SNAPSHOT" classifier="tests"></parent>
+                </source>
+                <value>void configuration()</value>
+              </column>
+            </row>
+            <row key="ed7d470717d14c54a78881b2fcd184eb311687855f238ca71957ba04b8fb6f3f">
+              <column name="Test">
+                <element language="Java">Method</element>
+                <source fileName="/org/jqassistant/plugin/spring/test/constraint/DependencyStructureIT.java" startLine="34" endLine="36">
+                  <parent fileName="/home/runner/.m2/repository/org/jqassistant/plugin/jqassistant-spring-plugin/2.7.0-SNAPSHOT/jqassistant-spring-plugin-2.7.0-SNAPSHOT-tests.test-jar" group="org.jqassistant.plugin" name="jqassistant-spring-plugin" type="test-jar" version="2.7.0-SNAPSHOT" classifier="tests"></parent>
+                </source>
+                <value>void validControllerDependencies()</value>
+              </column>
+            </row>
+            <row key="84806c8eb62aa5207c5e4d4a13d83a2682e6b5c8102d7cef92b6b2e9355beb11">
+              <column name="Test">
+                <element language="Java">Method</element>
+                <source fileName="/org/jqassistant/plugin/spring/test/concept/TransactionalMethodIT.java" startLine="26" endLine="172">
+                  <parent fileName="/home/runner/.m2/repository/org/jqassistant/plugin/jqassistant-spring-plugin/2.7.0-SNAPSHOT/jqassistant-spring-plugin-2.7.0-SNAPSHOT-tests.test-jar" group="org.jqassistant.plugin" name="jqassistant-spring-plugin" type="test-jar" version="2.7.0-SNAPSHOT" classifier="tests"></parent>
+                </source>
+                <value>void transactionalMethod()</value>
+              </column>
+            </row>
+            <row key="d955ac4e6d016dedc88a55c2cee853cf375df8ad3b23779e4adc78da384906fd">
+              <column name="Test">
+                <element language="Java">Method</element>
+                <source fileName="/org/jqassistant/plugin/spring/test/constraint/InjectablesMustOnlyBeHeldInInjectablesIT.java" startLine="29" endLine="53">
+                  <parent fileName="/home/runner/.m2/repository/org/jqassistant/plugin/jqassistant-spring-plugin/2.7.0-SNAPSHOT/jqassistant-spring-plugin-2.7.0-SNAPSHOT-tests.test-jar" group="org.jqassistant.plugin" name="jqassistant-spring-plugin" type="test-jar" version="2.7.0-SNAPSHOT" classifier="tests"></parent>
+                </source>
+                <value>void reportsInjectablesInNonInjectableClasses()</value>
+              </column>
+            </row>
+            <row key="430726ed9aaaa44df76f2d1527620a8dc9a1dd5d7f2ee3bf8a388b73902ad4dc">
+              <column name="Test">
+                <element language="Java">Method</element>
+                <source fileName="/org/jqassistant/plugin/spring/test/constraint/FieldInjectionIT.java" startLine="45" endLine="72">
+                  <parent fileName="/home/runner/.m2/repository/org/jqassistant/plugin/jqassistant-spring-plugin/2.7.0-SNAPSHOT/jqassistant-spring-plugin-2.7.0-SNAPSHOT-tests.test-jar" group="org.jqassistant.plugin" name="jqassistant-spring-plugin" type="test-jar" version="2.7.0-SNAPSHOT" classifier="tests"></parent>
+                </source>
+                <value>void rejectsNonFinalInjectableField()</value>
+              </column>
+            </row>
+            <row key="395b8f4aec354cffbae7c2b22c2770b5bf41a6e592a47705b653f4d7f4595b91">
+              <column name="Test">
+                <element language="Java">Method</element>
+                <source fileName="/org/jqassistant/plugin/spring/test/constraint/BeanProducerIT.java" startLine="33" endLine="38">
+                  <parent fileName="/home/runner/.m2/repository/org/jqassistant/plugin/jqassistant-spring-plugin/2.7.0-SNAPSHOT/jqassistant-spring-plugin-2.7.0-SNAPSHOT-tests.test-jar" group="org.jqassistant.plugin" name="jqassistant-spring-plugin" type="test-jar" version="2.7.0-SNAPSHOT" classifier="tests"></parent>
+                </source>
+                <value>void beanProducerInConfigurationComponent()</value>
+              </column>
+            </row>
+            <row key="ae6b27d9112a8ab2ef79cc27eab2bfcfefa49615f8bb7dfd636038abb10aaac4">
+              <column name="Test">
+                <element language="Java">Method</element>
+                <source fileName="/org/jqassistant/plugin/spring/test/concept/ModulithIT.java" startLine="26" endLine="44">
+                  <parent fileName="/home/runner/.m2/repository/org/jqassistant/plugin/jqassistant-spring-plugin/2.7.0-SNAPSHOT/jqassistant-spring-plugin-2.7.0-SNAPSHOT-tests.test-jar" group="org.jqassistant.plugin" name="jqassistant-spring-plugin" type="test-jar" version="2.7.0-SNAPSHOT" classifier="tests"></parent>
+                </source>
+                <value>void applicationModulesVerifyeMethod()</value>
+              </column>
+            </row>
+            <row key="357711aae5a0efa12e75ec7cee7cdeb2ba4499567ee113b901964a4cd4ae3f7a">
+              <column name="Test">
+                <element language="Java">Method</element>
+                <source fileName="/org/jqassistant/plugin/spring/test/constraint/DependencyStructureIT.java" startLine="66" endLine="69">
+                  <parent fileName="/home/runner/.m2/repository/org/jqassistant/plugin/jqassistant-spring-plugin/2.7.0-SNAPSHOT/jqassistant-spring-plugin-2.7.0-SNAPSHOT-tests.test-jar" group="org.jqassistant.plugin" name="jqassistant-spring-plugin" type="test-jar" version="2.7.0-SNAPSHOT" classifier="tests"></parent>
+                </source>
+                <value>void invalidRepositoryDependencies()</value>
+              </column>
+            </row>
+            <row key="f1fb6580875a7166d02f119ff4e54f38c51aff8c72bea41c4e6fc016f566b7aa">
+              <column name="Test">
+                <element language="Java">Method</element>
+                <source fileName="/org/jqassistant/plugin/spring/test/constraint/SpringInterfacesIT.java" startLine="26" endLine="27">
+                  <parent fileName="/home/runner/.m2/repository/org/jqassistant/plugin/jqassistant-spring-plugin/2.7.0-SNAPSHOT/jqassistant-spring-plugin-2.7.0-SNAPSHOT-tests.test-jar" group="org.jqassistant.plugin" name="jqassistant-spring-plugin" type="test-jar" version="2.7.0-SNAPSHOT" classifier="tests"></parent>
+                </source>
+                <value>void avoidInitializingBean()</value>
+              </column>
+            </row>
+            <row key="a9603eaf3546952b07a81d6b70660e75ad73a98d43b9d2d1a89a0b7f7e674603">
+              <column name="Test">
+                <element language="Java">Method</element>
+                <source fileName="/org/jqassistant/plugin/spring/test/constraint/InjectablesMustNotBeReferredToStaticallyIT.java" startLine="32" endLine="51">
+                  <parent fileName="/home/runner/.m2/repository/org/jqassistant/plugin/jqassistant-spring-plugin/2.7.0-SNAPSHOT/jqassistant-spring-plugin-2.7.0-SNAPSHOT-tests.test-jar" group="org.jqassistant.plugin" name="jqassistant-spring-plugin" type="test-jar" version="2.7.0-SNAPSHOT" classifier="tests"></parent>
+                </source>
+                <value>void reportsInjectablesInStaticFields()</value>
+              </column>
+            </row>
+            <row key="bf0abcaae175a58050a3fdbd72c2df91680951b7e7bb80ece6b00481568d5f19">
+              <column name="Test">
+                <element language="Java">Method</element>
+                <source fileName="/org/jqassistant/plugin/spring/test/concept/RepositoryIT.java" startLine="38" endLine="46">
+                  <parent fileName="/home/runner/.m2/repository/org/jqassistant/plugin/jqassistant-spring-plugin/2.7.0-SNAPSHOT/jqassistant-spring-plugin-2.7.0-SNAPSHOT-tests.test-jar" group="org.jqassistant.plugin" name="jqassistant-spring-plugin" type="test-jar" version="2.7.0-SNAPSHOT" classifier="tests"></parent>
+                </source>
+                <value>void implementedRepository()</value>
+              </column>
+            </row>
+            <row key="730f7c3a2d7f4b9677813e9dd3f95ff13bcd4b1f1d2b4c9634151a5d9bbad949">
+              <column name="Test">
+                <element language="Java">Method</element>
+                <source fileName="/org/jqassistant/plugin/spring/test/concept/WsIT.java" startLine="70" endLine="89">
+                  <parent fileName="/home/runner/.m2/repository/org/jqassistant/plugin/jqassistant-spring-plugin/2.7.0-SNAPSHOT/jqassistant-spring-plugin-2.7.0-SNAPSHOT-tests.test-jar" group="org.jqassistant.plugin" name="jqassistant-spring-plugin" type="test-jar" version="2.7.0-SNAPSHOT" classifier="tests"></parent>
+                </source>
+                <value>void providedConceptAssertMethod()</value>
+              </column>
+            </row>
+            <row key="8358bd1b2777969aafb33c92aaa9663e43951cb4c6229d62e9c95a73a24ec4d8">
+              <column name="Test">
+                <element language="Java">Method</element>
+                <source fileName="/org/jqassistant/plugin/spring/test/concept/FeignIT.java" startLine="32" endLine="39">
+                  <parent fileName="/home/runner/.m2/repository/org/jqassistant/plugin/jqassistant-spring-plugin/2.7.0-SNAPSHOT/jqassistant-spring-plugin-2.7.0-SNAPSHOT-tests.test-jar" group="org.jqassistant.plugin" name="jqassistant-spring-plugin" type="test-jar" version="2.7.0-SNAPSHOT" classifier="tests"></parent>
+                </source>
+                <value>void feignClientProvidesInjectable()</value>
+              </column>
+            </row>
+            <row key="0c535b591a99dbdb19b53d509ec8b6ad1c095eb4acff47d4845755856c057f9d">
+              <column name="Test">
+                <element language="Java">Method</element>
+                <source fileName="/org/jqassistant/plugin/spring/test/constraint/TransactionalMethodMustNotBeInvokedFromSameOrSubclassIT.java" startLine="175" endLine="228">
+                  <parent fileName="/home/runner/.m2/repository/org/jqassistant/plugin/jqassistant-spring-plugin/2.7.0-SNAPSHOT/jqassistant-spring-plugin-2.7.0-SNAPSHOT-tests.test-jar" group="org.jqassistant.plugin" name="jqassistant-spring-plugin" type="test-jar" version="2.7.0-SNAPSHOT" classifier="tests"></parent>
+                </source>
+                <value>void transactionalMethodMustNotBeInvokedFromSameClassGenericInheritance()</value>
+              </column>
+            </row>
+            <row key="98d737866071abede9e44418bdcd9838e03d1345c42fc8c82eea59be74f32451">
+              <column name="Test">
+                <element language="Java">Method</element>
+                <source fileName="/org/jqassistant/plugin/spring/test/concept/FeignIT.java" startLine="43" endLine="53">
+                  <parent fileName="/home/runner/.m2/repository/org/jqassistant/plugin/jqassistant-spring-plugin/2.7.0-SNAPSHOT/jqassistant-spring-plugin-2.7.0-SNAPSHOT-tests.test-jar" group="org.jqassistant.plugin" name="jqassistant-spring-plugin" type="test-jar" version="2.7.0-SNAPSHOT" classifier="tests"></parent>
+                </source>
+                <value>void feignClientConfiguration()</value>
+              </column>
+            </row>
+            <row key="8f30e79a837610894cd5d0aee4eb89bbe5700a18952b704b9d882dfeb234a442">
+              <column name="Test">
+                <element language="Java">Method</element>
+                <source fileName="/org/jqassistant/plugin/spring/test/constraint/JdkClassesMustNotBeInjectablesIT.java" startLine="30" endLine="46">
+                  <parent fileName="/home/runner/.m2/repository/org/jqassistant/plugin/jqassistant-spring-plugin/2.7.0-SNAPSHOT/jqassistant-spring-plugin-2.7.0-SNAPSHOT-tests.test-jar" group="org.jqassistant.plugin" name="jqassistant-spring-plugin" type="test-jar" version="2.7.0-SNAPSHOT" classifier="tests"></parent>
+                </source>
+                <value>void reportsInjectableJdkClasses()</value>
+              </column>
+            </row>
+            <row key="658f66bc7b3494f6930ab07bda912ea01f5d3e68dda77b34fd8189eb0f1289ff">
+              <column name="Test">
+                <element language="Java">Method</element>
+                <source fileName="/org/jqassistant/plugin/spring/test/concept/RepositoryIT.java" startLine="19" endLine="34">
+                  <parent fileName="/home/runner/.m2/repository/org/jqassistant/plugin/jqassistant-spring-plugin/2.7.0-SNAPSHOT/jqassistant-spring-plugin-2.7.0-SNAPSHOT-tests.test-jar" group="org.jqassistant.plugin" name="jqassistant-spring-plugin" type="test-jar" version="2.7.0-SNAPSHOT" classifier="tests"></parent>
+                </source>
+                <value>void annotatedRepository()</value>
+              </column>
+            </row>
+            <row key="db0113ca670d9eea17b198c9bd14fff64c5f580848021181a56d96d38f72b7fd">
+              <column name="Test">
+                <element language="Java">Method</element>
+                <source fileName="/org/jqassistant/plugin/spring/test/constraint/DependencyStructureIT.java" startLine="53" endLine="56">
+                  <parent fileName="/home/runner/.m2/repository/org/jqassistant/plugin/jqassistant-spring-plugin/2.7.0-SNAPSHOT/jqassistant-spring-plugin-2.7.0-SNAPSHOT-tests.test-jar" group="org.jqassistant.plugin" name="jqassistant-spring-plugin" type="test-jar" version="2.7.0-SNAPSHOT" classifier="tests"></parent>
+                </source>
+                <value>void invalidServiceDependencies()</value>
+              </column>
+            </row>
+            <row key="bb9f086f781584cca365ccf65d5ce2aa0392ac606e69ff876b3c5cd32c4eceaf">
+              <column name="Test">
+                <element language="Java">Method</element>
+                <source fileName="/org/jqassistant/plugin/spring/test/concept/MvcIT.java" startLine="21" endLine="23">
+                  <parent fileName="/home/runner/.m2/repository/org/jqassistant/plugin/jqassistant-spring-plugin/2.7.0-SNAPSHOT/jqassistant-spring-plugin-2.7.0-SNAPSHOT-tests.test-jar" group="org.jqassistant.plugin" name="jqassistant-spring-plugin" type="test-jar" version="2.7.0-SNAPSHOT" classifier="tests"></parent>
+                </source>
+                <value>void restController()</value>
+              </column>
+            </row>
+            <row key="cb5376378dc2645f54835d4e76de2c0388e44eebff009ed6681e82b048b5c300">
+              <column name="Test">
+                <element language="Java">Method</element>
+                <source fileName="/org/jqassistant/plugin/spring/test/concept/TestIT.java" startLine="27" endLine="45">
+                  <parent fileName="/home/runner/.m2/repository/org/jqassistant/plugin/jqassistant-spring-plugin/2.7.0-SNAPSHOT/jqassistant-spring-plugin-2.7.0-SNAPSHOT-tests.test-jar" group="org.jqassistant.plugin" name="jqassistant-spring-plugin" type="test-jar" version="2.7.0-SNAPSHOT" classifier="tests"></parent>
+                </source>
+                <value>void resultActionsAndReturnMethod()</value>
+              </column>
+            </row>
+            <row key="aa9f0fd7a72998af8e75d368f72f4ee42191d931b67b27ccfae2d9630f51b313">
+              <column name="Test">
+                <element language="Java">Method</element>
+                <source fileName="/org/jqassistant/plugin/spring/test/concept/ComponentIT.java" startLine="110" endLine="117">
+                  <parent fileName="/home/runner/.m2/repository/org/jqassistant/plugin/jqassistant-spring-plugin/2.7.0-SNAPSHOT/jqassistant-spring-plugin-2.7.0-SNAPSHOT-tests.test-jar" group="org.jqassistant.plugin" name="jqassistant-spring-plugin" type="test-jar" version="2.7.0-SNAPSHOT" classifier="tests"></parent>
+                </source>
+                <value>void component()</value>
+              </column>
+            </row>
+            <row key="d5f7fbf6b12a4a611647dd33012abec4acf7bc20c639f4cbf01f6b04f0adbc22">
+              <column name="Test">
+                <element language="Java">Method</element>
+                <source fileName="/org/jqassistant/plugin/spring/test/constraint/FieldsOfInjectablesMustNotBeManipulatedIT.java" startLine="34" endLine="57">
+                  <parent fileName="/home/runner/.m2/repository/org/jqassistant/plugin/jqassistant-spring-plugin/2.7.0-SNAPSHOT/jqassistant-spring-plugin-2.7.0-SNAPSHOT-tests.test-jar" group="org.jqassistant.plugin" name="jqassistant-spring-plugin" type="test-jar" version="2.7.0-SNAPSHOT" classifier="tests"></parent>
+                </source>
+                <value>void constructorFieldsMustNotBeManipulated()</value>
+              </column>
+            </row>
+            <row key="e1fa74e27292543f40a167c05fb35140c6a32e7211ae86a132a3dc992200cd3b">
+              <column name="Test">
+                <element language="Java">Method</element>
+                <source fileName="/org/jqassistant/plugin/spring/test/concept/FeignIT.java" startLine="67" endLine="74">
+                  <parent fileName="/home/runner/.m2/repository/org/jqassistant/plugin/jqassistant-spring-plugin/2.7.0-SNAPSHOT/jqassistant-spring-plugin-2.7.0-SNAPSHOT-tests.test-jar" group="org.jqassistant.plugin" name="jqassistant-spring-plugin" type="test-jar" version="2.7.0-SNAPSHOT" classifier="tests"></parent>
+                </source>
+                <value>void feignClientConfigurationProvidesConfiguration()</value>
+              </column>
+            </row>
+            <row key="425d23227b5acf7500a198592352332e117d3afceb2b9b4e5fb182557b8a7b8a">
+              <column name="Test">
+                <element language="Java">Method</element>
+                <source fileName="/org/jqassistant/plugin/spring/test/concept/FeignIT.java" startLine="78" endLine="85">
+                  <parent fileName="/home/runner/.m2/repository/org/jqassistant/plugin/jqassistant-spring-plugin/2.7.0-SNAPSHOT/jqassistant-spring-plugin-2.7.0-SNAPSHOT-tests.test-jar" group="org.jqassistant.plugin" name="jqassistant-spring-plugin" type="test-jar" version="2.7.0-SNAPSHOT" classifier="tests"></parent>
+                </source>
+                <value>void feignClientConfigurationProvidesComponent()</value>
+              </column>
+            </row>
+          </rows>
+        </result>
+        <verificationResult>
+          <success>true</success>
+          <rowCount>64</rowCount>
+        </verificationResult>
+        <status>success</status>
+        <severity level="4">info</severity>
+        <duration>76</duration>
+      </concept>
+      <concept id="junit5:TestTemplateMethod" abstract="false">
+        <description>Labels all methods annotated by "@org.junit.jupiter.api.TestTemplate"
+with "Junit5", "Test" and "Template".</description>
+        <verificationResult>
+          <success>false</success>
+          <rowCount>0</rowCount>
+        </verificationResult>
+        <status>success</status>
+        <severity level="4">info</severity>
+        <duration>81</duration>
+      </concept>
+      <concept id="junit5:RepeatedTestMethod" abstract="false">
+        <description>Finds all test methods (i.e. annotated with "@org.junit.jupiter.api.RepeatedTest") and
+labels them with "Test", "Repeated", and "Junit5".</description>
+        <verificationResult>
+          <success>false</success>
+          <rowCount>0</rowCount>
+        </verificationResult>
+        <status>success</status>
+        <severity level="4">info</severity>
+        <duration>61</duration>
+      </concept>
+      <concept id="junit5:TestClass" abstract="false">
+        <description>Labels all classes containing test methods with "Test" and "Junit5".</description>
+        <result>
+          <columns count="2" primary="TestClass">
+            <column>TestClass</column>
+            <column>TestMethods</column>
+          </columns>
+          <rows count="22">
+            <row key="0b6aa0ffcab9d92edc8451f05c4fe84db4c859e48f965ea768f8a5516a2de843">
+              <column name="TestClass">
+                <element language="Java">Type</element>
+                <source fileName="/org/jqassistant/plugin/spring/test/constraint/SpringInterfacesIT.java">
+                  <parent fileName="/home/runner/.m2/repository/org/jqassistant/plugin/jqassistant-spring-plugin/2.7.0-SNAPSHOT/jqassistant-spring-plugin-2.7.0-SNAPSHOT-tests.test-jar" group="org.jqassistant.plugin" name="jqassistant-spring-plugin" type="test-jar" version="2.7.0-SNAPSHOT" classifier="tests"></parent>
+                </source>
+                <value>org.jqassistant.plugin.spring.test.constraint.SpringInterfacesIT</value>
+              </column>
+              <column name="TestMethods">
+                <value>void avoidInitializingBean(), void avoidDisposableBean(), void avoidBeanFactoryAware(), void avoidApplicationContextAware(), void avoidApplicationEventPublisherAwareBean()</value>
+              </column>
+            </row>
+            <row key="45445deacd98f26ab2dd5b94bbcbd32ec958c6da068440b51b53ea772b55ca1a">
+              <column name="TestClass">
+                <element language="Java">Type</element>
+                <source fileName="/org/jqassistant/plugin/spring/test/constraint/InjectablesMustNotBeInstatiatedIT.java">
+                  <parent fileName="/home/runner/.m2/repository/org/jqassistant/plugin/jqassistant-spring-plugin/2.7.0-SNAPSHOT/jqassistant-spring-plugin-2.7.0-SNAPSHOT-tests.test-jar" group="org.jqassistant.plugin" name="jqassistant-spring-plugin" type="test-jar" version="2.7.0-SNAPSHOT" classifier="tests"></parent>
+                </source>
+                <value>org.jqassistant.plugin.spring.test.constraint.InjectablesMustNotBeInstatiatedIT</value>
+              </column>
+              <column name="TestMethods">
+                <value>void injectableCreatesInstance(), void nonInjectableCreatesInstance(), void testClasses(), void configInstantiatesSubClassOfInjectable()</value>
+              </column>
+            </row>
+            <row key="6b899e5a0e33d48cee8bdb04126a62622f36a4db0f17a4005021913a3e0bd0a5">
+              <column name="TestClass">
+                <element language="Java">Type</element>
+                <source fileName="/org/jqassistant/plugin/spring/test/constraint/FieldInjectionIT.java">
+                  <parent fileName="/home/runner/.m2/repository/org/jqassistant/plugin/jqassistant-spring-plugin/2.7.0-SNAPSHOT/jqassistant-spring-plugin-2.7.0-SNAPSHOT-tests.test-jar" group="org.jqassistant.plugin" name="jqassistant-spring-plugin" type="test-jar" version="2.7.0-SNAPSHOT" classifier="tests"></parent>
+                </source>
+                <value>org.jqassistant.plugin.spring.test.constraint.FieldInjectionIT</value>
+              </column>
+              <column name="TestMethods">
+                <value>void serviceWithFieldInjection(), void serviceWithConstructorInjection(), void rejectsNonFinalInjectableField(), void doesNotRejectFinalInjectableField()</value>
+              </column>
+            </row>
+            <row key="6e15661fc825af47ba7e35365ebc915d3498abbcfdd0fda471a675108533a470">
+              <column name="TestClass">
+                <element language="Java">Type</element>
+                <source fileName="/org/jqassistant/plugin/spring/test/constraint/AllTypesInApplicationPackageIT.java">
+                  <parent fileName="/home/runner/.m2/repository/org/jqassistant/plugin/jqassistant-spring-plugin/2.7.0-SNAPSHOT/jqassistant-spring-plugin-2.7.0-SNAPSHOT-tests.test-jar" group="org.jqassistant.plugin" name="jqassistant-spring-plugin" type="test-jar" version="2.7.0-SNAPSHOT" classifier="tests"></parent>
+                </source>
+                <value>org.jqassistant.plugin.spring.test.constraint.AllTypesInApplicationPackageIT</value>
+              </column>
+              <column name="TestMethods">
+                <value>void allTypesInsideApplicationPackage(), void typeOutsideApplicationPackage()</value>
+              </column>
+            </row>
+            <row key="131e2e85d06f99bed1b4ac84aea8b1fa34e53c6e319414dd155b118a612581b9">
+              <column name="TestClass">
+                <element language="Java">Type</element>
+                <source fileName="/org/jqassistant/plugin/spring/test/constraint/TransactionalMethodMustNotBeInvokedFromSameOrSubclassIT.java">
+                  <parent fileName="/home/runner/.m2/repository/org/jqassistant/plugin/jqassistant-spring-plugin/2.7.0-SNAPSHOT/jqassistant-spring-plugin-2.7.0-SNAPSHOT-tests.test-jar" group="org.jqassistant.plugin" name="jqassistant-spring-plugin" type="test-jar" version="2.7.0-SNAPSHOT" classifier="tests"></parent>
+                </source>
+                <value>org.jqassistant.plugin.spring.test.constraint.TransactionalMethodMustNotBeInvokedFromSameOrSubclassIT</value>
+              </column>
+              <column name="TestMethods">
+                <value>void transactionMethodsMustNotBeCalledDirectlyWithViolations(java.lang.Class), void transactionMethodsMustNotBeCalledDirectlyWithViolationsInSubClass(), void transactionalMethodMustNotBeInvokedFromSameClassSimpleInheritance(), void transactionalMethodMustNotBeInvokedFromSameClassGenericInheritance(), void transactionalMethodMustNotBeInvokedFromNestedClass(), void transactionalMethodMustNotBeInvokedFromNestedClassInSubClass(), void nonTransactionalMethodCallingTransactionalMethod(java.lang.Class)</value>
+              </column>
+            </row>
+            <row key="cd226ef7275562492052dfd0eed4aa0f31fea5155e2e0719dfe1095c1ea12c2d">
+              <column name="TestClass">
+                <element language="Java">Type</element>
+                <source fileName="/org/jqassistant/plugin/spring/test/constraint/FieldsOfInjectablesMustNotBeManipulatedIT.java">
+                  <parent fileName="/home/runner/.m2/repository/org/jqassistant/plugin/jqassistant-spring-plugin/2.7.0-SNAPSHOT/jqassistant-spring-plugin-2.7.0-SNAPSHOT-tests.test-jar" group="org.jqassistant.plugin" name="jqassistant-spring-plugin" type="test-jar" version="2.7.0-SNAPSHOT" classifier="tests"></parent>
+                </source>
+                <value>org.jqassistant.plugin.spring.test.constraint.FieldsOfInjectablesMustNotBeManipulatedIT</value>
+              </column>
+              <column name="TestMethods">
+                <value>void constructorFieldsMustNotBeManipulated(), void configurationProperties(), void syntheticFields()</value>
+              </column>
+            </row>
+            <row key="ea23a45f9fccc79f0e2a31b52b7a4f51eef0cd537cbc643831978b80e6a51bdc">
+              <column name="TestClass">
+                <element language="Java">Type</element>
+                <source fileName="/org/jqassistant/plugin/spring/test/constraint/InjectablesMustNotBeReferredToStaticallyIT.java">
+                  <parent fileName="/home/runner/.m2/repository/org/jqassistant/plugin/jqassistant-spring-plugin/2.7.0-SNAPSHOT/jqassistant-spring-plugin-2.7.0-SNAPSHOT-tests.test-jar" group="org.jqassistant.plugin" name="jqassistant-spring-plugin" type="test-jar" version="2.7.0-SNAPSHOT" classifier="tests"></parent>
+                </source>
+                <value>org.jqassistant.plugin.spring.test.constraint.InjectablesMustNotBeReferredToStaticallyIT</value>
+              </column>
+              <column name="TestMethods">
+                <value>void reportsInjectablesInStaticFields(), void reportsStaticReferenceToInjectable()</value>
+              </column>
+            </row>
+            <row key="6bbe0f93f40c53191832af625b23631d89580a25f2784a4c4ef999f9f0a679db">
+              <column name="TestClass">
+                <element language="Java">Type</element>
+                <source fileName="/org/jqassistant/plugin/spring/test/constraint/JdkClassesMustNotBeInjectablesIT.java">
+                  <parent fileName="/home/runner/.m2/repository/org/jqassistant/plugin/jqassistant-spring-plugin/2.7.0-SNAPSHOT/jqassistant-spring-plugin-2.7.0-SNAPSHOT-tests.test-jar" group="org.jqassistant.plugin" name="jqassistant-spring-plugin" type="test-jar" version="2.7.0-SNAPSHOT" classifier="tests"></parent>
+                </source>
+                <value>org.jqassistant.plugin.spring.test.constraint.JdkClassesMustNotBeInjectablesIT</value>
+              </column>
+              <column name="TestMethods">
+                <value>void reportsInjectableJdkClasses()</value>
+              </column>
+            </row>
+            <row key="1b5aef53bd70df05cc9aad2c8a8c93c11d0d1d6aa8b2d46ffd7016065998f165">
+              <column name="TestClass">
+                <element language="Java">Type</element>
+                <source fileName="/org/jqassistant/plugin/spring/test/constraint/PrivateMethodMustNotBeAnnotatedWithTransactionalIT.java">
+                  <parent fileName="/home/runner/.m2/repository/org/jqassistant/plugin/jqassistant-spring-plugin/2.7.0-SNAPSHOT/jqassistant-spring-plugin-2.7.0-SNAPSHOT-tests.test-jar" group="org.jqassistant.plugin" name="jqassistant-spring-plugin" type="test-jar" version="2.7.0-SNAPSHOT" classifier="tests"></parent>
+                </source>
+                <value>org.jqassistant.plugin.spring.test.constraint.PrivateMethodMustNotBeAnnotatedWithTransactionalIT</value>
+              </column>
+              <column name="TestMethods">
+                <value>void privateMethodMustNotBeAnnotatedWithTransactional(java.lang.Class), void privateMethodMustNotBeAnnotatedWithTransactionalNoViolations()</value>
+              </column>
+            </row>
+            <row key="b9f0819d88a1df91a4ab7dafd15cdac9ac6424eb0dec8f2bb6deedc0b8e235ab">
+              <column name="TestClass">
+                <element language="Java">Type</element>
+                <source fileName="/org/jqassistant/plugin/spring/test/constraint/BeanProducerIT.java">
+                  <parent fileName="/home/runner/.m2/repository/org/jqassistant/plugin/jqassistant-spring-plugin/2.7.0-SNAPSHOT/jqassistant-spring-plugin-2.7.0-SNAPSHOT-tests.test-jar" group="org.jqassistant.plugin" name="jqassistant-spring-plugin" type="test-jar" version="2.7.0-SNAPSHOT" classifier="tests"></parent>
+                </source>
+                <value>org.jqassistant.plugin.spring.test.constraint.BeanProducerIT</value>
+              </column>
+              <column name="TestMethods">
+                <value>void beanProducerInConfigurationComponent(), void beanProducerInServiceComponent(), void beanProducerMustNotBeInvokedDirectly()</value>
+              </column>
+            </row>
+            <row key="9021079272b513dd542f52b03ed5a04a5d1c7d7fa7f4f42b5d4f8026c49f8736">
+              <column name="TestClass">
+                <element language="Java">Type</element>
+                <source fileName="/org/jqassistant/plugin/spring/test/constraint/InjectablesMustOnlyBeHeldInInjectablesIT.java">
+                  <parent fileName="/home/runner/.m2/repository/org/jqassistant/plugin/jqassistant-spring-plugin/2.7.0-SNAPSHOT/jqassistant-spring-plugin-2.7.0-SNAPSHOT-tests.test-jar" group="org.jqassistant.plugin" name="jqassistant-spring-plugin" type="test-jar" version="2.7.0-SNAPSHOT" classifier="tests"></parent>
+                </source>
+                <value>org.jqassistant.plugin.spring.test.constraint.InjectablesMustOnlyBeHeldInInjectablesIT</value>
+              </column>
+              <column name="TestMethods">
+                <value>void reportsInjectablesInNonInjectableClasses()</value>
+              </column>
+            </row>
+            <row key="e00a190f097128dc7c5f45767fb26329f7683d8c71d52e193c385a7f062e8f02">
+              <column name="TestClass">
+                <element language="Java">Type</element>
+                <source fileName="/org/jqassistant/plugin/spring/test/constraint/DependencyStructureIT.java">
+                  <parent fileName="/home/runner/.m2/repository/org/jqassistant/plugin/jqassistant-spring-plugin/2.7.0-SNAPSHOT/jqassistant-spring-plugin-2.7.0-SNAPSHOT-tests.test-jar" group="org.jqassistant.plugin" name="jqassistant-spring-plugin" type="test-jar" version="2.7.0-SNAPSHOT" classifier="tests"></parent>
+                </source>
+                <value>org.jqassistant.plugin.spring.test.constraint.DependencyStructureIT</value>
+              </column>
+              <column name="TestMethods">
+                <value>void validControllerDependencies(), void invalidControllerDependencies(), void validServiceDependencies(), void invalidServiceDependencies(), void validRepositoryDependencies(), void invalidRepositoryDependencies()</value>
+              </column>
+            </row>
+            <row key="9f1d0af941f231a88780a63049ed5cb9104e12af2a84e6c46af3d10d03027077">
+              <column name="TestClass">
+                <element language="Java">Type</element>
+                <source fileName="/org/jqassistant/plugin/spring/test/concept/TestIT.java">
+                  <parent fileName="/home/runner/.m2/repository/org/jqassistant/plugin/jqassistant-spring-plugin/2.7.0-SNAPSHOT/jqassistant-spring-plugin-2.7.0-SNAPSHOT-tests.test-jar" group="org.jqassistant.plugin" name="jqassistant-spring-plugin" type="test-jar" version="2.7.0-SNAPSHOT" classifier="tests"></parent>
+                </source>
+                <value>org.jqassistant.plugin.spring.test.concept.TestIT</value>
+              </column>
+              <column name="TestMethods">
+                <value>void resultActionsAndReturnMethod(), void providedConceptAssertMethod()</value>
+              </column>
+            </row>
+            <row key="165a57b016f05c3d4d0820b390c65f91c1729e630760497fcfaa18037dfcf66f">
+              <column name="TestClass">
+                <element language="Java">Type</element>
+                <source fileName="/org/jqassistant/plugin/spring/test/concept/RepositoryIT.java">
+                  <parent fileName="/home/runner/.m2/repository/org/jqassistant/plugin/jqassistant-spring-plugin/2.7.0-SNAPSHOT/jqassistant-spring-plugin-2.7.0-SNAPSHOT-tests.test-jar" group="org.jqassistant.plugin" name="jqassistant-spring-plugin" type="test-jar" version="2.7.0-SNAPSHOT" classifier="tests"></parent>
+                </source>
+                <value>org.jqassistant.plugin.spring.test.concept.RepositoryIT</value>
+              </column>
+              <column name="TestMethods">
+                <value>void annotatedRepository(), void implementedRepository()</value>
+              </column>
+            </row>
+            <row key="c1678374d3bff9f3ec222630f9e000b5da98c3ca552949d1dbc16f8550b4ac0b">
+              <column name="TestClass">
+                <element language="Java">Type</element>
+                <source fileName="/org/jqassistant/plugin/spring/test/concept/InjectableIT.java">
+                  <parent fileName="/home/runner/.m2/repository/org/jqassistant/plugin/jqassistant-spring-plugin/2.7.0-SNAPSHOT/jqassistant-spring-plugin-2.7.0-SNAPSHOT-tests.test-jar" group="org.jqassistant.plugin" name="jqassistant-spring-plugin" type="test-jar" version="2.7.0-SNAPSHOT" classifier="tests"></parent>
+                </source>
+                <value>org.jqassistant.plugin.spring.test.concept.InjectableIT</value>
+              </column>
+              <column name="TestMethods">
+                <value>void beanMethod(java.lang.Class,java.lang.Class), void injectionPoint(), void injectable(), void constraintValidator(java.lang.Class,java.lang.Class)</value>
+              </column>
+            </row>
+            <row key="31f2973f0f0eeb03c1463a59e5bed6b8c9deb8cfae74f65890bcbc8c06062e63">
+              <column name="TestClass">
+                <element language="Java">Type</element>
+                <source fileName="/org/jqassistant/plugin/spring/test/concept/TransactionalMethodIT.java">
+                  <parent fileName="/home/runner/.m2/repository/org/jqassistant/plugin/jqassistant-spring-plugin/2.7.0-SNAPSHOT/jqassistant-spring-plugin-2.7.0-SNAPSHOT-tests.test-jar" group="org.jqassistant.plugin" name="jqassistant-spring-plugin" type="test-jar" version="2.7.0-SNAPSHOT" classifier="tests"></parent>
+                </source>
+                <value>org.jqassistant.plugin.spring.test.concept.TransactionalMethodIT</value>
+              </column>
+              <column name="TestMethods">
+                <value>void transactionalMethod()</value>
+              </column>
+            </row>
+            <row key="ad9035be3cea3842adec9a976d6924a4c1efd3538a2b53563d1203a6040f1944">
+              <column name="TestClass">
+                <element language="Java">Type</element>
+                <source fileName="/org/jqassistant/plugin/spring/test/concept/ModulithIT.java">
+                  <parent fileName="/home/runner/.m2/repository/org/jqassistant/plugin/jqassistant-spring-plugin/2.7.0-SNAPSHOT/jqassistant-spring-plugin-2.7.0-SNAPSHOT-tests.test-jar" group="org.jqassistant.plugin" name="jqassistant-spring-plugin" type="test-jar" version="2.7.0-SNAPSHOT" classifier="tests"></parent>
+                </source>
+                <value>org.jqassistant.plugin.spring.test.concept.ModulithIT</value>
+              </column>
+              <column name="TestMethods">
+                <value>void applicationModulesVerifyeMethod(), void providedConceptAssertMethod()</value>
+              </column>
+            </row>
+            <row key="44443e06c489d2869ff0a0cb2b39899e30de86cacd3f412079fa4aeb57282339">
+              <column name="TestClass">
+                <element language="Java">Type</element>
+                <source fileName="/org/jqassistant/plugin/spring/test/concept/TransactionPropagationIT.java">
+                  <parent fileName="/home/runner/.m2/repository/org/jqassistant/plugin/jqassistant-spring-plugin/2.7.0-SNAPSHOT/jqassistant-spring-plugin-2.7.0-SNAPSHOT-tests.test-jar" group="org.jqassistant.plugin" name="jqassistant-spring-plugin" type="test-jar" version="2.7.0-SNAPSHOT" classifier="tests"></parent>
+                </source>
+                <value>org.jqassistant.plugin.spring.test.concept.TransactionPropagationIT</value>
+              </column>
+              <column name="TestMethods">
+                <value>void propagationOnTypeAndMethodLevel(java.lang.Class), void propagationOnMethodLevel(java.lang.Class)</value>
+              </column>
+            </row>
+            <row key="0b1085796b5a16f0955ad00ebcc79c74c4e242eaa6abb074497a0077b955061e">
+              <column name="TestClass">
+                <element language="Java">Type</element>
+                <source fileName="/org/jqassistant/plugin/spring/test/concept/WsIT.java">
+                  <parent fileName="/home/runner/.m2/repository/org/jqassistant/plugin/jqassistant-spring-plugin/2.7.0-SNAPSHOT/jqassistant-spring-plugin-2.7.0-SNAPSHOT-tests.test-jar" group="org.jqassistant.plugin" name="jqassistant-spring-plugin" type="test-jar" version="2.7.0-SNAPSHOT" classifier="tests"></parent>
+                </source>
+                <value>org.jqassistant.plugin.spring.test.concept.WsIT</value>
+              </column>
+              <column name="TestMethods">
+                <value>void endpoint(), void mockWebServiceServerVerifyMethod(), void providedConceptAssertMethod()</value>
+              </column>
+            </row>
+            <row key="1067e6e8e2605537b35a2ddf5023113be546986b5e05cf8b65141ffdd9091f16">
+              <column name="TestClass">
+                <element language="Java">Type</element>
+                <source fileName="/org/jqassistant/plugin/spring/test/concept/ComponentIT.java">
+                  <parent fileName="/home/runner/.m2/repository/org/jqassistant/plugin/jqassistant-spring-plugin/2.7.0-SNAPSHOT/jqassistant-spring-plugin-2.7.0-SNAPSHOT-tests.test-jar" group="org.jqassistant.plugin" name="jqassistant-spring-plugin" type="test-jar" version="2.7.0-SNAPSHOT" classifier="tests"></parent>
+                </source>
+                <value>org.jqassistant.plugin.spring.test.concept.ComponentIT</value>
+              </column>
+              <column name="TestMethods">
+                <value>void configuration(), void controller(), void service(), void repository(), void directComponentDependencies(), void component()</value>
+              </column>
+            </row>
+            <row key="edccbfe39f6d69af4918dc63cb13a2ea18d22349df1781217a16e25eccf96268">
+              <column name="TestClass">
+                <element language="Java">Type</element>
+                <source fileName="/org/jqassistant/plugin/spring/test/concept/MvcIT.java">
+                  <parent fileName="/home/runner/.m2/repository/org/jqassistant/plugin/jqassistant-spring-plugin/2.7.0-SNAPSHOT/jqassistant-spring-plugin-2.7.0-SNAPSHOT-tests.test-jar" group="org.jqassistant.plugin" name="jqassistant-spring-plugin" type="test-jar" version="2.7.0-SNAPSHOT" classifier="tests"></parent>
+                </source>
+                <value>org.jqassistant.plugin.spring.test.concept.MvcIT</value>
+              </column>
+              <column name="TestMethods">
+                <value>void restController(), void controllerAdvice(), void restControllerAdvice()</value>
+              </column>
+            </row>
+            <row key="b0bfab999c9b5b8cea192dc853c3f8d0ca7b7787829c24899029fb1764ddc9f1">
+              <column name="TestClass">
+                <element language="Java">Type</element>
+                <source fileName="/org/jqassistant/plugin/spring/test/concept/FeignIT.java">
+                  <parent fileName="/home/runner/.m2/repository/org/jqassistant/plugin/jqassistant-spring-plugin/2.7.0-SNAPSHOT/jqassistant-spring-plugin-2.7.0-SNAPSHOT-tests.test-jar" group="org.jqassistant.plugin" name="jqassistant-spring-plugin" type="test-jar" version="2.7.0-SNAPSHOT" classifier="tests"></parent>
+                </source>
+                <value>org.jqassistant.plugin.spring.test.concept.FeignIT</value>
+              </column>
+              <column name="TestMethods">
+                <value>void feignClient(), void feignClientProvidesInjectable(), void feignClientConfiguration(), void feignClientConfigurationProvidesInjectable(), void feignClientConfigurationProvidesConfiguration(), void feignClientConfigurationProvidesComponent()</value>
+              </column>
+            </row>
+          </rows>
+        </result>
+        <verificationResult>
+          <success>true</success>
+          <rowCount>22</rowCount>
+        </verificationResult>
+        <status>success</status>
+        <severity level="4">info</severity>
+        <duration>96</duration>
+        <required-concept id="junit5:ParameterizedTestMethod">
+          <status>success</status>
+        </required-concept>
+        <required-concept id="junit5:TestMethod">
+          <status>success</status>
+        </required-concept>
+        <required-concept id="junit5:TestTemplateMethod">
+          <status>success</status>
+        </required-concept>
+        <required-concept id="junit5:RepeatedTestMethod">
+          <status>success</status>
+        </required-concept>
+      </concept>
+      <concept id="jqassistant-plugin-test:IT" abstract="false">
+        <description>Adds a label "IntegrationTest" to all non-abstract classes deriving from AbstractPluginIT or AbstractJavaPluginIT.</description>
+        <verificationResult>
+          <success>false</success>
+          <rowCount>0</rowCount>
+        </verificationResult>
+        <status>success</status>
+        <severity level="4">info</severity>
+        <duration>134</duration>
+        <required-concept id="junit5:TestClass">
+          <status>success</status>
+        </required-concept>
+      </concept>
+      <constraint id="jqassistant-plugin-test:IntegrationTestClassSuffix">
+        <description>All integration test classes must have the name suffix "IT" for being executed using the Maven Failsafe Plugin.</description>
+        <verificationResult>
+          <success>true</success>
+          <rowCount>0</rowCount>
+        </verificationResult>
+        <status>success</status>
+        <severity level="2">major</severity>
+        <duration>30</duration>
+        <required-concept id="jqassistant-plugin-test:IT">
+          <status>success</status>
+        </required-concept>
+      </constraint>
+      <duration>626</duration>
+    </group>
+    <group id="jqassistant-plugin-plugin:Default" date="2026-04-10T10:39:56">
+      <concept id="neo4j:Procedure" abstract="false">
+        <description>Labels all types annotated with "@org.neo4j.procedure.Procedure" with `Neo4j` and `Procedure`.</description>
+        <verificationResult>
+          <success>false</success>
+          <rowCount>0</rowCount>
+        </verificationResult>
+        <status>success</status>
+        <severity level="4">info</severity>
+        <duration>50</duration>
+      </concept>
+      <concept id="jqassistant-plugin-plugin:PluginDescriptor" abstract="false">
+        <description>Labels jQAssistant plugin descriptor files with `jQAssistant` and `PluginDescriptor`.</description>
+        <result>
+          <columns count="2" primary="Artifact">
+            <column>Artifact</column>
+            <column>PluginDescriptor</column>
+          </columns>
+          <rows count="1">
+            <row key="2c829a494dd4567229b89d1792769b1e04a2dd205e20be21d66e3c989e5fb11e">
+              <column name="Artifact">
+                <element language="Generic">ArtifactFile</element>
+                <source fileName="/home/runner/.m2/repository/org/jqassistant/plugin/jqassistant-spring-plugin/2.7.0-SNAPSHOT/jqassistant-spring-plugin-2.7.0-SNAPSHOT.jar"></source>
+                <value>org.jqassistant.plugin:jqassistant-spring-plugin:jar:2.7.0-SNAPSHOT</value>
+              </column>
+              <column name="PluginDescriptor">
+                <element language="Generic">File</element>
+                <source fileName="/META-INF/jqassistant-plugin.xml">
+                  <parent fileName="/home/runner/.m2/repository/org/jqassistant/plugin/jqassistant-spring-plugin/2.7.0-SNAPSHOT/jqassistant-spring-plugin-2.7.0-SNAPSHOT.jar" group="org.jqassistant.plugin" name="jqassistant-spring-plugin" type="jar" version="2.7.0-SNAPSHOT"></parent>
+                </source>
+                <value>/META-INF/jqassistant-plugin.xml</value>
+              </column>
+            </row>
+          </rows>
+        </result>
+        <verificationResult>
+          <success>true</success>
+          <rowCount>1</rowCount>
+        </verificationResult>
+        <status>success</status>
+        <severity level="4">info</severity>
+        <duration>54</duration>
+      </concept>
+      <concept id="jqassistant-plugin-plugin:PluginRegistersProcedure" abstract="false">
+        <description>Creates a `REGISTERS` relation between all procedure class elements of the jQAssistant plugin
+            descriptor to the matching Java type.</description>
+        <verificationResult>
+          <success>false</success>
+          <rowCount>0</rowCount>
+        </verificationResult>
+        <status>success</status>
+        <severity level="4">info</severity>
+        <duration>158</duration>
+        <required-concept id="jqassistant-plugin-plugin:PluginDescriptor">
+          <status>success</status>
+        </required-concept>
+      </concept>
+      <constraint id="jqassistant-plugin-plugin:Neo4jProceduresMustBeRegistered">
+        <description>Types declaring Neo4j procedures must be registered.</description>
+        <verificationResult>
+          <success>true</success>
+          <rowCount>0</rowCount>
+        </verificationResult>
+        <status>success</status>
+        <severity level="2">major</severity>
+        <duration>50</duration>
+        <required-concept id="neo4j:Procedure">
+          <status>success</status>
+        </required-concept>
+        <required-concept id="jqassistant-plugin-plugin:PluginRegistersProcedure">
+          <status>success</status>
+        </required-concept>
+      </constraint>
+      <concept id="neo4j:UserFunction" abstract="false">
+        <description>Labels all types annotated with "@org.neo4j.procedure.UserFunction" with `Neo4j` and
+            `UserFunction`.</description>
+        <verificationResult>
+          <success>false</success>
+          <rowCount>0</rowCount>
+        </verificationResult>
+        <status>success</status>
+        <severity level="4">info</severity>
+        <duration>50</duration>
+      </concept>
+      <concept id="jqassistant-plugin-plugin:PluginRegistersUserFunction" abstract="false">
+        <description>Creates a `REGISTERS` relation between all function class elements of the jQAssistant plugin
+            descriptor to the matching Java type.</description>
+        <verificationResult>
+          <success>false</success>
+          <rowCount>0</rowCount>
+        </verificationResult>
+        <status>success</status>
+        <severity level="4">info</severity>
+        <duration>144</duration>
+        <required-concept id="jqassistant-plugin-plugin:PluginDescriptor">
+          <status>success</status>
+        </required-concept>
+      </concept>
+      <constraint id="jqassistant-plugin-plugin:Neo4jUserFunctionsMustBeRegistered">
+        <description>Types declaring Neo4j user functions must be registered.</description>
+        <verificationResult>
+          <success>true</success>
+          <rowCount>0</rowCount>
+        </verificationResult>
+        <status>success</status>
+        <severity level="2">major</severity>
+        <duration>65</duration>
+        <required-concept id="neo4j:UserFunction">
+          <status>success</status>
+        </required-concept>
+        <required-concept id="jqassistant-plugin-plugin:PluginRegistersUserFunction">
+          <status>success</status>
+        </required-concept>
+      </constraint>
+      <constraint id="jqassistant-plugin-plugin:PluginDescriptorShouldProvideVersion">
+        <description>The jQAssistant XML Plugin descriptor ("/META-INF/jqassistant-plugin.xml") should provide a "version" attribute for its root element.</description>
+        <verificationResult>
+          <success>true</success>
+          <rowCount>0</rowCount>
+        </verificationResult>
+        <status>success</status>
+        <severity level="3">minor</severity>
+        <duration>145</duration>
+        <required-concept id="jqassistant-plugin-plugin:PluginDescriptor">
+          <status>success</status>
+        </required-concept>
+      </constraint>
+      <duration>786</duration>
+    </group>
+    <group id="jqassistant-plugin-package:Default" date="2026-04-10T10:39:57">
+      <concept id="java:GeneratedLombokType" abstract="false">
+        <description>Labels types generated by Lombok as 'Generated' (requires 'lombok.addLombokGeneratedAnnotation=true' in 'lombok.config').</description>
+        <result>
+          <columns count="1" primary="GeneratedTypes">
+            <column>GeneratedTypes</column>
+          </columns>
+          <rows count="1">
+            <row key="98b6e8798d4cdf756d3ecd6293c91a61b20af82571c711f2844d28eea825628c">
+              <column name="GeneratedTypes">
+                <value>0</value>
+              </column>
+            </row>
+          </rows>
+        </result>
+        <verificationResult>
+          <success>false</success>
+          <rowCount>0</rowCount>
+        </verificationResult>
+        <status>warning</status>
+        <severity level="3">minor</severity>
+        <duration>56</duration>
+      </concept>
+      <concept id="java:GeneratedType" abstract="false">
+        <description>Reports the count of types labeled with `Generated`, grouped by containing artifact.</description>
+        <verificationResult>
+          <success>true</success>
+          <rowCount>0</rowCount>
+        </verificationResult>
+        <status>success</status>
+        <severity level="3">minor</severity>
+        <duration>1</duration>
+        <providing-concept id="java:GeneratedLombokType">
+          <status>failure</status>
+        </providing-concept>
+      </concept>
+      <constraint id="jqassistant-plugin-package:PackagesMustHaveGroupIdPrefix">
+        <description>All package names used in a Maven project must start with the groupId.</description>
+        <verificationResult>
+          <success>true</success>
+          <rowCount>0</rowCount>
+        </verificationResult>
+        <status>success</status>
+        <severity level="2">major</severity>
+        <duration>104</duration>
+        <required-concept id="java:GeneratedType">
+          <status>success</status>
+        </required-concept>
+      </constraint>
+      <duration>189</duration>
+    </group>
+    <duration>192</duration>
+  </group>
+</jqassistant-report>
