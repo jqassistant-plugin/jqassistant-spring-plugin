@@ -20,11 +20,9 @@ import org.junit.jupiter.api.Test;
 
 import static com.buschmais.jqassistant.core.report.api.model.Result.Status.FAILURE;
 import static com.buschmais.jqassistant.core.report.api.model.Result.Status.SUCCESS;
-import static com.buschmais.jqassistant.plugin.java.test.matcher.FieldDescriptorMatcher.fieldDescriptor;
-import static com.buschmais.jqassistant.plugin.java.test.matcher.TypeDescriptorMatcher.typeDescriptor;
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.IsCollectionContaining.hasItems;
+import static com.buschmais.jqassistant.plugin.java.test.assertj.FieldDescriptorCondition.fieldDescriptor;
+import static com.buschmais.jqassistant.plugin.java.test.assertj.TypeDescriptorCondition.typeDescriptor;
+import static org.assertj.core.api.Assertions.assertThat;
 
 class FieldsOfInjectablesMustNotBeManipulatedIT extends AbstractJavaPluginIT {
 
@@ -35,10 +33,11 @@ class FieldsOfInjectablesMustNotBeManipulatedIT extends AbstractJavaPluginIT {
         // when
         Result<Constraint> result = validateConstraint("spring-injection:FieldsOfInjectablesMustNotBeManipulated");
         // then
-        assertThat(result.getStatus(), equalTo(FAILURE));
+        assertThat(result.getStatus()).isEqualTo(FAILURE);
         store.beginTransaction();
         List<Row> rows = result.getRows();
-        assertThat(rows.size(), equalTo(1));
+        assertThat(rows).hasSize(2);
+
         Row row = rows.get(0);
         WritesDescriptor writeToInjectableField = (WritesDescriptor) row.getColumns()
             .get("WriteToInjectableField")
@@ -49,9 +48,23 @@ class FieldsOfInjectablesMustNotBeManipulatedIT extends AbstractJavaPluginIT {
         FieldDescriptor field = (FieldDescriptor) row.getColumns()
             .get("Field")
             .getValue();
-        assertThat(writeToInjectableField.getLineNumber(), equalTo(55));
-        assertThat(injectable, typeDescriptor(ServiceImpl.class));
-        assertThat(field, fieldDescriptor(ServiceImpl.class, "repository"));
+        assertThat(writeToInjectableField.getLineNumber()).isEqualTo(29);
+        assertThat(injectable).is(typeDescriptor(ServiceImpl.class));
+        assertThat(field).is(fieldDescriptor(ServiceImpl.class, "cache"));
+
+        Row row1 = rows.get(1);
+        WritesDescriptor writeToInjectableFieldViaPostConstruct = (WritesDescriptor) row1.getColumns()
+            .get("WriteToInjectableField")
+            .getValue();
+        TypeDescriptor injectableWrittenViaPostConstruct = (TypeDescriptor) row1.getColumns()
+            .get("Injectable")
+            .getValue();
+        FieldDescriptor fieldWrittenViaPostConstruct = (FieldDescriptor) row1.getColumns()
+            .get("Field")
+            .getValue();
+        assertThat(writeToInjectableFieldViaPostConstruct.getLineNumber()).isEqualTo(55);
+        assertThat(injectableWrittenViaPostConstruct).is(typeDescriptor(ServiceImpl.class));
+        assertThat(fieldWrittenViaPostConstruct).is(fieldDescriptor(ServiceImpl.class, "repository"));
 
         store.commitTransaction();
     }
@@ -63,7 +76,7 @@ class FieldsOfInjectablesMustNotBeManipulatedIT extends AbstractJavaPluginIT {
         // when
         Result<Constraint> result = validateConstraint("spring-injection:FieldsOfInjectablesMustNotBeManipulated");
         // then
-        assertThat(result.getStatus(), equalTo(SUCCESS));
+        assertThat(result.getStatus()).isEqualTo(SUCCESS);
     }
 
     @Test
@@ -75,11 +88,11 @@ class FieldsOfInjectablesMustNotBeManipulatedIT extends AbstractJavaPluginIT {
         params.put("service", ServiceImpl.class.getName());
         List<FieldDescriptor> fields = query("MATCH (:Type{fqn:$service})-[:DECLARES]->(field:Field) SET field.synthetic=true RETURN field", params)
                 .getColumn("field");
-        assertThat(fields, hasItems(fieldDescriptor(ServiceImpl.class, "repository")));
+        assertThat(fields).haveExactly(1, fieldDescriptor(ServiceImpl.class, "repository"));
         store.commitTransaction();
         // when
         Result.Status status = validateConstraint("spring-injection:FieldsOfInjectablesMustNotBeManipulated").getStatus();
         // then
-        assertThat(status, equalTo(SUCCESS));
+        assertThat(status).isEqualTo(SUCCESS);
     }
 }
