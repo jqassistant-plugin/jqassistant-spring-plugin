@@ -8,6 +8,7 @@ import com.buschmais.jqassistant.core.report.api.model.Result;
 import com.buschmais.jqassistant.core.report.api.model.Row;
 import com.buschmais.jqassistant.core.rule.api.model.Constraint;
 import com.buschmais.jqassistant.plugin.java.api.model.FieldDescriptor;
+import com.buschmais.jqassistant.plugin.java.api.model.MethodDescriptor;
 import com.buschmais.jqassistant.plugin.java.api.model.TypeDescriptor;
 import com.buschmais.jqassistant.plugin.java.api.model.WritesDescriptor;
 import com.buschmais.jqassistant.plugin.java.test.AbstractJavaPluginIT;
@@ -20,11 +21,10 @@ import org.junit.jupiter.api.Test;
 
 import static com.buschmais.jqassistant.core.report.api.model.Result.Status.FAILURE;
 import static com.buschmais.jqassistant.core.report.api.model.Result.Status.SUCCESS;
-import static com.buschmais.jqassistant.plugin.java.test.matcher.FieldDescriptorMatcher.fieldDescriptor;
-import static com.buschmais.jqassistant.plugin.java.test.matcher.TypeDescriptorMatcher.typeDescriptor;
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.IsCollectionContaining.hasItems;
+import static com.buschmais.jqassistant.plugin.java.test.assertj.FieldDescriptorCondition.fieldDescriptor;
+import static com.buschmais.jqassistant.plugin.java.test.assertj.MethodDescriptorCondition.methodDescriptor;
+import static com.buschmais.jqassistant.plugin.java.test.assertj.TypeDescriptorCondition.typeDescriptor;
+import static org.assertj.core.api.Assertions.assertThat;
 
 class FieldsOfInjectablesMustNotBeManipulatedIT extends AbstractJavaPluginIT {
 
@@ -35,23 +35,64 @@ class FieldsOfInjectablesMustNotBeManipulatedIT extends AbstractJavaPluginIT {
         // when
         Result<Constraint> result = validateConstraint("spring-injection:FieldsOfInjectablesMustNotBeManipulated");
         // then
-        assertThat(result.getStatus(), equalTo(FAILURE));
+        assertThat(result.getStatus()).isEqualTo(FAILURE);
         store.beginTransaction();
         List<Row> rows = result.getRows();
-        assertThat(rows.size(), equalTo(1));
-        Row row = rows.get(0);
-        WritesDescriptor writeToInjectableField = (WritesDescriptor) row.getColumns()
+        assertThat(rows).hasSize(3);
+
+        Row row1 = rows.get(0);
+        WritesDescriptor writeToInjectableFieldViaPostConstruct = (WritesDescriptor) row1.getColumns()
             .get("WriteToInjectableField")
             .getValue();
-        TypeDescriptor injectable = (TypeDescriptor) row.getColumns()
+        TypeDescriptor injectableWrittenViaPostConstruct = (TypeDescriptor) row1.getColumns()
             .get("Injectable")
             .getValue();
-        FieldDescriptor field = (FieldDescriptor) row.getColumns()
+        MethodDescriptor postConstructMethod = (MethodDescriptor) row1.getColumns()
+            .get("Method")
+            .getValue();
+        FieldDescriptor fieldWrittenViaPostConstruct = (FieldDescriptor) row1.getColumns()
             .get("Field")
             .getValue();
-        assertThat(writeToInjectableField.getLineNumber(), equalTo(55));
-        assertThat(injectable, typeDescriptor(ServiceImpl.class));
-        assertThat(field, fieldDescriptor(ServiceImpl.class, "repository"));
+        assertThat(writeToInjectableFieldViaPostConstruct.getLineNumber()).isEqualTo(29);
+        assertThat(injectableWrittenViaPostConstruct).is(typeDescriptor(ServiceImpl.class));
+        assertThat(postConstructMethod).is(methodDescriptor(ServiceImpl.class, "postConstruct"));
+        assertThat(fieldWrittenViaPostConstruct).is(fieldDescriptor(ServiceImpl.class, "cache"));
+
+        Row row2 = rows.get(1);
+        WritesDescriptor writeToInjectableFieldViaPreDestroy = (WritesDescriptor) row2.getColumns()
+            .get("WriteToInjectableField")
+            .getValue();
+        TypeDescriptor injectableWrittenViaPreDestroy = (TypeDescriptor) row2.getColumns()
+            .get("Injectable")
+            .getValue();
+        MethodDescriptor preDestroyMethod = (MethodDescriptor) row2.getColumns()
+            .get("Method")
+            .getValue();
+        FieldDescriptor fieldWrittenViaPreDestroy = (FieldDescriptor) row2.getColumns()
+            .get("Field")
+            .getValue();
+        assertThat(writeToInjectableFieldViaPreDestroy.getLineNumber()).isEqualTo(34);
+        assertThat(injectableWrittenViaPreDestroy).is(typeDescriptor(ServiceImpl.class));
+        assertThat(preDestroyMethod).is(methodDescriptor(ServiceImpl.class, "preDestroy"));
+        assertThat(fieldWrittenViaPreDestroy).is(fieldDescriptor(ServiceImpl.class, "cache"));
+
+        Row row3 = rows.get(2);
+        WritesDescriptor writeToInjectableField = (WritesDescriptor) row3.getColumns()
+            .get("WriteToInjectableField")
+            .getValue();
+        TypeDescriptor injectable = (TypeDescriptor) row3.getColumns()
+            .get("Injectable")
+            .getValue();
+        MethodDescriptor setterMethod = (MethodDescriptor) row3.getColumns()
+            .get("Method")
+            .getValue();
+        FieldDescriptor field = (FieldDescriptor) row3.getColumns()
+            .get("Field")
+            .getValue();
+        assertThat(writeToInjectableField.getLineNumber()).isEqualTo(55);
+        assertThat(injectable).is(typeDescriptor(ServiceImpl.class));
+        assertThat(setterMethod).is(methodDescriptor(ServiceImpl.class, "setRepository", Repository.class));
+        assertThat(field).is(fieldDescriptor(ServiceImpl.class, "repository"));
 
         store.commitTransaction();
     }
@@ -63,7 +104,7 @@ class FieldsOfInjectablesMustNotBeManipulatedIT extends AbstractJavaPluginIT {
         // when
         Result<Constraint> result = validateConstraint("spring-injection:FieldsOfInjectablesMustNotBeManipulated");
         // then
-        assertThat(result.getStatus(), equalTo(SUCCESS));
+        assertThat(result.getStatus()).isEqualTo(SUCCESS);
     }
 
     @Test
@@ -75,11 +116,11 @@ class FieldsOfInjectablesMustNotBeManipulatedIT extends AbstractJavaPluginIT {
         params.put("service", ServiceImpl.class.getName());
         List<FieldDescriptor> fields = query("MATCH (:Type{fqn:$service})-[:DECLARES]->(field:Field) SET field.synthetic=true RETURN field", params)
                 .getColumn("field");
-        assertThat(fields, hasItems(fieldDescriptor(ServiceImpl.class, "repository")));
+        assertThat(fields).haveExactly(1, fieldDescriptor(ServiceImpl.class, "repository"));
         store.commitTransaction();
         // when
         Result.Status status = validateConstraint("spring-injection:FieldsOfInjectablesMustNotBeManipulated").getStatus();
         // then
-        assertThat(status, equalTo(SUCCESS));
+        assertThat(status).isEqualTo(SUCCESS);
     }
 }
