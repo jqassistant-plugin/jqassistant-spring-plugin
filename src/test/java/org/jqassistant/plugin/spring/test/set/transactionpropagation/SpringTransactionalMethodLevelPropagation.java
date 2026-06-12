@@ -7,6 +7,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class SpringTransactionalMethodLevelPropagation {
     public void transactionalMethodRequired() {}
 
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    @Transactional(propagation = Propagation.REQUIRES_NEW, readOnly = true)
     public void transactionalMethodRequiresNew() {}
 }
