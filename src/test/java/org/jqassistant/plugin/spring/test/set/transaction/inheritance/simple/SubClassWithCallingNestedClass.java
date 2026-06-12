@@ -20,6 +20,11 @@ public class SubClassWithCallingNestedClass extends SimpleTransactionalClass {
         void transactionalMethodWithNeverSemantics() {
             SubClassWithCallingNestedClass.super.methodWithRequiredSemantics();
         }
+
+        @Transactional
+        void transactionalMethodCallingMethodWithAdditionalConfiguration() {
+            SubClassWithCallingNestedClass.super.methodWithOverriddenSemantics();
+        }
     }
 
 }

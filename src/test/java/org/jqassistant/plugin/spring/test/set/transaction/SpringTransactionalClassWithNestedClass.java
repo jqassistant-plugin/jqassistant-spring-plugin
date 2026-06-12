@@ -25,10 +25,19 @@ public class SpringTransactionalClassWithNestedClass {
         void transactionalMethodWithNeverSemantics() {
             SpringTransactionalClassWithNestedClass.this.transactionalMethodWithRequiredSemantics();
         }
+
+        @Transactional
+        void transactionalMethodCallingMethodWithAdditionalConfiguration() {
+            SpringTransactionalClassWithNestedClass.this.transactionalMethodWithAdditionalConfiguration();
+        }
     }
 
     void transactionalMethodWithRequiredSemantics(){
     }
+
+    // The rollback configuration is ignored if the method is called within the same bean.
+    @Transactional(readOnly = true)
+    void transactionalMethodWithAdditionalConfiguration() {}
 
     private void privateMethod() {
     }
