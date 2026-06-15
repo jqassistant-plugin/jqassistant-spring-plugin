@@ -11,7 +11,7 @@
         <requiresConcept refId="java:MemberInheritedFrom"/>
         <requiresConcept refId="spring-transaction:TransactionalMethod"/>
         <requiresConcept refId="java:GeneratedType"/>
-        <description>Transactional methods must not be invoked from the same class or from a subclass within the inheritance hierarchy if the transactional semantics of the invoked method requires a change to the current transaction handling or sets an additional configuration attribute.</description>
+        <description>Transactional methods must not be invoked from the same class or from a subclass within the inheritance hierarchy if the transactional semantics of the invoked method requires a change to the current transaction handling or the invoked method sets an additional configuration parameter.</description>
         <cypher><![CDATA[
             // If the target transaction semantics is SUPPORTS, the transaction handling will not change regardless of the source transaction semantics. It is therefore handled separately in the WHERE clause.
             // The transaction semantics 'NONE' is assigned to methods neither implicitly (class-level) nor explicitly (method-level) annotated as transactional.
@@ -67,7 +67,7 @@
               sourceTxSemantics AS SourceTransactionalSemantics,
               targetTxMethod as TargetTransactionalMethod,
               targetTxSemantics AS TargetTransactionalSemantics,
-              targetTxMethod.additionalTransactionConfiguration AS TargetMethodSetsAdditionalConfigurationAttribute,
+              targetTxMethod.additionalTransactionConfiguration AS TargetMethodSetsAdditionalConfiguration,
               invokes[0].lineNumber as LineNumber
             ORDER BY
               Type.fqn, SourceMethod.name, TargetTransactionalMethod.name
@@ -100,7 +100,7 @@
     </constraint>
 
     <concept id="spring-transaction:TransactionalMethod">
-        <description>Provides transactional methods as ":Spring:Transactional:Method" and its configured transaction propagation semantics.</description>
+        <description>Provides transactional methods as ":Spring:Transactional:Method" and its configuration.</description>
         <cypher><![CDATA[
            MATCH
              (type:Type)-[:DECLARES]->(transactionalMethod:Spring:Transactional:Method)
@@ -141,14 +141,14 @@
            OPTIONAL MATCH
              (annotation)-[:HAS]->(propagation:Value {name: supportedAnnotationType.propagationAttributeName})-[:IS]->(propagationType:Java:Field)
            OPTIONAL MATCH
-             (annotation)-[:HAS]->(configuration:Value)
+             (annotation)-[:HAS]->(configurationParameter:Value)
            WHERE
-             configuration.name <> supportedAnnotationType.propagationAttributeName
+             configurationParameter.name <> supportedAnnotationType.propagationAttributeName
            WITH
              type,
              transactionalMethod,
              COALESCE(SPLIT(propagationType.signature,' ')[1], 'REQUIRED') AS effectivePropagationType,
-             CASE WHEN configuration IS NOT NULL THEN true ELSE false END AS additionalTransactionConfiguration
+             CASE WHEN configurationParameter IS NOT NULL THEN true ELSE false END AS additionalTransactionConfiguration
            SET
              transactionalMethod:Spring:Transactional
            SET
@@ -192,14 +192,14 @@
            OPTIONAL MATCH
              (annotation)-[:HAS]->(propagation:Value {name: supportedAnnotationType.propagationAttributeName})-[:IS]->(propagationType:Java:Field)
            OPTIONAL MATCH
-             (annotation)-[:HAS]->(configuration:Value)
+             (annotation)-[:HAS]->(configurationParameter:Value)
            WHERE
-             configuration.name <> supportedAnnotationType.propagationAttributeName
+             configurationParameter.name <> supportedAnnotationType.propagationAttributeName
            WITH
              transactionalClass,
              transactionalMethod,
              COALESCE(SPLIT(propagationType.signature,' ')[1], 'REQUIRED') AS effectivePropagationType,
-             CASE WHEN configuration IS NOT NULL THEN true ELSE false END AS additionalTransactionConfiguration
+             CASE WHEN configurationParameter IS NOT NULL THEN true ELSE false END AS additionalTransactionConfiguration
            SET
              transactionalMethod:Spring:Transactional
            SET

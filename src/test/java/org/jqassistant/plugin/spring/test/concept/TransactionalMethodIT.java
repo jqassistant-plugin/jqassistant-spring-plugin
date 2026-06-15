@@ -172,13 +172,13 @@ class TransactionalMethodIT extends AbstractSpringIT {
 
         // Generic inheritance
         assertThat(methods).haveExactly(1,
-            methodDescriptor(GenericTransactionalClass.class, "methodWithRequiredSemantics", Object.class));
+            methodDescriptor(GenericTransactionalClass.class, "methodWithRequiredSemanticsAndOverriddenReadOnlyFlag", Object.class));
         assertThat(methods).haveExactly(1,
             methodDescriptor(GenericTransactionalClass.class, "methodWithOverriddenSemantics", Object.class));
         assertThat(methods).haveExactly(1,
             methodDescriptor(CallingSubClassOfGenericTransactionalClass.class, "anotherMethodWithRequiredSemantics"));
         assertThat(methods).haveExactly(1,
-            simpleMethodDescriptor(CallingSubClassOfGenericTransactionalClass.class, "void methodWithRequiredSemantics(java.lang.Object)"));
+            simpleMethodDescriptor(CallingSubClassOfGenericTransactionalClass.class, "void methodWithRequiredSemanticsAndOverriddenReadOnlyFlag(java.lang.Object)"));
         assertThat(methods).haveExactly(1,
             methodDescriptor(CallingSubClassOfGenericTransactionalClass.class, "callingMethodWithNeverSemantics"));
         assertThat(methods).haveExactly(1,

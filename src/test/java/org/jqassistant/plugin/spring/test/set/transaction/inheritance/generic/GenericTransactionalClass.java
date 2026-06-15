@@ -6,7 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class GenericTransactionalClass<T> {
 
     @Transactional
-    public void methodWithRequiredSemantics(T parameter) {
+    public void methodWithRequiredSemanticsAndOverriddenReadOnlyFlag(T parameter) {
 
     }
 

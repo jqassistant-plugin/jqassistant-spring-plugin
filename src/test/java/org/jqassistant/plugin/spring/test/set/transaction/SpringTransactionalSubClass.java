@@ -15,7 +15,7 @@ public class SpringTransactionalSubClass extends SpringTransactionalClass {
     private void privateSubClassMethod() {
     }
 
-    // The rollback configuration is ignored if the method is called within the same bean.
+    // The readOnly flag is ignored if the method is called within the same bean.
     @Transactional(readOnly = true)
     public void transactionalSubClassMethodWithAdditionalConfiguration() {}
 
