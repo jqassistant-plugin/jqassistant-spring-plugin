@@ -9,7 +9,7 @@ public class GenericClassWithTransactionalMethod<T> {
 
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public void methodWithOverriddenSemantics(T parameter) {
 
     }

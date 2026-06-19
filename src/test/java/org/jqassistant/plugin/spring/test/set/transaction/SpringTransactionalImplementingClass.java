@@ -32,6 +32,10 @@ public class SpringTransactionalImplementingClass implements SpringTransactional
         privateMethod(); // Private methods are not transactional and may be called.
     }
 
+    // The rollback configuration is ignored if the method is called within the same bean.
+    @Transactional(readOnly = true)
+    public void transactionalMethodWithAdditionalConfiguration() {}
+
     // This method always runs without a transaction. The REQUIRED semantics of transactionalMethod() would have no effect if called.
     @Transactional(propagation = Propagation.NEVER)
     public void transactionalMethodWithNeverSemantics(){
@@ -51,5 +55,10 @@ public class SpringTransactionalImplementingClass implements SpringTransactional
     @Transactional(propagation = Propagation.NEVER)
     public void neverTransactionalCallingRequiredTransactionalTransitively() {
         privateCallingTransactional();
+    }
+
+    @Transactional
+    public void transactionalMethodCallingMethodWithAdditionalConfiguration() {
+        transactionalMethodWithAdditionalConfiguration();
     }
 }

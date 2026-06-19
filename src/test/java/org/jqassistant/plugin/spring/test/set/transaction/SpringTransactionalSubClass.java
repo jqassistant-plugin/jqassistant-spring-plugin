@@ -15,6 +15,10 @@ public class SpringTransactionalSubClass extends SpringTransactionalClass {
     private void privateSubClassMethod() {
     }
 
+    // The readOnly flag is ignored if the method is called within the same bean.
+    @Transactional(readOnly = true)
+    public void transactionalSubClassMethodWithAdditionalConfiguration() {}
+
     // This method always runs without a transaction. The REQUIRED semantics of transactionalSubClassMethodWithRequiredSemantics() would have no effect if called.
     @Transactional(propagation = Propagation.NEVER)
     public void transactionalSubClassMethodWithNeverSemantics(){
@@ -23,6 +27,11 @@ public class SpringTransactionalSubClass extends SpringTransactionalClass {
 
     public void anotherTransactionalSubClassMethodWithRequiredSemantics(){
         transactionalSubClassMethodWithRequiredSemantics();
+    }
+
+    @Transactional
+    public void transactionalMethodCallingMethodWithAdditionalConfiguration() {
+        transactionalSubClassMethodWithAdditionalConfiguration();
     }
 
 }

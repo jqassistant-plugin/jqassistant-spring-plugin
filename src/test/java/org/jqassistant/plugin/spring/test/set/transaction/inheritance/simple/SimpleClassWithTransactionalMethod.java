@@ -9,7 +9,7 @@ public class SimpleClassWithTransactionalMethod {
 
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public void methodWithOverriddenSemantics() {
 
     }

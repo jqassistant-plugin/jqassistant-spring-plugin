@@ -19,6 +19,10 @@ public class JtaTransactionalClass {
         privateMethod(); // Private methods are not transactional and may be called.
     }
 
+    // The rollback configuration is ignored if the method is called within the same bean.
+    @Transactional(rollbackOn =  Exception.class)
+    public void transactionalMethodWithAdditionalConfiguration() {}
+
     // This method always runs without a transaction. The REQUIRED semantics of transactionalMethodWithRequiredSemantics() would have no effect if called.
     @Transactional(value = Transactional.TxType.NEVER)
     public void transactionalMethodWithNeverSemantics(){
@@ -38,4 +42,7 @@ public class JtaTransactionalClass {
         privateCallingTransactional();
     }
 
+    public void transactionalMethodCallingMethodWithAdditionalConfiguration() {
+        transactionalMethodWithAdditionalConfiguration();
+    }
 }

@@ -7,8 +7,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class OverridingSubClassOfGenericTransactionalClass extends GenericTransactionalClass<Long> {
 
     @Override
-    public void methodWithRequiredSemantics(Long l) {
-        super.methodWithRequiredSemantics(l);
+    public void methodWithRequiredSemanticsAndOverriddenReadOnlyFlag(Long l) {
+        super.methodWithRequiredSemanticsAndOverriddenReadOnlyFlag(l);
     }
 
     // This method always runs without a transaction. The REQUIRED semantics of methodWithOverriddenSemantics() would have no effect if called.

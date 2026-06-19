@@ -30,7 +30,7 @@ import static org.jqassistant.plugin.spring.test.SimpleMethodDescriptorCondition
 class TransactionalMethodMustNotBeInvokedFromSameOrSubclassIT extends AbstractJavaPluginIT {
 
     @ParameterizedTest
-    @ValueSource(classes = {JtaJakartaTransactionalClass.class, JtaTransactionalMethod.class,
+    @ValueSource(classes = {JtaJakartaTransactionalClass.class, JtaJakartaTransactionalMethod.class,
         JtaTransactionalClass.class, JtaTransactionalMethod.class, SpringTransactionalClass.class,
         SpringTransactionalImplementingClass.class, SpringTransactionalMethod.class})
     void transactionMethodsMustNotBeCalledDirectlyWithViolations(Class<?> clazz) throws Exception {
@@ -43,7 +43,7 @@ class TransactionalMethodMustNotBeInvokedFromSameOrSubclassIT extends AbstractJa
         Result<Constraint> result = constraintViolations.get(0);
         assertThat(result.getRule().getId())
             .isEqualTo("spring-transaction:TransactionChangingMethodMustNotBeInvokedFromSameClassOrSubclass");
-        assertThat(result.getRows()).hasSize(2);
+        assertThat(result.getRows()).hasSize(3);
 
         final Row row1 = result.getRows().get(0);
         assertThat(row1.getColumns().get("Type").getValue()).asInstanceOf(type(TypeDescriptor.class))
@@ -54,16 +54,29 @@ class TransactionalMethodMustNotBeInvokedFromSameOrSubclassIT extends AbstractJa
         assertThat(row1.getColumns().get("TargetTransactionalMethod").getValue()).asInstanceOf(type(MethodDescriptor.class))
             .is(methodDescriptor(clazz, "transactionalMethodWithRequiredSemantics"));
         assertThat(row1.getColumns().get("TargetTransactionalSemantics").getLabel()).isEqualTo("REQUIRED");
+        assertThat(row1.getColumns().get("TargetMethodSetsAdditionalConfiguration").getLabel()).isEqualTo("false");
 
         final Row row2 = result.getRows().get(1);
         assertThat(row2.getColumns().get("Type").getValue()).asInstanceOf(type(TypeDescriptor.class))
             .is(typeDescriptor(clazz));
         assertThat(row2.getColumns().get("SourceMethod").getValue()).asInstanceOf(type(MethodDescriptor.class))
-            .is(methodDescriptor(clazz, "transactionalMethodWithNeverSemantics"));
-        assertThat(row2.getColumns().get("SourceTransactionalSemantics").getLabel()).isEqualTo("NEVER");
+            .is(methodDescriptor(clazz, "transactionalMethodCallingMethodWithAdditionalConfiguration"));
+        assertThat(row2.getColumns().get("SourceTransactionalSemantics").getLabel()).isEqualTo("REQUIRED");
         assertThat(row2.getColumns().get("TargetTransactionalMethod").getValue()).asInstanceOf(type(MethodDescriptor.class))
-            .is(methodDescriptor(clazz, "transactionalMethodWithRequiredSemantics"));
+            .is(methodDescriptor(clazz, "transactionalMethodWithAdditionalConfiguration"));
         assertThat(row2.getColumns().get("TargetTransactionalSemantics").getLabel()).isEqualTo("REQUIRED");
+        assertThat(row2.getColumns().get("TargetMethodSetsAdditionalConfiguration").getLabel()).isEqualTo("true");
+
+        final Row row3 = result.getRows().get(2);
+        assertThat(row3.getColumns().get("Type").getValue()).asInstanceOf(type(TypeDescriptor.class))
+            .is(typeDescriptor(clazz));
+        assertThat(row3.getColumns().get("SourceMethod").getValue()).asInstanceOf(type(MethodDescriptor.class))
+            .is(methodDescriptor(clazz, "transactionalMethodWithNeverSemantics"));
+        assertThat(row3.getColumns().get("SourceTransactionalSemantics").getLabel()).isEqualTo("NEVER");
+        assertThat(row3.getColumns().get("TargetTransactionalMethod").getValue()).asInstanceOf(type(MethodDescriptor.class))
+            .is(methodDescriptor(clazz, "transactionalMethodWithRequiredSemantics"));
+        assertThat(row3.getColumns().get("TargetTransactionalSemantics").getLabel()).isEqualTo("REQUIRED");
+        assertThat(row3.getColumns().get("TargetMethodSetsAdditionalConfiguration").getLabel()).isEqualTo("false");
         store.commitTransaction();
     }
 
@@ -78,7 +91,7 @@ class TransactionalMethodMustNotBeInvokedFromSameOrSubclassIT extends AbstractJa
         Result<Constraint> result = constraintViolations.get(0);
         assertThat(result.getRule().getId())
             .isEqualTo("spring-transaction:TransactionChangingMethodMustNotBeInvokedFromSameClassOrSubclass");
-        assertThat(result.getRows()).hasSize(3);
+        assertThat(result.getRows()).hasSize(5);
 
         final Row superClassRow1 = result.getRows().get(0);
         assertThat(superClassRow1.getColumns().get("Type").getValue()).asInstanceOf(type(TypeDescriptor.class))
@@ -89,26 +102,51 @@ class TransactionalMethodMustNotBeInvokedFromSameOrSubclassIT extends AbstractJa
         assertThat(superClassRow1.getColumns().get("TargetTransactionalMethod").getValue()).asInstanceOf(type(MethodDescriptor.class))
             .is(methodDescriptor(SpringTransactionalClass.class, "transactionalMethodWithRequiredSemantics"));
         assertThat(superClassRow1.getColumns().get("TargetTransactionalSemantics").getLabel()).isEqualTo("REQUIRED");
+        assertThat(superClassRow1.getColumns().get("TargetMethodSetsAdditionalConfiguration").getLabel()).isEqualTo("false");
 
         final Row superClassRow2 = result.getRows().get(1);
         assertThat(superClassRow2.getColumns().get("Type").getValue()).asInstanceOf(type(TypeDescriptor.class))
             .is(typeDescriptor(SpringTransactionalClass.class));
         assertThat(superClassRow2.getColumns().get("SourceMethod").getValue()).asInstanceOf(type(MethodDescriptor.class))
-            .is(methodDescriptor(SpringTransactionalClass.class, "transactionalMethodWithNeverSemantics"));
-        assertThat(superClassRow2.getColumns().get("SourceTransactionalSemantics").getLabel()).isEqualTo("NEVER");
+            .is(methodDescriptor(SpringTransactionalClass.class, "transactionalMethodCallingMethodWithAdditionalConfiguration"));
+        assertThat(superClassRow2.getColumns().get("SourceTransactionalSemantics").getLabel()).isEqualTo("REQUIRED");
         assertThat(superClassRow2.getColumns().get("TargetTransactionalMethod").getValue()).asInstanceOf(type(MethodDescriptor.class))
-            .is(methodDescriptor(SpringTransactionalClass.class, "transactionalMethodWithRequiredSemantics"));
+            .is(methodDescriptor(SpringTransactionalClass.class, "transactionalMethodWithAdditionalConfiguration"));
         assertThat(superClassRow2.getColumns().get("TargetTransactionalSemantics").getLabel()).isEqualTo("REQUIRED");
+        assertThat(superClassRow2.getColumns().get("TargetMethodSetsAdditionalConfiguration").getLabel()).isEqualTo("true");
 
-        final Row subClassRow = result.getRows().get(2);
+        final Row superClassRow3 = result.getRows().get(2);
+        assertThat(superClassRow3.getColumns().get("Type").getValue()).asInstanceOf(type(TypeDescriptor.class))
+            .is(typeDescriptor(SpringTransactionalClass.class));
+        assertThat(superClassRow3.getColumns().get("SourceMethod").getValue()).asInstanceOf(type(MethodDescriptor.class))
+            .is(methodDescriptor(SpringTransactionalClass.class, "transactionalMethodWithNeverSemantics"));
+        assertThat(superClassRow3.getColumns().get("SourceTransactionalSemantics").getLabel()).isEqualTo("NEVER");
+        assertThat(superClassRow3.getColumns().get("TargetTransactionalMethod").getValue()).asInstanceOf(type(MethodDescriptor.class))
+            .is(methodDescriptor(SpringTransactionalClass.class, "transactionalMethodWithRequiredSemantics"));
+        assertThat(superClassRow3.getColumns().get("TargetTransactionalSemantics").getLabel()).isEqualTo("REQUIRED");
+        assertThat(superClassRow3.getColumns().get("TargetMethodSetsAdditionalConfiguration").getLabel()).isEqualTo("false");
+
+        final Row subClassRow = result.getRows().get(3);
         assertThat(subClassRow.getColumns().get("Type").getValue()).asInstanceOf(type(TypeDescriptor.class))
             .is(typeDescriptor(SpringTransactionalSubClass.class));
         assertThat(subClassRow.getColumns().get("SourceMethod").getValue()).asInstanceOf(type(MethodDescriptor.class))
-            .is(methodDescriptor(SpringTransactionalSubClass.class, "transactionalSubClassMethodWithNeverSemantics"));
-        assertThat(subClassRow.getColumns().get("SourceTransactionalSemantics").getLabel()).isEqualTo("NEVER");
+            .is(methodDescriptor(SpringTransactionalSubClass.class, "transactionalMethodCallingMethodWithAdditionalConfiguration"));
+        assertThat(subClassRow.getColumns().get("SourceTransactionalSemantics").getLabel()).isEqualTo("REQUIRED");
         assertThat(subClassRow.getColumns().get("TargetTransactionalMethod").getValue()).asInstanceOf(type(MethodDescriptor.class))
-            .is(methodDescriptor(SpringTransactionalSubClass.class, "transactionalSubClassMethodWithRequiredSemantics"));
+            .is(methodDescriptor(SpringTransactionalSubClass.class, "transactionalSubClassMethodWithAdditionalConfiguration"));
         assertThat(subClassRow.getColumns().get("TargetTransactionalSemantics").getLabel()).isEqualTo("REQUIRED");
+        assertThat(subClassRow.getColumns().get("TargetMethodSetsAdditionalConfiguration").getLabel()).isEqualTo("true");
+
+        final Row subClassRow2 = result.getRows().get(4);
+        assertThat(subClassRow2.getColumns().get("Type").getValue()).asInstanceOf(type(TypeDescriptor.class))
+            .is(typeDescriptor(SpringTransactionalSubClass.class));
+        assertThat(subClassRow2.getColumns().get("SourceMethod").getValue()).asInstanceOf(type(MethodDescriptor.class))
+            .is(methodDescriptor(SpringTransactionalSubClass.class, "transactionalSubClassMethodWithNeverSemantics"));
+        assertThat(subClassRow2.getColumns().get("SourceTransactionalSemantics").getLabel()).isEqualTo("NEVER");
+        assertThat(subClassRow2.getColumns().get("TargetTransactionalMethod").getValue()).asInstanceOf(type(MethodDescriptor.class))
+            .is(methodDescriptor(SpringTransactionalSubClass.class, "transactionalSubClassMethodWithRequiredSemantics"));
+        assertThat(subClassRow2.getColumns().get("TargetTransactionalSemantics").getLabel()).isEqualTo("REQUIRED");
+        assertThat(subClassRow2.getColumns().get("TargetMethodSetsAdditionalConfiguration").getLabel()).isEqualTo("false");
 
         store.commitTransaction();
     }
@@ -136,6 +174,7 @@ class TransactionalMethodMustNotBeInvokedFromSameOrSubclassIT extends AbstractJa
         assertThat(callingSubClassOfSimpleTransactionalClassResult.getColumns().get("TargetTransactionalMethod").getValue()).asInstanceOf(type(MethodDescriptor.class))
             .is(simpleMethodDescriptor(CallingSubClassOfSimpleTransactionalClass.class, "void methodWithRequiredSemantics()"));
         assertThat(callingSubClassOfSimpleTransactionalClassResult.getColumns().get("TargetTransactionalSemantics").getLabel()).isEqualTo("REQUIRED");
+        assertThat(callingSubClassOfSimpleTransactionalClassResult.getColumns().get("TargetMethodSetsAdditionalConfiguration").getLabel()).isEqualTo("false");
 
         final Row callingSubClassOfSimpleClassWithTransactionalMethodResult = resultMap.get(CallingSubClassOfSimpleClassWithTransactionalMethod.class.getName());
         assertThat(callingSubClassOfSimpleClassWithTransactionalMethodResult.getColumns().get("Type").getValue()).asInstanceOf(type(TypeDescriptor.class))
@@ -146,6 +185,7 @@ class TransactionalMethodMustNotBeInvokedFromSameOrSubclassIT extends AbstractJa
         assertThat(callingSubClassOfSimpleClassWithTransactionalMethodResult.getColumns().get("TargetTransactionalMethod").getValue()).asInstanceOf(type(MethodDescriptor.class))
             .is(simpleMethodDescriptor(CallingSubClassOfSimpleClassWithTransactionalMethod.class, "void methodWithRequiredSemantics()"));
         assertThat(callingSubClassOfSimpleClassWithTransactionalMethodResult.getColumns().get("TargetTransactionalSemantics").getLabel()).isEqualTo("REQUIRED");
+        assertThat(callingSubClassOfSimpleClassWithTransactionalMethodResult.getColumns().get("TargetMethodSetsAdditionalConfiguration").getLabel()).isEqualTo("false");
 
         final Row overridingSubClassOfSimpleTransactionalClassResult = resultMap.get(OverridingSubClassOfSimpleTransactionalClass.class.getName());
         assertThat(overridingSubClassOfSimpleTransactionalClassResult.getColumns().get("Type").getValue()).asInstanceOf(type(TypeDescriptor.class))
@@ -156,6 +196,7 @@ class TransactionalMethodMustNotBeInvokedFromSameOrSubclassIT extends AbstractJa
         assertThat(overridingSubClassOfSimpleTransactionalClassResult.getColumns().get("TargetTransactionalMethod").getValue()).asInstanceOf(type(MethodDescriptor.class))
             .is(methodDescriptor(SimpleTransactionalClass.class, "methodWithOverriddenSemantics"));
         assertThat(overridingSubClassOfSimpleTransactionalClassResult.getColumns().get("TargetTransactionalSemantics").getLabel()).isEqualTo("REQUIRED");
+        assertThat(overridingSubClassOfSimpleTransactionalClassResult.getColumns().get("TargetMethodSetsAdditionalConfiguration").getLabel()).isEqualTo("true");
 
         final Row overridingSubClassOfSimpleClassWithTransactionalMethodResult = resultMap.get(OverridingSubClassOfSimpleClassWithTransactionalMethod.class.getName());
         assertThat(overridingSubClassOfSimpleClassWithTransactionalMethodResult.getColumns().get("Type").getValue()).asInstanceOf(type(TypeDescriptor.class))
@@ -166,6 +207,7 @@ class TransactionalMethodMustNotBeInvokedFromSameOrSubclassIT extends AbstractJa
         assertThat(overridingSubClassOfSimpleClassWithTransactionalMethodResult.getColumns().get("TargetTransactionalMethod").getValue()).asInstanceOf(type(MethodDescriptor.class))
             .is(methodDescriptor(SimpleClassWithTransactionalMethod.class, "methodWithOverriddenSemantics"));
         assertThat(overridingSubClassOfSimpleClassWithTransactionalMethodResult.getColumns().get("TargetTransactionalSemantics").getLabel()).isEqualTo("REQUIRED");
+        assertThat(overridingSubClassOfSimpleClassWithTransactionalMethodResult.getColumns().get("TargetMethodSetsAdditionalConfiguration").getLabel()).isEqualTo("true");
 
         store.commitTransaction();
     }
@@ -193,6 +235,7 @@ class TransactionalMethodMustNotBeInvokedFromSameOrSubclassIT extends AbstractJa
         assertThat(callingSubClassOfGenericClassWithTransactionalMethodResult.getColumns().get("TargetTransactionalMethod").getValue()).asInstanceOf(type(MethodDescriptor.class))
             .is(simpleMethodDescriptor(CallingSubClassOfGenericClassWithTransactionalMethod.class, "void methodWithOverriddenSemantics(java.lang.Object)"));
         assertThat(callingSubClassOfGenericClassWithTransactionalMethodResult.getColumns().get("TargetTransactionalSemantics").getLabel()).isEqualTo("REQUIRED");
+        assertThat(callingSubClassOfGenericClassWithTransactionalMethodResult.getColumns().get("TargetMethodSetsAdditionalConfiguration").getLabel()).isEqualTo("true");
 
         final Row callingSubClassOfGenericTransactionalClassResult = resultMap.get(CallingSubClassOfGenericTransactionalClass.class.getName());
         assertThat(callingSubClassOfGenericTransactionalClassResult.getColumns().get("Type").getValue()).asInstanceOf(type(TypeDescriptor.class))
@@ -203,6 +246,7 @@ class TransactionalMethodMustNotBeInvokedFromSameOrSubclassIT extends AbstractJa
         assertThat(callingSubClassOfGenericTransactionalClassResult.getColumns().get("TargetTransactionalMethod").getValue()).asInstanceOf(type(MethodDescriptor.class))
             .is(simpleMethodDescriptor(CallingSubClassOfGenericTransactionalClass.class, "void methodWithOverriddenSemantics(java.lang.Object)"));
         assertThat(callingSubClassOfGenericTransactionalClassResult.getColumns().get("TargetTransactionalSemantics").getLabel()).isEqualTo("REQUIRED");
+        assertThat(callingSubClassOfGenericTransactionalClassResult.getColumns().get("TargetMethodSetsAdditionalConfiguration").getLabel()).isEqualTo("true");
 
         final Row overridingSubClassOfGenericTransactionalClassResult = resultMap.get(OverridingSubClassOfGenericTransactionalClass.class.getName());
         assertThat(overridingSubClassOfGenericTransactionalClassResult.getColumns().get("Type").getValue()).asInstanceOf(type(TypeDescriptor.class))
@@ -213,6 +257,7 @@ class TransactionalMethodMustNotBeInvokedFromSameOrSubclassIT extends AbstractJa
         assertThat(overridingSubClassOfGenericTransactionalClassResult.getColumns().get("TargetTransactionalMethod").getValue()).asInstanceOf(type(MethodDescriptor.class))
             .is(methodDescriptor(GenericTransactionalClass.class, "methodWithOverriddenSemantics", Object.class));
         assertThat(overridingSubClassOfGenericTransactionalClassResult.getColumns().get("TargetTransactionalSemantics").getLabel()).isEqualTo("REQUIRED");
+        assertThat(overridingSubClassOfGenericTransactionalClassResult.getColumns().get("TargetMethodSetsAdditionalConfiguration").getLabel()).isEqualTo("true");
 
         final Row overridingSubClassOfGenericClassWithTransactionalMethodResult = resultMap.get(OverridingSubClassOfGenericClassWithTransactionalMethod.class.getName());
         assertThat(overridingSubClassOfGenericClassWithTransactionalMethodResult.getColumns().get("Type").getValue()).asInstanceOf(type(TypeDescriptor.class))
@@ -223,6 +268,7 @@ class TransactionalMethodMustNotBeInvokedFromSameOrSubclassIT extends AbstractJa
         assertThat(overridingSubClassOfGenericClassWithTransactionalMethodResult.getColumns().get("TargetTransactionalMethod").getValue()).asInstanceOf(type(MethodDescriptor.class))
             .is(methodDescriptor(GenericClassWithTransactionalMethod.class, "methodWithOverriddenSemantics", Object.class));
         assertThat(overridingSubClassOfGenericClassWithTransactionalMethodResult.getColumns().get("TargetTransactionalSemantics").getLabel()).isEqualTo("REQUIRED");
+        assertThat(overridingSubClassOfGenericClassWithTransactionalMethodResult.getColumns().get("TargetMethodSetsAdditionalConfiguration").getLabel()).isEqualTo("true");
 
         store.commitTransaction();
     }
@@ -245,7 +291,7 @@ class TransactionalMethodMustNotBeInvokedFromSameOrSubclassIT extends AbstractJa
             .isEqualTo("spring-transaction:TransactionChangingMethodMustNotBeInvokedFromSameClassOrSubclass");
 
         final Result<Constraint> result = constraintViolations.get(0);
-        assertThat(result.getRows()).hasSize(2);
+        assertThat(result.getRows()).hasSize(3);
 
         final Row nonTransactionalMethodRow = result.getRows().get(0);
         assertThat(nonTransactionalMethodRow.getColumns().get("Type").getValue()).asInstanceOf(type(TypeDescriptor.class))
@@ -256,8 +302,20 @@ class TransactionalMethodMustNotBeInvokedFromSameOrSubclassIT extends AbstractJa
         assertThat(nonTransactionalMethodRow.getColumns().get("TargetTransactionalMethod").getValue()).asInstanceOf(type(MethodDescriptor.class))
             .is(methodDescriptor(clazz, "transactionalMethodWithRequiredSemantics"));
         assertThat(nonTransactionalMethodRow.getColumns().get("TargetTransactionalSemantics").getLabel()).isEqualTo("REQUIRED");
+        assertThat(nonTransactionalMethodRow.getColumns().get("TargetMethodSetsAdditionalConfiguration").getLabel()).isEqualTo("false");
 
-        final Row methodWithNeverSemanticsRow = result.getRows().get(1);
+        final Row transactionalMethodWithConfigRow = result.getRows().get(1);
+        assertThat(transactionalMethodWithConfigRow.getColumns().get("Type").getValue()).asInstanceOf(type(TypeDescriptor.class))
+            .is(typeDescriptor(nestedClass));
+        assertThat(transactionalMethodWithConfigRow.getColumns().get("SourceMethod").getValue()).asInstanceOf(type(MethodDescriptor.class))
+            .is(methodDescriptor(nestedClass, "transactionalMethodCallingMethodWithAdditionalConfiguration"));
+        assertThat(transactionalMethodWithConfigRow.getColumns().get("SourceTransactionalSemantics").getLabel()).isEqualTo("REQUIRED");
+        assertThat(transactionalMethodWithConfigRow.getColumns().get("TargetTransactionalMethod").getValue()).asInstanceOf(type(MethodDescriptor.class))
+            .is(methodDescriptor(clazz, "transactionalMethodWithAdditionalConfiguration"));
+        assertThat(transactionalMethodWithConfigRow.getColumns().get("TargetTransactionalSemantics").getLabel()).isEqualTo("REQUIRED");
+        assertThat(transactionalMethodWithConfigRow.getColumns().get("TargetMethodSetsAdditionalConfiguration").getLabel()).isEqualTo("true");
+
+        final Row methodWithNeverSemanticsRow = result.getRows().get(2);
         assertThat(methodWithNeverSemanticsRow.getColumns().get("Type").getValue()).asInstanceOf(type(TypeDescriptor.class))
             .is(typeDescriptor(nestedClass));
         assertThat(methodWithNeverSemanticsRow.getColumns().get("SourceMethod").getValue()).asInstanceOf(type(MethodDescriptor.class))
@@ -266,6 +324,7 @@ class TransactionalMethodMustNotBeInvokedFromSameOrSubclassIT extends AbstractJa
         assertThat(methodWithNeverSemanticsRow.getColumns().get("TargetTransactionalMethod").getValue()).asInstanceOf(type(MethodDescriptor.class))
             .is(methodDescriptor(clazz, "transactionalMethodWithRequiredSemantics"));
         assertThat(methodWithNeverSemanticsRow.getColumns().get("TargetTransactionalSemantics").getLabel()).isEqualTo("REQUIRED");
+        assertThat(methodWithNeverSemanticsRow.getColumns().get("TargetMethodSetsAdditionalConfiguration").getLabel()).isEqualTo("false");
 
         store.commitTransaction();
     }
@@ -289,7 +348,7 @@ class TransactionalMethodMustNotBeInvokedFromSameOrSubclassIT extends AbstractJa
             .isEqualTo("spring-transaction:TransactionChangingMethodMustNotBeInvokedFromSameClassOrSubclass");
 
         final Result<Constraint> result = constraintViolations.get(0);
-        assertThat(result.getRows()).hasSize(2);
+        assertThat(result.getRows()).hasSize(3);
 
         final Row nonTransactionalMethodRow = result.getRows().get(0);
         assertThat(nonTransactionalMethodRow.getColumns().get("Type").getValue()).asInstanceOf(type(TypeDescriptor.class))
@@ -300,8 +359,20 @@ class TransactionalMethodMustNotBeInvokedFromSameOrSubclassIT extends AbstractJa
         assertThat(nonTransactionalMethodRow.getColumns().get("TargetTransactionalMethod").getValue()).asInstanceOf(type(MethodDescriptor.class))
             .is(methodDescriptor(superClass, "methodWithRequiredSemantics"));
         assertThat(nonTransactionalMethodRow.getColumns().get("TargetTransactionalSemantics").getLabel()).isEqualTo("REQUIRED");
+        assertThat(nonTransactionalMethodRow.getColumns().get("TargetMethodSetsAdditionalConfiguration").getLabel()).isEqualTo("false");
 
-        final Row methodWithNeverSemanticsRow = result.getRows().get(1);
+        final Row transactionalMethodWithConfigRow = result.getRows().get(1);
+        assertThat(transactionalMethodWithConfigRow.getColumns().get("Type").getValue()).asInstanceOf(type(TypeDescriptor.class))
+            .is(typeDescriptor(nestedClass));
+        assertThat(transactionalMethodWithConfigRow.getColumns().get("SourceMethod").getValue()).asInstanceOf(type(MethodDescriptor.class))
+            .is(methodDescriptor(nestedClass, "transactionalMethodCallingMethodWithAdditionalConfiguration"));
+        assertThat(transactionalMethodWithConfigRow.getColumns().get("SourceTransactionalSemantics").getLabel()).isEqualTo("REQUIRED");
+        assertThat(transactionalMethodWithConfigRow.getColumns().get("TargetTransactionalMethod").getValue()).asInstanceOf(type(MethodDescriptor.class))
+            .is(methodDescriptor(superClass, "methodWithOverriddenSemantics"));
+        assertThat(transactionalMethodWithConfigRow.getColumns().get("TargetTransactionalSemantics").getLabel()).isEqualTo("REQUIRED");
+        assertThat(transactionalMethodWithConfigRow.getColumns().get("TargetMethodSetsAdditionalConfiguration").getLabel()).isEqualTo("true");
+
+        final Row methodWithNeverSemanticsRow = result.getRows().get(2);
         assertThat(methodWithNeverSemanticsRow.getColumns().get("Type").getValue()).asInstanceOf(type(TypeDescriptor.class))
             .is(typeDescriptor(nestedClass));
         assertThat(methodWithNeverSemanticsRow.getColumns().get("SourceMethod").getValue()).asInstanceOf(type(MethodDescriptor.class))
@@ -310,6 +381,7 @@ class TransactionalMethodMustNotBeInvokedFromSameOrSubclassIT extends AbstractJa
         assertThat(methodWithNeverSemanticsRow.getColumns().get("TargetTransactionalMethod").getValue()).asInstanceOf(type(MethodDescriptor.class))
             .is(methodDescriptor(superClass, "methodWithRequiredSemantics"));
         assertThat(methodWithNeverSemanticsRow.getColumns().get("TargetTransactionalSemantics").getLabel()).isEqualTo("REQUIRED");
+        assertThat(methodWithNeverSemanticsRow.getColumns().get("TargetMethodSetsAdditionalConfiguration").getLabel()).isEqualTo("false");
 
         store.commitTransaction();
     }

@@ -7,7 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class CallingSubClassOfGenericTransactionalClass extends GenericTransactionalClass<Long> {
 
     public void anotherMethodWithRequiredSemantics() {
-        methodWithRequiredSemantics(1L);
+        methodWithRequiredSemanticsAndOverriddenReadOnlyFlag(1L);
     }
 
     // This method always runs without a transaction. The REQUIRED semantic of methodWithOverriddenSemantics() would have no effect if called.

@@ -6,6 +6,6 @@ import javax.transaction.Transactional;
 public class JavaTransactionalApiMethodLevelPropagation {
     public void transactionalMethodRequired() {}
 
-    @Transactional(value = Transactional.TxType.REQUIRES_NEW)
+    @Transactional(value = Transactional.TxType.REQUIRES_NEW, rollbackOn = Exception.class)
     public void transactionalMethodRequiresNew() {}
 }
