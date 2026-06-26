@@ -31,6 +31,15 @@ public class JtaTransactionalMethod {
         transactionalMethodWithRequiredSemantics();
     }
 
+    // This transaction semantics is always compatible with the caller.
+    // Calling it within the same bean should lead to finding anyway as it contains an additional configuration attribute.
+    @Transactional(value = Transactional.TxType.SUPPORTS, rollbackOn =  Exception.class)
+    public void transactionalMethodWithSupportsSemanticsAndAdditionalConfiguration() {}
+
+    // This transaction semantics is always compatible with the caller.
+    @Transactional(value = Transactional.TxType.SUPPORTS)
+    public void transactionalMethodWithSupportsSemantics() {}
+
     @Transactional
     public void anotherTransactionalMethodWithRequiredSemantics(){
         transactionalMethodWithRequiredSemantics();
@@ -48,6 +57,16 @@ public class JtaTransactionalMethod {
 
     @Transactional
     public void transactionalMethodCallingMethodWithAdditionalConfiguration() {transactionalMethodWithAdditionalConfiguration();}
+
+    @Transactional
+    public void transactionalMethodCallingMethodWithSupportsSemanticsAndAdditionalConfiguration() {
+        transactionalMethodWithSupportsSemanticsAndAdditionalConfiguration();
+    }
+
+    @Transactional
+    public void transactionalMethodCallingMethodWithSupportsSemantics() {
+        transactionalMethodWithSupportsSemantics();
+    }
 
 
 }
