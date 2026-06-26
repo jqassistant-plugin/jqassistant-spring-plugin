@@ -34,7 +34,7 @@ class TransactionalMethodIT extends AbstractSpringIT {
         assertThat(applyConcept("spring-transaction:TransactionalMethod").getStatus()).isEqualTo(SUCCESS);
         store.beginTransaction();
         final List<MethodDescriptor> methods = query("MATCH (m:Spring:Method:Transactional) RETURN m").getColumn("m");
-        assertThat(methods).hasSize(78);
+        assertThat(methods).hasSize(106);
 
         // method level annotations
         assertThat(methods).haveExactly(1,
@@ -43,6 +43,10 @@ class TransactionalMethodIT extends AbstractSpringIT {
             methodDescriptor(SpringTransactionalMethod.class, "nonTransactionalMethod"));
         assertThat(methods).haveExactly(1,
             methodDescriptor(SpringTransactionalMethod.class, "transactionalMethodWithNeverSemantics"));
+        assertThat(methods).haveExactly(1,
+            methodDescriptor(SpringTransactionalMethod.class, "transactionalMethodWithSupportsSemanticsAndAdditionalConfiguration"));
+        assertThat(methods).haveExactly(1,
+            methodDescriptor(SpringTransactionalMethod.class, "transactionalMethodWithSupportsSemantics"));
         assertThat(methods).haveExactly(1,
             methodDescriptor(SpringTransactionalMethod.class, "transactionalMethodWithRequiredSemantics"));
         assertThat(methods).haveExactly(1,
@@ -54,9 +58,17 @@ class TransactionalMethodIT extends AbstractSpringIT {
         assertThat(methods).haveExactly(1,
             methodDescriptor(SpringTransactionalMethod.class, "transactionalMethodCallingMethodWithAdditionalConfiguration"));
         assertThat(methods).haveExactly(1,
+            methodDescriptor(SpringTransactionalMethod.class, "transactionalMethodCallingMethodWithSupportsSemanticsAndAdditionalConfiguration"));
+        assertThat(methods).haveExactly(1,
+            methodDescriptor(SpringTransactionalMethod.class, "transactionalMethodCallingMethodWithSupportsSemantics"));
+        assertThat(methods).haveExactly(1,
             methodDescriptor(JtaTransactionalMethod.class, "transactionalMethodWithRequiredSemantics"));
         assertThat(methods).haveExactly(1,
             methodDescriptor(JtaTransactionalMethod.class, "transactionalMethodWithNeverSemantics"));
+        assertThat(methods).haveExactly(1,
+            methodDescriptor(JtaTransactionalMethod.class, "transactionalMethodWithSupportsSemanticsAndAdditionalConfiguration"));
+        assertThat(methods).haveExactly(1,
+            methodDescriptor(JtaTransactionalMethod.class, "transactionalMethodWithSupportsSemantics"));
         assertThat(methods).haveExactly(1,
             methodDescriptor(JtaTransactionalMethod.class, "transactionalMethodWithRequiredSemantics"));
         assertThat(methods).haveExactly(1,
@@ -66,11 +78,19 @@ class TransactionalMethodIT extends AbstractSpringIT {
         assertThat(methods).haveExactly(1,
             methodDescriptor(JtaTransactionalMethod.class, "transactionalMethodWithAdditionalConfiguration"));
         assertThat(methods).haveExactly(1,
+            methodDescriptor(JtaTransactionalMethod.class, "transactionalMethodCallingMethodWithSupportsSemanticsAndAdditionalConfiguration"));
+        assertThat(methods).haveExactly(1,
+            methodDescriptor(JtaTransactionalMethod.class, "transactionalMethodCallingMethodWithSupportsSemantics"));
+        assertThat(methods).haveExactly(1,
             methodDescriptor(JtaTransactionalMethod.class, "transactionalMethodCallingMethodWithAdditionalConfiguration"));
         assertThat(methods).haveExactly(1,
             methodDescriptor(JtaJakartaTransactionalMethod.class, "transactionalMethodWithRequiredSemantics"));
         assertThat(methods).haveExactly(1,
             methodDescriptor(JtaJakartaTransactionalMethod.class, "transactionalMethodWithNeverSemantics"));
+        assertThat(methods).haveExactly(1,
+            methodDescriptor(JtaJakartaTransactionalMethod.class, "transactionalMethodWithSupportsSemanticsAndAdditionalConfiguration"));
+        assertThat(methods).haveExactly(1,
+            methodDescriptor(JtaJakartaTransactionalMethod.class, "transactionalMethodWithSupportsSemantics"));
         assertThat(methods).haveExactly(1,
             methodDescriptor(JtaJakartaTransactionalMethod.class, "anotherTransactionalMethodWithRequiredSemantics"));
         assertThat(methods).haveExactly(1,
@@ -81,6 +101,10 @@ class TransactionalMethodIT extends AbstractSpringIT {
             methodDescriptor(JtaJakartaTransactionalMethod.class, "transactionalMethodWithAdditionalConfiguration"));
         assertThat(methods).haveExactly(1,
             methodDescriptor(JtaJakartaTransactionalMethod.class, "transactionalMethodCallingMethodWithAdditionalConfiguration"));
+        assertThat(methods).haveExactly(1,
+            methodDescriptor(JtaJakartaTransactionalMethod.class, "transactionalMethodCallingMethodWithSupportsSemanticsAndAdditionalConfiguration"));
+        assertThat(methods).haveExactly(1,
+            methodDescriptor(JtaJakartaTransactionalMethod.class, "transactionalMethodCallingMethodWithSupportsSemantics"));
         assertThat(methods).doNotHave(
             methodDescriptor(NonTransactionalSubClassOfSpringTransactionalMethod.class, "transactionalMethodWithRequiredSemantics"));
 
@@ -90,11 +114,21 @@ class TransactionalMethodIT extends AbstractSpringIT {
         assertThat(methods).haveExactly(1,
             methodDescriptor(SpringTransactionalClass.class, "transactionalMethodWithNeverSemantics"));
         assertThat(methods).haveExactly(1,
+            methodDescriptor(SpringTransactionalClass.class, "transactionalMethodWithSupportsSemanticsAndAdditionalConfiguration"));
+        assertThat(methods).haveExactly(1,
+            methodDescriptor(SpringTransactionalClass.class, "transactionalMethodWithSupportsSemantics"));
+        assertThat(methods).haveExactly(1,
             methodDescriptor(SpringTransactionalClass.class, "transactionalMethodWithRequiredSemantics"));
         assertThat(methods).haveExactly(1,
             methodDescriptor(SpringTransactionalClass.class, "requiredTransactionalCallingRequiredTransactionalTransitively"));
         assertThat(methods).haveExactly(1,
             methodDescriptor(SpringTransactionalClass.class, "neverTransactionalCallingRequiredTransactionalTransitively"));
+        assertThat(methods).haveExactly(1,
+            methodDescriptor(SpringTransactionalClass.class, "transactionalMethodCallingMethodWithAdditionalConfiguration"));
+        assertThat(methods).haveExactly(1,
+            methodDescriptor(SpringTransactionalClass.class, "transactionalMethodCallingMethodWithSupportsSemanticsAndAdditionalConfiguration"));
+        assertThat(methods).haveExactly(1,
+            methodDescriptor(SpringTransactionalClass.class, "transactionalMethodCallingMethodWithSupportsSemantics"));
         assertThat(methods).haveExactly(1,
             methodDescriptor(SpringTransactionalSubClass.class, "transactionalSubClassMethodWithRequiredSemantics"));
         assertThat(methods).haveExactly(1,
@@ -128,15 +162,27 @@ class TransactionalMethodIT extends AbstractSpringIT {
         assertThat(methods).haveExactly(1,
             methodDescriptor(JtaTransactionalClass.class, "transactionalMethodWithNeverSemantics"));
         assertThat(methods).haveExactly(1,
+            methodDescriptor(JtaTransactionalClass.class, "transactionalMethodWithSupportsSemanticsAndAdditionalConfiguration"));
+        assertThat(methods).haveExactly(1,
+            methodDescriptor(JtaTransactionalClass.class, "transactionalMethodWithSupportsSemantics"));
+        assertThat(methods).haveExactly(1,
             methodDescriptor(JtaTransactionalClass.class, "transactionalMethodWithRequiredSemantics"));
         assertThat(methods).haveExactly(1,
             methodDescriptor(JtaTransactionalClass.class, "transactionalMethodCallingMethodWithAdditionalConfiguration"));
+        assertThat(methods).haveExactly(1,
+            methodDescriptor(JtaTransactionalClass.class, "transactionalMethodCallingMethodWithSupportsSemanticsAndAdditionalConfiguration"));
+        assertThat(methods).haveExactly(1,
+            methodDescriptor(JtaTransactionalClass.class, "transactionalMethodCallingMethodWithSupportsSemantics"));
         assertThat(methods).haveExactly(1,
             methodDescriptor(JtaTransactionalClass.class, "transactionalMethodWithAdditionalConfiguration"));
         assertThat(methods).haveExactly(1,
             methodDescriptor(JtaJakartaTransactionalClass.class, "transactionalMethodWithRequiredSemantics"));
         assertThat(methods).haveExactly(1,
             methodDescriptor(JtaJakartaTransactionalClass.class, "transactionalMethodWithNeverSemantics"));
+        assertThat(methods).haveExactly(1,
+            methodDescriptor(JtaJakartaTransactionalClass.class, "transactionalMethodWithSupportsSemanticsAndAdditionalConfiguration"));
+        assertThat(methods).haveExactly(1,
+            methodDescriptor(JtaJakartaTransactionalClass.class, "transactionalMethodWithSupportsSemantics"));
         assertThat(methods).haveExactly(1,
             methodDescriptor(JtaJakartaTransactionalClass.class, "transactionalMethodWithRequiredSemantics"));
         assertThat(methods).haveExactly(1,
@@ -145,6 +191,10 @@ class TransactionalMethodIT extends AbstractSpringIT {
             methodDescriptor(JtaJakartaTransactionalClass.class, "neverTransactionalCallingRequiredTransactionalTransitively"));
         assertThat(methods).haveExactly(1,
             methodDescriptor(JtaJakartaTransactionalClass.class, "transactionalMethodCallingMethodWithAdditionalConfiguration"));
+        assertThat(methods).haveExactly(1,
+            methodDescriptor(JtaJakartaTransactionalClass.class, "transactionalMethodCallingMethodWithSupportsSemanticsAndAdditionalConfiguration"));
+        assertThat(methods).haveExactly(1,
+            methodDescriptor(JtaJakartaTransactionalClass.class, "transactionalMethodCallingMethodWithSupportsSemantics"));
         assertThat(methods).haveExactly(1,
             methodDescriptor(JtaJakartaTransactionalClass.class, "transactionalMethodWithAdditionalConfiguration"));
 

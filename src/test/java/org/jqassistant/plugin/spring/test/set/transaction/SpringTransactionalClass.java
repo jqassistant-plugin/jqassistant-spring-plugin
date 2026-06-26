@@ -33,6 +33,16 @@ public class SpringTransactionalClass {
         transactionalMethodWithRequiredSemantics();
     }
 
+
+    // This transaction semantics is always compatible with the caller.
+    // Calling it within the same bean should lead to finding anyway as it contains an additional configuration attribute.
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+    public void transactionalMethodWithSupportsSemanticsAndAdditionalConfiguration() {}
+
+    // This transaction semantics is always compatible with the caller.
+    @Transactional(propagation = Propagation.SUPPORTS)
+    public void transactionalMethodWithSupportsSemantics() {}
+
     public void anotherTransactionalMethodWithRequiredSemantics(){
         transactionalMethodWithRequiredSemantics();
     }
@@ -48,6 +58,14 @@ public class SpringTransactionalClass {
 
     public void transactionalMethodCallingMethodWithAdditionalConfiguration() {
         transactionalMethodWithAdditionalConfiguration();
+    }
+
+    public void transactionalMethodCallingMethodWithSupportsSemanticsAndAdditionalConfiguration() {
+        transactionalMethodWithSupportsSemanticsAndAdditionalConfiguration();
+    }
+
+    public void transactionalMethodCallingMethodWithSupportsSemantics() {
+        transactionalMethodWithSupportsSemantics();
     }
 
 }
