@@ -29,7 +29,8 @@ class InjectablesMustOnlyBeHeldInInjectablesIT extends AbstractJavaPluginIT {
         scanClasses(
             Injectable.class,
             InvalidComponent.class, ValidComponent.class,
-            InvalidAbstractComponent.class, InvalidAbstractComponentImpl.class,
+            InvalidAbstractComponent.class, InvalidAbstractComponentImplWithInheritedInjectable.class,
+            InvalidAbstractComponentImplWithOwnAndInheritedInjectable.class,
             ValidAbstractComponent.class, ValidAbstractComponentImpl.class, ComponentWithInnerClass.class,
             ComponentWithInnerClass.InnerClassUsingSomeMethodFromOuterClass.class);
 
@@ -46,8 +47,8 @@ class InjectablesMustOnlyBeHeldInInjectablesIT extends AbstractJavaPluginIT {
                 .get("NonInjectableHavingInjectablesAsField")
                 .getValue())
             .collect(toList());
-        assertThat(violatingTypes).is(matching(containsInAnyOrder(typeDescriptor(InvalidAbstractComponent.class),
-            typeDescriptor(InvalidAbstractComponentImpl.class), typeDescriptor(InvalidComponent.class))));
+        assertThat(violatingTypes).is(matching(containsInAnyOrder(typeDescriptor(InvalidAbstractComponentImplWithInheritedInjectable.class),
+            typeDescriptor(InvalidAbstractComponentImplWithOwnAndInheritedInjectable.class), typeDescriptor(InvalidComponent.class))));
 
         store.rollbackTransaction();
     }
@@ -68,13 +69,20 @@ class InjectablesMustOnlyBeHeldInInjectablesIT extends AbstractJavaPluginIT {
         private final Injectable injectable;
     }
 
-    static class InvalidAbstractComponentImpl extends InvalidAbstractComponent {
+    static class InvalidAbstractComponentImplWithOwnAndInheritedInjectable extends InvalidAbstractComponent {
 
         private final Injectable injectable;
 
-        public InvalidAbstractComponentImpl(Injectable injectable) {
+        public InvalidAbstractComponentImplWithOwnAndInheritedInjectable(Injectable injectable) {
             super(injectable);
             this.injectable = injectable;
+        }
+    }
+
+    static class InvalidAbstractComponentImplWithInheritedInjectable extends InvalidAbstractComponent {
+
+        public InvalidAbstractComponentImplWithInheritedInjectable(Injectable injectable) {
+            super(injectable);
         }
     }
 
