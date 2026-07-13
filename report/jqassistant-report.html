@@ -192,7 +192,7 @@
             jQAssistant Report - jQAssistant Spring Framework Plugin</h1>
         <h5>
                         Timestamp:
-            <span class="timeStamp">2026-06-19T12:53:20.715Z</span>
+            <span class="timeStamp">2026-07-13T13:35:31.009Z</span>
         </h5>
         <div>
             <h3>Constraints</h3>
@@ -755,13 +755,7 @@ labels them with "Test", "Parameterized", and "Junit5".</pre>
                                     <th>Test</th>
                                 </tr>
                                 <tr>
-                                    <td>void privateMethodMustNotBeAnnotatedWithTransactional(java.lang.Class)</td>
-                                </tr>
-                                <tr>
-                                    <td>void beanMethod(java.lang.Class,java.lang.Class)</td>
-                                </tr>
-                                <tr>
-                                    <td>void constraintValidator(java.lang.Class,java.lang.Class)</td>
+                                    <td>void transactionMethodsMustNotBeCalledDirectlyWithViolations(java.lang.Class)</td>
                                 </tr>
                                 <tr>
                                     <td>void propagationOnMethodLevel(java.lang.Class)</td>
@@ -773,7 +767,13 @@ labels them with "Test", "Parameterized", and "Junit5".</pre>
                                     <td>void propagationOnTypeAndMethodLevel(java.lang.Class)</td>
                                 </tr>
                                 <tr>
-                                    <td>void transactionMethodsMustNotBeCalledDirectlyWithViolations(java.lang.Class)</td>
+                                    <td>void privateMethodMustNotBeAnnotatedWithTransactional(java.lang.Class)</td>
+                                </tr>
+                                <tr>
+                                    <td>void beanMethod(java.lang.Class,java.lang.Class)</td>
+                                </tr>
+                                <tr>
+                                    <td>void constraintValidator(java.lang.Class,java.lang.Class)</td>
                                 </tr>
                             </table>
                         </div>
@@ -907,34 +907,181 @@ labels them with "Test" and "Junit5".</pre>
                                     <th>Test</th>
                                 </tr>
                                 <tr>
-                                    <td>void nonInjectableCreatesInstance()</td>
+                                    <td>void resultActionsAndReturnMethod()</td>
+                                </tr>
+                                <tr>
+                                    <td>void invalidRepositoryDependencies()</td>
+                                </tr>
+                                <tr>
+                                    <td>void validControllerDependencies()</td>
                                 </tr>
                                 <tr>
                                     <td>void privateMethodMustNotBeAnnotatedWithTransactionalNoViolations()</td>
                                 </tr>
                                 <tr>
-                                    <td>void mockWebServiceServerVerifyMethod()</td>
+                                    <td>void syntheticFields()</td>
                                 </tr>
                                 <tr>
-                                    <td>void implementedRepository()</td>
+                                    <td>void avoidApplicationContextAware()</td>
                                 </tr>
                                 <tr>
-                                    <td>void resultActionsAndReturnMethod()</td>
+                                    <td>void transactionalMethodMustNotBeInvokedFromNestedClass()</td>
                                 </tr>
                                 <tr>
-                                    <td>void providedConceptAssertMethod()</td>
+                                    <td>void reportsStaticReferenceToInjectable()</td>
                                 </tr>
                                 <tr>
                                     <td>void serviceWithFieldInjection()</td>
                                 </tr>
                                 <tr>
-                                    <td>void doesNotRejectFinalInjectableField()</td>
+                                    <td>void avoidDisposableBean()</td>
+                                </tr>
+                                <tr>
+                                    <td>void injectableCreatesInstance()</td>
+                                </tr>
+                                <tr>
+                                    <td>void mockWebServiceServerVerifyMethod()</td>
+                                </tr>
+                                <tr>
+                                    <td>void reportsInjectablesInNonInjectableClasses()</td>
+                                </tr>
+                                <tr>
+                                    <td>void providedConceptAssertMethod()</td>
+                                </tr>
+                                <tr>
+                                    <td>void validServiceDependencies()</td>
+                                </tr>
+                                <tr>
+                                    <td>void reportsInjectablesInStaticFields()</td>
+                                </tr>
+                                <tr>
+                                    <td>void serviceWithConstructorInjection()</td>
+                                </tr>
+                                <tr>
+                                    <td>void beanProducerInServiceComponent()</td>
                                 </tr>
                                 <tr>
                                     <td>void transactionalMethod()</td>
                                 </tr>
                                 <tr>
+                                    <td>void beanProducerInConfigurationComponent()</td>
+                                </tr>
+                                <tr>
+                                    <td>void reportsInjectableJdkClasses()</td>
+                                </tr>
+                                <tr>
+                                    <td>void avoidInitializingBean()</td>
+                                </tr>
+                                <tr>
+                                    <td>void component()</td>
+                                </tr>
+                                <tr>
+                                    <td>void transactionMethodsMustNotBeCalledDirectlyWithViolationsInSubClass()</td>
+                                </tr>
+                                <tr>
+                                    <td>void applicationModulesVerifyeMethod()</td>
+                                </tr>
+                                <tr>
+                                    <td>void feignClient()</td>
+                                </tr>
+                                <tr>
+                                    <td>void annotatedRepository()</td>
+                                </tr>
+                                <tr>
+                                    <td>void transactionalMethodMustNotBeInvokedFromSameClassGenericInheritance()</td>
+                                </tr>
+                                <tr>
+                                    <td>void doesNotRejectFinalInjectableField()</td>
+                                </tr>
+                                <tr>
+                                    <td>void nonInjectableCreatesInstance()</td>
+                                </tr>
+                                <tr>
+                                    <td>void testClasses()</td>
+                                </tr>
+                                <tr>
+                                    <td>void configuration()</td>
+                                </tr>
+                                <tr>
+                                    <td>void repository()</td>
+                                </tr>
+                                <tr>
+                                    <td>void typeOutsideApplicationPackage()</td>
+                                </tr>
+                                <tr>
+                                    <td>void service()</td>
+                                </tr>
+                                <tr>
+                                    <td>void injectable()</td>
+                                </tr>
+                                <tr>
+                                    <td>void avoidApplicationEventPublisherAwareBean()</td>
+                                </tr>
+                                <tr>
+                                    <td>void restController()</td>
+                                </tr>
+                                <tr>
+                                    <td>void feignClientConfigurationProvidesInjectable()</td>
+                                </tr>
+                                <tr>
+                                    <td>void providedConceptAssertMethod()</td>
+                                </tr>
+                                <tr>
+                                    <td>void validRepositoryDependencies()</td>
+                                </tr>
+                                <tr>
+                                    <td>void directComponentDependencies()</td>
+                                </tr>
+                                <tr>
+                                    <td>void invalidControllerDependencies()</td>
+                                </tr>
+                                <tr>
                                     <td>void feignClientConfigurationProvidesConfiguration()</td>
+                                </tr>
+                                <tr>
+                                    <td>void restControllerAdvice()</td>
+                                </tr>
+                                <tr>
+                                    <td>void transactionalMethodMustNotBeInvokedFromNestedClassInSubClass()</td>
+                                </tr>
+                                <tr>
+                                    <td>void providedConceptAssertMethod()</td>
+                                </tr>
+                                <tr>
+                                    <td>void injectionPoint()</td>
+                                </tr>
+                                <tr>
+                                    <td>void configInstantiatesSubClassOfInjectable()</td>
+                                </tr>
+                                <tr>
+                                    <td>void controllerAdvice()</td>
+                                </tr>
+                                <tr>
+                                    <td>void avoidBeanFactoryAware()</td>
+                                </tr>
+                                <tr>
+                                    <td>void implementedRepository()</td>
+                                </tr>
+                                <tr>
+                                    <td>void transactionalMethodMustNotBeInvokedFromSameClassSimpleInheritance()</td>
+                                </tr>
+                                <tr>
+                                    <td>void feignClientConfiguration()</td>
+                                </tr>
+                                <tr>
+                                    <td>void feignClientProvidesInjectable()</td>
+                                </tr>
+                                <tr>
+                                    <td>void feignClientConfigurationProvidesComponent()</td>
+                                </tr>
+                                <tr>
+                                    <td>void invalidServiceDependencies()</td>
+                                </tr>
+                                <tr>
+                                    <td>void rejectsNonFinalInjectableField()</td>
+                                </tr>
+                                <tr>
+                                    <td>void endpoint()</td>
                                 </tr>
                                 <tr>
                                     <td>void constructorFieldsMustNotBeManipulated()</td>
@@ -943,160 +1090,13 @@ labels them with "Test" and "Junit5".</pre>
                                     <td>void allTypesInsideApplicationPackage()</td>
                                 </tr>
                                 <tr>
-                                    <td>void invalidServiceDependencies()</td>
-                                </tr>
-                                <tr>
-                                    <td>void injectable()</td>
-                                </tr>
-                                <tr>
-                                    <td>void rejectsNonFinalInjectableField()</td>
-                                </tr>
-                                <tr>
-                                    <td>void transactionalMethodMustNotBeInvokedFromNestedClass()</td>
-                                </tr>
-                                <tr>
-                                    <td>void beanProducerInConfigurationComponent()</td>
-                                </tr>
-                                <tr>
-                                    <td>void validRepositoryDependencies()</td>
-                                </tr>
-                                <tr>
-                                    <td>void validServiceDependencies()</td>
-                                </tr>
-                                <tr>
-                                    <td>void restControllerAdvice()</td>
-                                </tr>
-                                <tr>
-                                    <td>void syntheticFields()</td>
-                                </tr>
-                                <tr>
-                                    <td>void feignClientConfigurationProvidesComponent()</td>
-                                </tr>
-                                <tr>
-                                    <td>void avoidApplicationContextAware()</td>
-                                </tr>
-                                <tr>
-                                    <td>void directComponentDependencies()</td>
-                                </tr>
-                                <tr>
-                                    <td>void avoidInitializingBean()</td>
-                                </tr>
-                                <tr>
-                                    <td>void injectionPoint()</td>
+                                    <td>void beanProducerMustNotBeInvokedDirectly()</td>
                                 </tr>
                                 <tr>
                                     <td>void configurationProperties()</td>
                                 </tr>
                                 <tr>
-                                    <td>void service()</td>
-                                </tr>
-                                <tr>
-                                    <td>void injectableCreatesInstance()</td>
-                                </tr>
-                                <tr>
-                                    <td>void feignClient()</td>
-                                </tr>
-                                <tr>
                                     <td>void controller()</td>
-                                </tr>
-                                <tr>
-                                    <td>void repository()</td>
-                                </tr>
-                                <tr>
-                                    <td>void invalidControllerDependencies()</td>
-                                </tr>
-                                <tr>
-                                    <td>void reportsInjectablesInNonInjectableClasses()</td>
-                                </tr>
-                                <tr>
-                                    <td>void reportsInjectableJdkClasses()</td>
-                                </tr>
-                                <tr>
-                                    <td>void configInstantiatesSubClassOfInjectable()</td>
-                                </tr>
-                                <tr>
-                                    <td>void transactionalMethodMustNotBeInvokedFromSameClassGenericInheritance()</td>
-                                </tr>
-                                <tr>
-                                    <td>void beanProducerMustNotBeInvokedDirectly()</td>
-                                </tr>
-                                <tr>
-                                    <td>void avoidDisposableBean()</td>
-                                </tr>
-                                <tr>
-                                    <td>void avoidBeanFactoryAware()</td>
-                                </tr>
-                                <tr>
-                                    <td>void providedConceptAssertMethod()</td>
-                                </tr>
-                                <tr>
-                                    <td>void reportsInjectablesInStaticFields()</td>
-                                </tr>
-                                <tr>
-                                    <td>void transactionalMethodMustNotBeInvokedFromSameClassSimpleInheritance()</td>
-                                </tr>
-                                <tr>
-                                    <td>void reportsStaticReferenceToInjectable()</td>
-                                </tr>
-                                <tr>
-                                    <td>void validControllerDependencies()</td>
-                                </tr>
-                                <tr>
-                                    <td>void transactionalMethodMustNotBeInvokedFromNestedClassInSubClass()</td>
-                                </tr>
-                                <tr>
-                                    <td>void applicationModulesVerifyeMethod()</td>
-                                </tr>
-                                <tr>
-                                    <td>void testClasses()</td>
-                                </tr>
-                                <tr>
-                                    <td>void controllerAdvice()</td>
-                                </tr>
-                                <tr>
-                                    <td>void restController()</td>
-                                </tr>
-                                <tr>
-                                    <td>void invalidRepositoryDependencies()</td>
-                                </tr>
-                                <tr>
-                                    <td>void feignClientConfigurationProvidesInjectable()</td>
-                                </tr>
-                                <tr>
-                                    <td>void annotatedRepository()</td>
-                                </tr>
-                                <tr>
-                                    <td>void serviceWithConstructorInjection()</td>
-                                </tr>
-                                <tr>
-                                    <td>void typeOutsideApplicationPackage()</td>
-                                </tr>
-                                <tr>
-                                    <td>void feignClientProvidesInjectable()</td>
-                                </tr>
-                                <tr>
-                                    <td>void component()</td>
-                                </tr>
-                                <tr>
-                                    <td>void configuration()</td>
-                                </tr>
-                                <tr>
-                                    <td>void endpoint()</td>
-                                </tr>
-                                <tr>
-                                    <td>void avoidApplicationEventPublisherAwareBean()</td>
-                                </tr>
-                                <tr>
-                                    <td>void beanProducerInServiceComponent()</td>
-                                </tr>
-                                <tr>
-                                    <td>void feignClientConfiguration()</td>
-                                </tr>
-                                <tr>
-                                    <td>void transactionMethodsMustNotBeCalledDirectlyWithViolationsInSubClass()</td>
-                                </tr>
-                                <tr>
-                                    <td>void providedConceptAssertMethod()</td>
                                 </tr>
                             </table>
                         </div>
