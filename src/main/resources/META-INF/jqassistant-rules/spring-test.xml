@@ -14,7 +14,7 @@
             WHERE
                 resultAction.fqn = "org.springframework.test.web.servlet.ResultActions"
             SET
-                assertMethod:Spring:Assert
+                assertMethod:Spring:Servlet:Assert
             RETURN
                 type, assertMethod
             ]]></cypher>

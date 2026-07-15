@@ -8,6 +8,12 @@ import org.springframework.test.web.servlet.ResultHandler;
 import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.ws.client.core.WebServiceTemplate;
 import org.springframework.ws.test.client.MockWebServiceServer;
+import org.springframework.ws.test.server.MockWebServiceClient;
+import org.springframework.ws.test.server.RequestCreators;
+import org.springframework.ws.test.server.ResponseMatchers;
+import org.springframework.xml.transform.StringSource;
+
+import static org.mockito.Mockito.mock;
 
 /**
  * Example class used by integration tests.
@@ -41,5 +47,11 @@ public class AssertExample {
         public MvcResult andReturn() {
             throw new NotImplementedException("Not implemented");
         }
+    }
+
+    void springWebServiceAssertExampleMethod() {
+        MockWebServiceClient mockWebServiceClient = mock(MockWebServiceClient.class);
+        mockWebServiceClient.sendRequest(RequestCreators.withPayload(new StringSource("")))
+            .andExpect(ResponseMatchers.clientOrSenderFault());
     }
 }

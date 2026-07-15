@@ -32,9 +32,29 @@
                 assertType.fqn = 'org.springframework.ws.test.client.MockWebServiceServer'
                 and assertMethod.signature =~ '.* verify.*'
             SET
-                assertMethod:MockWebServiceServer:Assert
+                assertMethod:Spring:MockWebServiceServer:Assert
             RETURN
                 assertMethod
+        ]]></cypher>
+    </concept>
+
+    <concept id="spring-ws:ServerResponseAssertion">
+        <providesConcept refId="java:AssertMethod"/>
+        <description>
+            Sets labels :Assert and :Spring:WebService for Spring Web Service assert methods.
+        </description>
+        <cypher><![CDATA[
+            MATCH
+                (assertType:Type)-[:DECLARES]->(assertMethod)
+            WHERE
+                assertType.fqn = 'org.springframework.ws.test.server.ResponseActions'
+                AND assertMethod.signature =~ '.* andExpect.*'
+            SET
+                assertMethod:Spring:ServerResponse:Assert
+            RETURN
+                assertMethod
+            ORDER BY
+                assertMethod.signature
         ]]></cypher>
     </concept>
 
