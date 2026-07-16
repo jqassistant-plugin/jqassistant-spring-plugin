@@ -16,6 +16,8 @@ import org.jqassistant.plugin.spring.test.set.components.controller.RestControll
 import org.jqassistant.plugin.spring.test.set.test.AssertExample;
 import org.junit.jupiter.api.Test;
 import org.springframework.ws.test.client.MockWebServiceServer;
+import org.springframework.ws.test.server.ResponseActions;
+import org.springframework.ws.test.server.ResponseMatcher;
 
 import static com.buschmais.jqassistant.core.report.api.model.Result.Status.SUCCESS;
 import static com.buschmais.jqassistant.core.report.api.model.Result.Status.WARNING;
@@ -60,13 +62,13 @@ public class WsIT extends AbstractSpringIT {
                 .getValue()).asInstanceOf(type(MethodDescriptor.class))
                 .is(methodDescriptor(MockWebServiceServer.class, "verify"));
 
-        verifyAssertMethodResultGraph();
+        verifyResultGraph("MockWebServiceServer", "mockWebServiceServerVerifyExampleMethod", MockWebServiceServer.class, "verify");
 
         store.commitTransaction();
     }
 
     @Test
-    void providedConceptAssertMethod() throws Exception {
+    void providedConceptMockWebServiceAssertMethod() throws Exception {
         scanClasses(AssertExample.class, AssertExample.ExampleResultActions.class);
 
         final Result<Concept> conceptResult = applyConcept("java:AssertMethod");
@@ -83,21 +85,52 @@ public class WsIT extends AbstractSpringIT {
         assertThat(declaringTypes).haveExactly(1,
             typeDescriptor(MockWebServiceServer.class));
 
-        verifyAssertMethodResultGraph();
+        verifyResultGraph("MockWebServiceServer", "mockWebServiceServerVerifyExampleMethod", MockWebServiceServer.class, "verify");
 
         store.commitTransaction();
     }
 
-    // Expects an open transaction
-    private void verifyAssertMethodResultGraph() throws NoSuchMethodException {
-        final TestResult methodQueryResult = query(
-            "MATCH (testMethod:Method)-[:INVOKES]->(assertMethod:Method) "
-                + "WHERE assertMethod:MockWebServiceServer:Assert "
-                + "RETURN testMethod, assertMethod");
-        assertThat(methodQueryResult.getRows().size()).isEqualTo(1);
-        assertThat(methodQueryResult.<MethodDescriptor>getColumn("testMethod"))
-            .haveExactly(1, methodDescriptor(AssertExample.class, "mockWebServiceServerVerifyExampleMethod"));
-        assertThat(methodQueryResult.<MethodDescriptor>getColumn("assertMethod"))
-            .haveExactly(1, methodDescriptor(MockWebServiceServer.class, "verify"));
+    @Test
+    void webServiceAssertMethod() throws Exception {
+        scanClasses(AssertExample.class);
+
+        final Result<Concept> conceptResult = applyConcept("spring-ws:ServerResponseAssertion");
+        assertThat(conceptResult.getStatus()).isEqualTo(SUCCESS);
+
+        store.beginTransaction();
+
+        assertThat(conceptResult.getRows().size()).isEqualTo(1);
+        assertThat(conceptResult.getRows()
+            .get(0)
+            .getColumns()
+            .get("assertMethod")
+            .getValue()).asInstanceOf(type(MethodDescriptor.class))
+            .is(methodDescriptor(ResponseActions.class, "andExpect", ResponseMatcher.class));
+
+        verifyResultGraph("ServerResponse", "springWebServiceAssertExampleMethod", ResponseActions.class, "andExpect", ResponseMatcher.class);
+
+        store.commitTransaction();
+    }
+
+    @Test
+    void providedConceptWebServiceAssertMethod() throws Exception {
+        scanClasses(AssertExample.class);
+
+        final Result<Concept> conceptResult = applyConcept("java:AssertMethod");
+        assertThat(conceptResult.getStatus()).isEqualTo(SUCCESS);
+
+        store.beginTransaction();
+
+        final List<TypeDescriptor> declaringTypes = conceptResult.getRows().stream()
+            .map(Row::getColumns)
+            .map(columns -> columns.get("DeclaringType"))
+            .map(Column::getValue)
+            .map(TypeDescriptor.class::cast)
+            .collect(Collectors.toList());
+        assertThat(declaringTypes).haveExactly(1, typeDescriptor(ResponseActions.class));
+
+        verifyResultGraph("ServerResponse", "springWebServiceAssertExampleMethod", ResponseActions.class, "andExpect", ResponseMatcher.class);
+
+        store.commitTransaction();
     }
 }

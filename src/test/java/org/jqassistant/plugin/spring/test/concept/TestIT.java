@@ -39,7 +39,7 @@ public class TestIT extends AbstractSpringIT {
                 .getValue()).asInstanceOf(type(MethodDescriptor.class))
                 .is(methodDescriptor(ResultActions.class, "andReturn"));
 
-        verifyAssertMethodResultGraph();
+        verifyResultGraph("Servlet", "resultActionsAndReturnExampleMethod", ResultActions.class, "andReturn");
 
         store.commitTransaction();
     }
@@ -61,21 +61,9 @@ public class TestIT extends AbstractSpringIT {
             .collect(Collectors.toList());
         assertThat(declaringTypes).haveExactly(1, typeDescriptor(ResultActions.class));
 
-        verifyAssertMethodResultGraph();
+        verifyResultGraph("Servlet", "resultActionsAndReturnExampleMethod", ResultActions.class, "andReturn");
 
         store.commitTransaction();
     }
 
-    // Expects an open transaction
-    private void verifyAssertMethodResultGraph() throws NoSuchMethodException {
-        final TestResult methodQueryResult = query(
-            "MATCH (testMethod:Method)-[:INVOKES]->(assertMethod:Method) "
-                + "WHERE assertMethod:Spring:Assert "
-                + "RETURN testMethod, assertMethod");
-        assertThat(methodQueryResult.getRows().size()).isEqualTo(1);
-        assertThat(methodQueryResult.<MethodDescriptor>getColumn("testMethod"))
-            .haveExactly(1, methodDescriptor(AssertExample.class, "resultActionsAndReturnExampleMethod"));
-        assertThat(methodQueryResult.<MethodDescriptor>getColumn("assertMethod"))
-            .haveExactly(1, methodDescriptor(ResultActions.class, "andReturn"));
-    }
 }
