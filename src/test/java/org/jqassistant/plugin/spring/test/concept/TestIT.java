@@ -22,6 +22,8 @@ import org.jqassistant.plugin.spring.test.set.test.spring_boot.SpringBootTestCla
 import org.jqassistant.plugin.spring.test.set.test.spring_boot.SpringBootTestClassWithNestedTestsAndWithoutTestMethod;
 import org.jqassistant.plugin.spring.test.set.test.spring_boot.SpringBootTestClassWithoutNestedTestsAndWithTestMethod;
 import org.jqassistant.plugin.spring.test.set.test.spring_boot.SpringBootTestClassWithoutNestedTestsAndWithoutTestMethod;
+import org.jqassistant.plugin.spring.test.set.test.spring_boot.SpringDataJpaTestClass;
+import org.jqassistant.plugin.spring.test.set.test.spring_boot.SpringJUnitWebConfigTestClass;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -184,4 +186,25 @@ public class TestIT extends AbstractSpringIT {
         store.commitTransaction();
     }
 
+    @Test
+    void springDataJpaTestClass() throws RuleException {
+        scanClasses(SpringDataJpaTestClass.class);
+        Result<Concept> result = applyConcept("spring-test:TestClass");
+        store.beginTransaction();
+        assertThat(result.getStatus()).isEqualTo(SUCCESS);
+        assertThat(result.getRows().size()).isEqualTo(1);
+        assertThat((TypeDescriptor) result.getRows().get(0).getColumns().get("SpringTest").getValue()).is(typeDescriptor(SpringDataJpaTestClass.class));
+        store.commitTransaction();
+    }
+
+    @Test
+    void springJUnitWebConfigTestClass() throws RuleException {
+        scanClasses(SpringJUnitWebConfigTestClass.class);
+        Result<Concept> result = applyConcept("spring-test:TestClass");
+        store.beginTransaction();
+        assertThat(result.getStatus()).isEqualTo(SUCCESS);
+        assertThat(result.getRows().size()).isEqualTo(1);
+        assertThat((TypeDescriptor) result.getRows().get(0).getColumns().get("SpringTest").getValue()).is(typeDescriptor(SpringJUnitWebConfigTestClass.class));
+        store.commitTransaction();
+    }
 }

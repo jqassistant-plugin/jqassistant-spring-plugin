@@ -4,7 +4,7 @@
 
     <concept id="spring-test:TestClass">
         <description>
-            Abstract concept returning classes being labeled with "Spring" and "Test".
+            Abstract concept returning classes labeled with "Spring" and "Test".
         </description>
         <cypher><![CDATA[
             MATCH

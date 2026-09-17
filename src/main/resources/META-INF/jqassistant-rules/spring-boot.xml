@@ -57,7 +57,7 @@
         <providesConcept refId="spring-test:TestClass"/>
         <requiresConcept refId="java:TestMethod"/>
         <description>
-            Identification of classes being annotated with corresponding annotations and defining test methods as Spring Boot tests.
+            Identification of classes annotated with corresponding annotations and defining test methods as Spring Boot tests.
         </description>
         <cypher><![CDATA[
             WITH

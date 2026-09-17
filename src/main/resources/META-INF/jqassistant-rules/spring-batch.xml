@@ -185,7 +185,7 @@
         <providesConcept refId="spring-test:TestClass"/>
         <requiresConcept refId="java:TestMethod"/>
         <description>
-            Identification of classes being annotated with @SpringBatchTest and defining test methods as Spring Batch tests.
+            Identification of classes annotated with @SpringBatchTest and defining test methods as Spring Batch tests.
         </description>
         <cypher><![CDATA[
             MATCH
