@@ -68,6 +68,7 @@
               ] AS springBootTestAnnotations
             MATCH
               (springBootTest:Java:Type)-[:EXTENDS*0..]->(:Java:Type)-[:ANNOTATED_BY|OF_TYPE*0..]->(annotation:Type),
+              // at least one test method has to be defined (directly or in a subclass)
               (springBootTest)-[:DECLARES*]->(testMethod:Method:Test)
             WHERE
               annotation.fqn IN springBootTestAnnotations

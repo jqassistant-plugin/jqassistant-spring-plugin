@@ -190,6 +190,7 @@
         <cypher><![CDATA[
             MATCH
               (springBatchTest:Java:Type)-[:EXTENDS*0..]->(:Java:Type)-[:ANNOTATED_BY|OF_TYPE*0..]->(:Type {fqn: "org.springframework.batch.test.context.SpringBatchTest"}),
+              // at least one test method has to be defined (directly or in a subclass)
               (springBatchTest)-[:DECLARES*]->(testMethod:Method:Test)
             WHERE
               // exclude in case a custom annotation is meta annotated
