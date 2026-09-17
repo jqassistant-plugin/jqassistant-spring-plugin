@@ -52,6 +52,37 @@
         ]]></cypher>
     </concept>
 
+    <concept id="spring-boot:TestClass">
+        <providesConcept refId="java:TestClass"/>
+        <providesConcept refId="spring-test:TestClass"/>
+        <requiresConcept refId="java:TestMethod"/>
+        <description>
+            Identification of classes annotated with corresponding annotations and defining test methods as Spring Boot tests.
+        </description>
+        <cypher><![CDATA[
+            WITH
+              [
+                'org.springframework.boot.test.context.SpringBootTest',
+                'org.springframework.test.context.junit.jupiter.web.SpringJUnitWebConfig',
+                'org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest'
+              ] AS springBootTestAnnotations
+            MATCH
+              (springBootTest:Java:Type)-[:EXTENDS*0..]->(:Java:Type)-[:ANNOTATED_BY|OF_TYPE*0..]->(annotation:Type),
+              // at least one test method has to be defined (directly or in a subclass)
+              (springBootTest)-[:DECLARES*]->(testMethod:Method:Test)
+            WHERE
+              annotation.fqn IN springBootTestAnnotations
+              // exclude in case a custom annotation is meta annotated
+              AND NOT springBootTest:Annotation
+            SET
+              springBootTest:Spring:Boot:Test
+            RETURN
+              springBootTest as SpringBootTest
+            ORDER BY
+              springBootTest.fqn
+        ]]></cypher>
+    </concept>
+
     <constraint id="spring-boot:AllTypesInApplicationPackage">
         <requiresConcept refId="spring-boot:Application"/>
         <requiresConcept refId="java:GeneratedType"/>
