@@ -180,4 +180,27 @@
         </cypher>
     </concept>
 
+    <concept id="spring-batch:TestClass">
+        <providesConcept refId="java:TestClass"/>
+        <providesConcept refId="spring-test:TestClass"/>
+        <requiresConcept refId="java:TestMethod"/>
+        <description>
+            Identification of classes being annotated with @SpringBatchTest and defining test methods as Spring Batch tests.
+        </description>
+        <cypher><![CDATA[
+            MATCH
+              (springBatchTest:Java:Type)-[:EXTENDS*0..]->(:Java:Type)-[:ANNOTATED_BY|OF_TYPE*0..]->(:Type {fqn: "org.springframework.batch.test.context.SpringBatchTest"}),
+              (springBatchTest)-[:DECLARES*]->(testMethod:Method:Test)
+            WHERE
+              // exclude in case a custom annotation is meta annotated
+              NOT springBatchTest:Annotation
+            SET
+              springBatchTest:Spring:Batch:Test
+            RETURN
+              springBatchTest as SpringBatchTest
+            ORDER BY
+              springBatchTest.fqn
+        ]]></cypher>
+    </concept>
+
 </jqassistant-rules>

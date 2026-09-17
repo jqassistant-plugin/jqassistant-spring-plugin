@@ -2,6 +2,20 @@
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xsi:schemaLocation="http://schema.jqassistant.org/rule/v1.10 https://schema.jqassistant.org/plugin/jqassistant-rule-v1.10.xsd">
 
+    <concept id="spring-test:TestClass">
+        <description>
+            Abstract concept returning classes being labeled with "Spring" and "Test".
+        </description>
+        <cypher><![CDATA[
+            MATCH
+              (springTest:Java:Type:Spring:Test)
+            RETURN
+              springTest AS SpringTest
+            ORDER BY
+              springTest.fqn
+        ]]></cypher>
+    </concept>
+
     <concept id="spring-test:ResultActionsAssertMethod">
         <providesConcept refId="java:AssertMethod"/>
         <description>
