@@ -27,9 +27,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 class InjectablesMustNotBeInstatiatedIT extends AbstractJavaPluginIT {
 
     @Test
-    void injectableCreatesInstance() throws Exception {
-        scanClasses("a", ControllerInstantiatingService.class, Service.class,
-            ConfigurationWithBeanProducer.class, ConfigurationBean.class,
+    void injectableOrNonInjectableCreatesInstance() throws Exception {
+        scanClasses("a", NonInjectableInstantiatingService.class, ControllerInstantiatingService.class,
+            Service.class, ConfigurationWithBeanProducer.class, ConfigurationBean.class,
             ConfigurationWithBeanProducerAndFactoryMethod.class, ConfigurationBeanC.class,
             ConfigurationUsingBeanFactory.class);
         Result<Constraint> result = validateConstraint("spring-injection:InjectablesMustNotBeInstantiated");
@@ -70,27 +70,6 @@ class InjectablesMustNotBeInstatiatedIT extends AbstractJavaPluginIT {
         assertThat((TypeDescriptor) row2.getColumns()
                 .get("Injectable")
                 .getValue()).is(typeDescriptor(Service.class));
-        store.commitTransaction();
-    }
-
-    @Test
-    void nonInjectableCreatesInstance() throws Exception {
-        scanClasses("a", NonInjectableInstantiatingService.class, Service.class, ConfigurationWithBeanProducer.class,
-            ConfigurationBean.class, ConfigurationWithBeanProducerAndFactoryMethod.class, ConfigurationBeanC.class);
-        Result<Constraint> result = validateConstraint("spring-injection:InjectablesMustNotBeInstantiated");
-        assertThat(result.getStatus()).isEqualTo(FAILURE);
-        store.beginTransaction();
-        List<Row> rows = result.getRows();
-        Row row = rows.get(0);
-        assertThat((TypeDescriptor) row.getColumns()
-            .get("Type")
-            .getValue()).is(typeDescriptor(ConfigurationWithBeanProducerAndFactoryMethod.class));
-        assertThat((MethodDescriptor) row.getColumns()
-            .get("Method")
-            .getValue()).is(methodDescriptor(ConfigurationWithBeanProducerAndFactoryMethod.class, "nonBeanProducerInstantiatingBean"));
-        assertThat((TypeDescriptor) row.getColumns()
-            .get("Injectable")
-            .getValue()).is(typeDescriptor(ConfigurationBeanC.class));
         store.commitTransaction();
     }
 
