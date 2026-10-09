@@ -4,7 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class ConfigurationWithBeanProducerAndPrivateMethod {
+public class ConfigurationWithBeanProducerAndFactoryMethod {
 
     @Bean
     public ConfigurationBeanC getConfiguration() {
@@ -15,7 +15,7 @@ public class ConfigurationWithBeanProducerAndPrivateMethod {
         return instantiate();
     }
 
-    private ConfigurationBeanC instantiate() {
+    public ConfigurationBeanC instantiate() {
         return new ConfigurationBeanC();
     }
 
