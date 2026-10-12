@@ -34,7 +34,7 @@ class InjectableIT extends AbstractSpringIT {
     private static Stream<Arguments> beanMethodParams() {
         return Stream.of(
             Arguments.of(ConfigurationWithBeanProducer.class, ConfigurationBeanA.class),
-            Arguments.of(ConfigurationWithBeanProducerAndPrivateMethod.class, ConfigurationBeanC.class),
+            Arguments.of(ConfigurationWithBeanProducerAndFactoryMethod.class, ConfigurationBeanC.class),
             Arguments.of(ConfigurationWithBeanProducer.NestedConfigurationWithBeanProducer.class, ConfigurationBeanB.class)
         );
     }
@@ -75,7 +75,7 @@ class InjectableIT extends AbstractSpringIT {
     void injectable() throws Exception {
         scanClasses(Application.class, ConfigurationWithBeanProducer.class, ConfigurationWithBeanProducer.NestedConfigurationWithBeanProducer.class,
             AnnotatedRepository.class, ImplementedRepository.class, Controller.class,
-            RestController.class, Service.class, ConfigurationWithBeanProducerAndPrivateMethod.class,
+            RestController.class, Service.class, ConfigurationWithBeanProducerAndFactoryMethod.class,
             ComponentWithCustomAnnotation.class, ComponentWithTransitiveCustomAnnotation.class,
             CustomComponentAnnotation.class, TransitiveCustomComponentAnnotation.class,
             ControllerWithCustomAnnotation.class, ControllerWithTransitiveCustomAnnotation.class,
@@ -98,7 +98,7 @@ class InjectableIT extends AbstractSpringIT {
         assertThat(injectables).haveExactly(1, typeDescriptor(ConfigurationBeanB.class));
         assertThat(injectables).haveExactly(1, typeDescriptor(ConfigurationBeanC.class));
         assertThat(injectables).haveExactly(1, typeDescriptor(ConfigurationWithBeanProducer.class));
-        assertThat(injectables).haveExactly(1, typeDescriptor(ConfigurationWithBeanProducerAndPrivateMethod.class));
+        assertThat(injectables).haveExactly(1, typeDescriptor(ConfigurationWithBeanProducerAndFactoryMethod.class));
         assertThat(injectables).haveExactly(1, typeDescriptor(ConfigurationWithBeanProducer.NestedConfigurationWithBeanProducer.class));
         assertThat(injectables).haveExactly(1, typeDescriptor(AnnotatedRepository.class));
         assertThat(injectables).haveExactly(1, typeDescriptor(ImplementedRepository.class));

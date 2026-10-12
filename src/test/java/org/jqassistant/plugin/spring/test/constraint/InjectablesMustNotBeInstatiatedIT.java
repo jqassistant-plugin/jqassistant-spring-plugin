@@ -9,12 +9,7 @@ import com.buschmais.jqassistant.plugin.java.api.model.JavaClassesDirectoryDescr
 import com.buschmais.jqassistant.plugin.java.api.model.MethodDescriptor;
 import com.buschmais.jqassistant.plugin.java.api.model.TypeDescriptor;
 import com.buschmais.jqassistant.plugin.java.test.AbstractJavaPluginIT;
-import org.jqassistant.plugin.spring.test.set.injectables.ConfigurationBeanC;
-import org.jqassistant.plugin.spring.test.set.injectables.ConfigurationWithBeanProducer;
-import org.jqassistant.plugin.spring.test.set.injectables.ConfigurationWithBeanProducerAndPrivateMethod;
-import org.jqassistant.plugin.spring.test.set.injectables.ControllerInstantiatingService;
-import org.jqassistant.plugin.spring.test.set.injectables.NonInjectableInstantiatingService;
-import org.jqassistant.plugin.spring.test.set.injectables.Service;
+import org.jqassistant.plugin.spring.test.set.injectables.*;
 import org.jqassistant.plugin.spring.test.set.injectables.subclass.AbstractConfigurationBean;
 import org.jqassistant.plugin.spring.test.set.injectables.subclass.ConfigurationBean;
 import org.jqassistant.plugin.spring.test.set.injectables.subclass.SubClassOfInjectable;
@@ -32,58 +27,49 @@ import static org.assertj.core.api.Assertions.assertThat;
 class InjectablesMustNotBeInstatiatedIT extends AbstractJavaPluginIT {
 
     @Test
-    void injectableCreatesInstance() throws Exception {
-        scanClasses("a", ControllerInstantiatingService.class, Service.class,
-            ConfigurationWithBeanProducer.class, ConfigurationBean.class,
-            ConfigurationWithBeanProducerAndPrivateMethod.class, ConfigurationBeanC.class);
+    void injectableOrNonInjectableCreatesInstance() throws Exception {
+        scanClasses("a", NonInjectableInstantiatingService.class, ControllerInstantiatingService.class,
+            Service.class, ConfigurationWithBeanProducer.class, ConfigurationBean.class,
+            ConfigurationWithBeanProducerAndFactoryMethod.class, ConfigurationBeanC.class,
+            ConfigurationUsingBeanFactory.class);
         Result<Constraint> result = validateConstraint("spring-injection:InjectablesMustNotBeInstantiated");
         assertThat(result.getStatus()).isEqualTo(FAILURE);
         store.beginTransaction();
         List<Row> rows = result.getRows();
-        assertThat(rows.size()).isEqualTo(2);
-        Row row = rows.get(0);
+        assertThat(rows.size()).isEqualTo(3);
 
-        assertThat((TypeDescriptor) row.getColumns()
+        final Row row0 = rows.get(0);
+        assertThat((TypeDescriptor) row0.getColumns()
             .get("Type")
-            .getValue()).is(typeDescriptor(ConfigurationWithBeanProducerAndPrivateMethod.class));
-        assertThat((MethodDescriptor) row.getColumns()
+            .getValue()).is(typeDescriptor(ConfigurationUsingBeanFactory.class));
+        assertThat((MethodDescriptor) row0.getColumns()
             .get("Method")
-            .getValue()).is(methodDescriptor(ConfigurationWithBeanProducerAndPrivateMethod.class, "nonBeanProducerInstantiatingBean"));
-        assertThat((TypeDescriptor) row.getColumns()
+            .getValue()).is(methodDescriptor(ConfigurationUsingBeanFactory.class, "someOtherMethodUsingFactoryMethod"));
+        assertThat((TypeDescriptor) row0.getColumns()
             .get("Injectable")
             .getValue()).is(typeDescriptor(ConfigurationBeanC.class));
 
-        Row row1 = rows.get(1);
+        final Row row1 = rows.get(1);
         assertThat((TypeDescriptor) row1.getColumns()
+            .get("Type")
+            .getValue()).is(typeDescriptor(ConfigurationWithBeanProducerAndFactoryMethod.class));
+        assertThat((MethodDescriptor) row1.getColumns()
+            .get("Method")
+            .getValue()).is(methodDescriptor(ConfigurationWithBeanProducerAndFactoryMethod.class, "nonBeanProducerInstantiatingBean"));
+        assertThat((TypeDescriptor) row1.getColumns()
+            .get("Injectable")
+            .getValue()).is(typeDescriptor(ConfigurationBeanC.class));
+
+       final  Row row2 = rows.get(2);
+        assertThat((TypeDescriptor) row2.getColumns()
             .get("Type")
             .getValue()).is(typeDescriptor(ControllerInstantiatingService.class));
-        assertThat((MethodDescriptor) row1.getColumns()
+        assertThat((MethodDescriptor) row2.getColumns()
                 .get("Method")
                 .getValue()).is(methodDescriptor(ControllerInstantiatingService.class, "instantiateService"));
-        assertThat((TypeDescriptor) row1.getColumns()
+        assertThat((TypeDescriptor) row2.getColumns()
                 .get("Injectable")
                 .getValue()).is(typeDescriptor(Service.class));
-        store.commitTransaction();
-    }
-
-    @Test
-    void nonInjectableCreatesInstance() throws Exception {
-        scanClasses("a", NonInjectableInstantiatingService.class, Service.class, ConfigurationWithBeanProducer.class,
-            ConfigurationBean.class, ConfigurationWithBeanProducerAndPrivateMethod.class, ConfigurationBeanC.class);
-        Result<Constraint> result = validateConstraint("spring-injection:InjectablesMustNotBeInstantiated");
-        assertThat(result.getStatus()).isEqualTo(FAILURE);
-        store.beginTransaction();
-        List<Row> rows = result.getRows();
-        Row row = rows.get(0);
-        assertThat((TypeDescriptor) row.getColumns()
-            .get("Type")
-            .getValue()).is(typeDescriptor(ConfigurationWithBeanProducerAndPrivateMethod.class));
-        assertThat((MethodDescriptor) row.getColumns()
-            .get("Method")
-            .getValue()).is(methodDescriptor(ConfigurationWithBeanProducerAndPrivateMethod.class, "nonBeanProducerInstantiatingBean"));
-        assertThat((TypeDescriptor) row.getColumns()
-            .get("Injectable")
-            .getValue()).is(typeDescriptor(ConfigurationBeanC.class));
         store.commitTransaction();
     }
 
