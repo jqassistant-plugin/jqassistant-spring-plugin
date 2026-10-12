@@ -192,7 +192,7 @@
             jQAssistant Report - jQAssistant Spring Framework Plugin</h1>
         <h5>
                         Timestamp:
-            <span class="timeStamp">2026-09-18T05:45:25.673Z</span>
+            <span class="timeStamp">2026-10-12T11:17:46.412Z</span>
         </h5>
         <div>
             <h3>Constraints</h3>
@@ -727,7 +727,7 @@ with "Junit5", "Test" and "Template".</pre>
                                     <th>Artifact</th><th>PluginDescriptor</th>
                                 </tr>
                                 <tr>
-                                    <td>org.jqassistant.plugin:jqassistant-spring-plugin:jar:2.9.0-SNAPSHOT</td><td>/META-INF/jqassistant-plugin.xml</td>
+                                    <td>org.jqassistant.plugin:jqassistant-spring-plugin:jar:2.10.0-SNAPSHOT</td><td>/META-INF/jqassistant-plugin.xml</td>
                                 </tr>
                             </table>
                         </div>
@@ -755,28 +755,10 @@ labels them with "Test", "Parameterized", and "Junit5".</pre>
                                     <th>Test</th>
                                 </tr>
                                 <tr>
-                                    <td>void transactionMethodsMustNotBeCalledDirectlyWithViolations(java.lang.Class)</td>
-                                </tr>
-                                <tr>
-                                    <td>void nonTransactionalMethodCallingTransactionalMethod(java.lang.Class)</td>
-                                </tr>
-                                <tr>
                                     <td>void springBootTestWithNestedTestsAndWithoutTestMethod(java.lang.Class,java.lang.Class,java.lang.Class)</td>
                                 </tr>
                                 <tr>
-                                    <td>void springBootTestWithoutNestedTestsAndWithoutTestMethod(java.lang.Class)</td>
-                                </tr>
-                                <tr>
-                                    <td>void springBootTestWithNestedTestsAndTestMethod(java.lang.Class,java.lang.Class)</td>
-                                </tr>
-                                <tr>
-                                    <td>void privateMethodMustNotBeAnnotatedWithTransactional(java.lang.Class)</td>
-                                </tr>
-                                <tr>
-                                    <td>void springBootTestWithCustomAnnotation(java.lang.Class,java.lang.Class)</td>
-                                </tr>
-                                <tr>
-                                    <td>void beanMethod(java.lang.Class,java.lang.Class)</td>
+                                    <td>void nonTransactionalMethodCallingTransactionalMethod(java.lang.Class)</td>
                                 </tr>
                                 <tr>
                                     <td>void springBootTestWithoutNestedTestsAndWithTestMethod(java.lang.Class)</td>
@@ -791,7 +773,25 @@ labels them with "Test", "Parameterized", and "Junit5".</pre>
                                     <td>void constraintValidator(java.lang.Class,java.lang.Class)</td>
                                 </tr>
                                 <tr>
+                                    <td>void privateMethodMustNotBeAnnotatedWithTransactional(java.lang.Class)</td>
+                                </tr>
+                                <tr>
+                                    <td>void transactionMethodsMustNotBeCalledDirectlyWithViolations(java.lang.Class)</td>
+                                </tr>
+                                <tr>
+                                    <td>void springBootTestWithoutNestedTestsAndWithoutTestMethod(java.lang.Class)</td>
+                                </tr>
+                                <tr>
                                     <td>void propagationOnTypeAndMethodLevel(java.lang.Class)</td>
+                                </tr>
+                                <tr>
+                                    <td>void springBootTestWithNestedTestsAndTestMethod(java.lang.Class,java.lang.Class)</td>
+                                </tr>
+                                <tr>
+                                    <td>void beanMethod(java.lang.Class,java.lang.Class)</td>
+                                </tr>
+                                <tr>
+                                    <td>void springBootTestWithCustomAnnotation(java.lang.Class,java.lang.Class)</td>
                                 </tr>
                             </table>
                         </div>
@@ -817,64 +817,73 @@ labels them with "Test", "Parameterized", and "Junit5".</pre>
                                     <th>TestClass</th><th>TestMethods</th>
                                 </tr>
                                 <tr>
-                                    <td>org.jqassistant.plugin.spring.test.constraint.DependencyStructureIT</td><td>void validControllerDependencies(), void invalidControllerDependencies(), void validServiceDependencies(), void invalidServiceDependencies(), void validRepositoryDependencies(), void invalidRepositoryDependencies()</td>
-                                </tr>
-                                <tr>
-                                    <td>org.jqassistant.plugin.spring.test.constraint.InjectablesMustOnlyBeHeldInInjectablesIT</td><td>void reportsInjectablesInNonInjectableClasses()</td>
-                                </tr>
-                                <tr>
-                                    <td>org.jqassistant.plugin.spring.test.constraint.AllTypesInApplicationPackageIT</td><td>void allTypesInsideApplicationPackage(), void typeOutsideApplicationPackage()</td>
-                                </tr>
-                                <tr>
-                                    <td>org.jqassistant.plugin.spring.test.constraint.JdkClassesMustNotBeInjectablesIT</td><td>void reportsInjectableJdkClasses()</td>
-                                </tr>
-                                <tr>
-                                    <td>org.jqassistant.plugin.spring.test.constraint.InjectablesMustNotBeInstatiatedIT</td><td>void injectableCreatesInstance(), void nonInjectableCreatesInstance(), void testClasses(), void configInstantiatesSubClassOfInjectable()</td>
-                                </tr>
-                                <tr>
-                                    <td>org.jqassistant.plugin.spring.test.constraint.FieldsOfInjectablesMustNotBeManipulatedIT</td><td>void constructorFieldsMustNotBeManipulated(), void configurationProperties(), void syntheticFields()</td>
-                                </tr>
-                                <tr>
-                                    <td>org.jqassistant.plugin.spring.test.constraint.TransactionalMethodMustNotBeInvokedFromSameOrSubclassIT</td><td>void transactionMethodsMustNotBeCalledDirectlyWithViolations(java.lang.Class), void transactionMethodsMustNotBeCalledDirectlyWithViolationsInSubClass(), void transactionalMethodMustNotBeInvokedFromSameClassSimpleInheritance(), void transactionalMethodMustNotBeInvokedFromSameClassGenericInheritance(), void transactionalMethodMustNotBeInvokedFromNestedClass(), void transactionalMethodMustNotBeInvokedFromNestedClassInSubClass(), void nonTransactionalMethodCallingTransactionalMethod(java.lang.Class)</td>
-                                </tr>
-                                <tr>
-                                    <td>org.jqassistant.plugin.spring.test.constraint.FieldInjectionIT</td><td>void serviceWithFieldInjection(), void serviceWithConstructorInjection(), void rejectsNonFinalInjectableField(), void doesNotRejectFinalInjectableField()</td>
+                                    <td>org.jqassistant.plugin.spring.test.constraint.SpringInterfacesIT</td><td>void avoidInitializingBean(), void avoidDisposableBean(), void avoidBeanFactoryAware(), void avoidApplicationContextAware(), void avoidApplicationEventPublisherAwareBean()</td>
                                 </tr>
                                 <tr>
                                     <td>org.jqassistant.plugin.spring.test.constraint.PrivateMethodMustNotBeAnnotatedWithTransactionalIT</td><td>void privateMethodMustNotBeAnnotatedWithTransactional(java.lang.Class), void privateMethodMustNotBeAnnotatedWithTransactionalNoViolations()</td>
                                 </tr>
                                 <tr>
-                                    <td>org.jqassistant.plugin.spring.test.constraint.SpringInterfacesIT</td><td>void avoidInitializingBean(), void avoidDisposableBean(), void avoidBeanFactoryAware(), void avoidApplicationContextAware(), void avoidApplicationEventPublisherAwareBean()</td>
+                                    <td>org.jqassistant.plugin.spring.test.constraint.AllTypesInApplicationPackageIT</td><td>void allTypesInsideApplicationPackage(), void typeOutsideApplicationPackage()</td>
                                 </tr>
                                 <tr>
-                                    <td>org.jqassistant.plugin.spring.test.constraint.InjectablesMustNotBeReferredToStaticallyIT</td><td>void reportsInjectablesInStaticFields(), void reportsStaticReferenceToInjectable()</td>
+                                    <td>org.jqassistant.plugin.spring.test.constraint.InjectablesMustNotBeInstatiatedIT</td><td>void injectableOrNonInjectableCreatesInstance(), void testClasses(), void configInstantiatesSubClassOfInjectable()</td>
+                                </tr>
+                                <tr>
+                                    <td>org.jqassistant.plugin.spring.test.constraint.InjectablesMustOnlyBeHeldInInjectablesIT</td><td>void reportsInjectablesInNonInjectableClasses()</td>
+                                </tr>
+                                <tr>
+                                    <td>org.jqassistant.plugin.spring.test.constraint.JdkClassesMustNotBeInjectablesIT</td><td>void reportsInjectableJdkClasses()</td>
                                 </tr>
                                 <tr>
                                     <td>org.jqassistant.plugin.spring.test.constraint.BeanProducerIT</td><td>void beanProducerInConfigurationComponent(), void beanProducerInServiceComponent(), void beanProducerMustNotBeInvokedDirectly()</td>
                                 </tr>
                                 <tr>
-                                    <td>org.jqassistant.plugin.spring.test.set.test.spring_boot.SpringDataJpaTestClass</td><td>void test()</td>
+                                    <td>org.jqassistant.plugin.spring.test.constraint.FieldInjectionIT</td><td>void serviceWithFieldInjection(), void serviceWithConstructorInjection(), void rejectsNonFinalInjectableField(), void doesNotRejectFinalInjectableField()</td>
                                 </tr>
                                 <tr>
-                                    <td>org.jqassistant.plugin.spring.test.set.test.spring_boot.SpringBootTestClassWithNestedTestsAndWithoutTestMethod$NestedTestWithTestcase</td><td>void exampleTestCase()</td>
+                                    <td>org.jqassistant.plugin.spring.test.constraint.InjectablesMustNotBeReferredToStaticallyIT</td><td>void reportsInjectablesInStaticFields(), void reportsStaticReferenceToInjectable()</td>
                                 </tr>
                                 <tr>
-                                    <td>org.jqassistant.plugin.spring.test.set.test.spring_boot.SpringBootTestClassWithNestedTestsAndTestMethod$NestedTest</td><td>void test()</td>
+                                    <td>org.jqassistant.plugin.spring.test.constraint.TransactionalMethodMustNotBeInvokedFromSameOrSubclassIT</td><td>void transactionMethodsMustNotBeCalledDirectlyWithViolations(java.lang.Class), void transactionMethodsMustNotBeCalledDirectlyWithViolationsInSubClass(), void transactionalMethodMustNotBeInvokedFromSameClassSimpleInheritance(), void transactionalMethodMustNotBeInvokedFromSameClassGenericInheritance(), void transactionalMethodMustNotBeInvokedFromNestedClass(), void transactionalMethodMustNotBeInvokedFromNestedClassInSubClass(), void nonTransactionalMethodCallingTransactionalMethod(java.lang.Class)</td>
                                 </tr>
                                 <tr>
-                                    <td>org.jqassistant.plugin.spring.test.set.test.spring_boot.SpringBootTestClassWithNestedTestsAndTestMethod</td><td>void test()</td>
+                                    <td>org.jqassistant.plugin.spring.test.constraint.FieldsOfInjectablesMustNotBeManipulatedIT</td><td>void constructorFieldsMustNotBeManipulated(), void configurationProperties(), void syntheticFields()</td>
                                 </tr>
                                 <tr>
-                                    <td>org.jqassistant.plugin.spring.test.set.test.spring_boot.SpringBootTestClassWithoutNestedTestsAndWithTestMethod</td><td>void test()</td>
+                                    <td>org.jqassistant.plugin.spring.test.constraint.DependencyStructureIT</td><td>void validControllerDependencies(), void invalidControllerDependencies(), void validServiceDependencies(), void invalidServiceDependencies(), void validRepositoryDependencies(), void invalidRepositoryDependencies()</td>
                                 </tr>
                                 <tr>
-                                    <td>org.jqassistant.plugin.spring.test.set.test.spring_boot.SpringJUnitWebConfigTestClass</td><td>void test()</td>
+                                    <td>org.jqassistant.plugin.spring.test.concept.InjectableIT</td><td>void beanMethod(java.lang.Class,java.lang.Class), void injectionPoint(), void injectable(), void constraintValidator(java.lang.Class,java.lang.Class)</td>
                                 </tr>
                                 <tr>
-                                    <td>org.jqassistant.plugin.spring.test.set.test.spring_boot.SpringBootTestClassFromInheritedTestClass</td><td>void testOfSubclass()</td>
+                                    <td>org.jqassistant.plugin.spring.test.concept.RepositoryIT</td><td>void annotatedRepository(), void implementedRepository()</td>
                                 </tr>
                                 <tr>
-                                    <td>org.jqassistant.plugin.spring.test.set.test.spring_boot.SpringBootTestClassWithCustomAnnotationAndTestMethod</td><td>void exampleTestCase()</td>
+                                    <td>org.jqassistant.plugin.spring.test.concept.MvcIT</td><td>void restController(), void controllerAdvice(), void restControllerAdvice()</td>
+                                </tr>
+                                <tr>
+                                    <td>org.jqassistant.plugin.spring.test.concept.TransactionalMethodIT</td><td>void transactionalMethod()</td>
+                                </tr>
+                                <tr>
+                                    <td>org.jqassistant.plugin.spring.test.concept.ModulithIT</td><td>void applicationModulesVerifyeMethod(), void providedConceptAssertMethod()</td>
+                                </tr>
+                                <tr>
+                                    <td>org.jqassistant.plugin.spring.test.concept.TransactionPropagationIT</td><td>void propagationOnTypeAndMethodLevel(java.lang.Class), void propagationOnMethodLevel(java.lang.Class)</td>
+                                </tr>
+                                <tr>
+                                    <td>org.jqassistant.plugin.spring.test.concept.TestIT</td><td>void resultActionsAndReturnMethod(), void providedConceptAssertMethod(), void springBootTestWithNestedTestsAndWithoutTestMethod(java.lang.Class,java.lang.Class,java.lang.Class), void springBootTestWithNestedTestsAndTestMethod(java.lang.Class,java.lang.Class), void springBootTestWithoutNestedTestsAndWithoutTestMethod(java.lang.Class), void springBootTestWithoutNestedTestsAndWithTestMethod(java.lang.Class), void inheritedSpringBootTest(java.lang.Class,java.lang.Class), void springBootTestWithCustomAnnotation(java.lang.Class,java.lang.Class), void springDataJpaTestClass(), void springJUnitWebConfigTestClass()</td>
+                                </tr>
+                                <tr>
+                                    <td>org.jqassistant.plugin.spring.test.concept.WsIT</td><td>void endpoint(), void mockWebServiceServerVerifyMethod(), void providedConceptMockWebServiceAssertMethod(), void webServiceAssertMethod(), void providedConceptWebServiceAssertMethod()</td>
+                                </tr>
+                                <tr>
+                                    <td>org.jqassistant.plugin.spring.test.concept.FeignIT</td><td>void feignClient(), void feignClientProvidesInjectable(), void feignClientConfiguration(), void feignClientConfigurationProvidesInjectable(), void feignClientConfigurationProvidesConfiguration(), void feignClientConfigurationProvidesComponent()</td>
+                                </tr>
+                                <tr>
+                                    <td>org.jqassistant.plugin.spring.test.concept.ComponentIT</td><td>void configuration(), void controller(), void service(), void repository(), void directComponentDependencies(), void component()</td>
+                                </tr>
+                                <tr>
+                                    <td>org.jqassistant.plugin.spring.test.set.test.spring_batch.SpringBatchTestClassWithNestedTestsAndTestMethod$NestedTest</td><td>void test()</td>
                                 </tr>
                                 <tr>
                                     <td>org.jqassistant.plugin.spring.test.set.test.spring_batch.SpringBatchTestClassWithCustomAnnotationAndTestMethod</td><td>void exampleTestCase()</td>
@@ -883,46 +892,37 @@ labels them with "Test", "Parameterized", and "Junit5".</pre>
                                     <td>org.jqassistant.plugin.spring.test.set.test.spring_batch.SpringBatchTestClassWithNestedTestsAndTestMethod</td><td>void test()</td>
                                 </tr>
                                 <tr>
-                                    <td>org.jqassistant.plugin.spring.test.set.test.spring_batch.SpringBatchTestClassWithoutNestedTestsAndWithTestMethod</td><td>void test()</td>
-                                </tr>
-                                <tr>
                                     <td>org.jqassistant.plugin.spring.test.set.test.spring_batch.SpringBatchTestClassFromInheritedTestClass</td><td>void testOfSubclass()</td>
                                 </tr>
                                 <tr>
-                                    <td>org.jqassistant.plugin.spring.test.set.test.spring_batch.SpringBatchTestClassWithNestedTestsAndTestMethod$NestedTest</td><td>void test()</td>
+                                    <td>org.jqassistant.plugin.spring.test.set.test.spring_batch.SpringBatchTestClassWithoutNestedTestsAndWithTestMethod</td><td>void test()</td>
                                 </tr>
                                 <tr>
                                     <td>org.jqassistant.plugin.spring.test.set.test.spring_batch.SpringBatchTestClassWithNestedTestsAndWithoutTestMethod$NestedTestWithTestcase</td><td>void exampleTestCase()</td>
                                 </tr>
                                 <tr>
-                                    <td>org.jqassistant.plugin.spring.test.concept.TransactionalMethodIT</td><td>void transactionalMethod()</td>
+                                    <td>org.jqassistant.plugin.spring.test.set.test.spring_boot.SpringDataJpaTestClass</td><td>void test()</td>
                                 </tr>
                                 <tr>
-                                    <td>org.jqassistant.plugin.spring.test.concept.TestIT</td><td>void resultActionsAndReturnMethod(), void providedConceptAssertMethod(), void springBootTestWithNestedTestsAndWithoutTestMethod(java.lang.Class,java.lang.Class,java.lang.Class), void springBootTestWithNestedTestsAndTestMethod(java.lang.Class,java.lang.Class), void springBootTestWithoutNestedTestsAndWithoutTestMethod(java.lang.Class), void springBootTestWithoutNestedTestsAndWithTestMethod(java.lang.Class), void inheritedSpringBootTest(java.lang.Class,java.lang.Class), void springBootTestWithCustomAnnotation(java.lang.Class,java.lang.Class), void springDataJpaTestClass(), void springJUnitWebConfigTestClass()</td>
+                                    <td>org.jqassistant.plugin.spring.test.set.test.spring_boot.SpringJUnitWebConfigTestClass</td><td>void test()</td>
                                 </tr>
                                 <tr>
-                                    <td>org.jqassistant.plugin.spring.test.concept.MvcIT</td><td>void restController(), void controllerAdvice(), void restControllerAdvice()</td>
+                                    <td>org.jqassistant.plugin.spring.test.set.test.spring_boot.SpringBootTestClassWithNestedTestsAndTestMethod</td><td>void test()</td>
                                 </tr>
                                 <tr>
-                                    <td>org.jqassistant.plugin.spring.test.concept.RepositoryIT</td><td>void annotatedRepository(), void implementedRepository()</td>
+                                    <td>org.jqassistant.plugin.spring.test.set.test.spring_boot.SpringBootTestClassWithNestedTestsAndTestMethod$NestedTest</td><td>void test()</td>
                                 </tr>
                                 <tr>
-                                    <td>org.jqassistant.plugin.spring.test.concept.InjectableIT</td><td>void beanMethod(java.lang.Class,java.lang.Class), void injectionPoint(), void injectable(), void constraintValidator(java.lang.Class,java.lang.Class)</td>
+                                    <td>org.jqassistant.plugin.spring.test.set.test.spring_boot.SpringBootTestClassFromInheritedTestClass</td><td>void testOfSubclass()</td>
                                 </tr>
                                 <tr>
-                                    <td>org.jqassistant.plugin.spring.test.concept.ComponentIT</td><td>void configuration(), void controller(), void service(), void repository(), void directComponentDependencies(), void component()</td>
+                                    <td>org.jqassistant.plugin.spring.test.set.test.spring_boot.SpringBootTestClassWithCustomAnnotationAndTestMethod</td><td>void exampleTestCase()</td>
                                 </tr>
                                 <tr>
-                                    <td>org.jqassistant.plugin.spring.test.concept.FeignIT</td><td>void feignClient(), void feignClientProvidesInjectable(), void feignClientConfiguration(), void feignClientConfigurationProvidesInjectable(), void feignClientConfigurationProvidesConfiguration(), void feignClientConfigurationProvidesComponent()</td>
+                                    <td>org.jqassistant.plugin.spring.test.set.test.spring_boot.SpringBootTestClassWithoutNestedTestsAndWithTestMethod</td><td>void test()</td>
                                 </tr>
                                 <tr>
-                                    <td>org.jqassistant.plugin.spring.test.concept.TransactionPropagationIT</td><td>void propagationOnTypeAndMethodLevel(java.lang.Class), void propagationOnMethodLevel(java.lang.Class)</td>
-                                </tr>
-                                <tr>
-                                    <td>org.jqassistant.plugin.spring.test.concept.ModulithIT</td><td>void applicationModulesVerifyeMethod(), void providedConceptAssertMethod()</td>
-                                </tr>
-                                <tr>
-                                    <td>org.jqassistant.plugin.spring.test.concept.WsIT</td><td>void endpoint(), void mockWebServiceServerVerifyMethod(), void providedConceptMockWebServiceAssertMethod(), void webServiceAssertMethod(), void providedConceptWebServiceAssertMethod()</td>
+                                    <td>org.jqassistant.plugin.spring.test.set.test.spring_boot.SpringBootTestClassWithNestedTestsAndWithoutTestMethod$NestedTestWithTestcase</td><td>void exampleTestCase()</td>
                                 </tr>
                             </table>
                         </div>
@@ -952,7 +952,7 @@ labels them with "Test", "Parameterized", and "Junit5".</pre>
                             <span title="Matches Found">&#9728;&nbsp;</span><span title="Success (Result evaluation according to warn-on-severity/fail-on-severity thresholds)">&#10004;</span>
                         </div>
                         <div>info</div>
-                        <div>82</div>
+                        <div>81</div>
                         <div>
                             <span title="Finds all test methods (i.e. annotated with &quot;@org.junit.jupiter.api.Test&quot;) and
 labels them with &quot;Test&quot; and &quot;Junit5&quot;." class="rule-name">junit5:TestMethod</span>
@@ -967,169 +967,103 @@ labels them with "Test" and "Junit5".</pre>
                                     <th>Test</th>
                                 </tr>
                                 <tr>
-                                    <td>void annotatedRepository()</td>
-                                </tr>
-                                <tr>
-                                    <td>void test()</td>
-                                </tr>
-                                <tr>
-                                    <td>void beanProducerMustNotBeInvokedDirectly()</td>
-                                </tr>
-                                <tr>
-                                    <td>void injectionPoint()</td>
-                                </tr>
-                                <tr>
-                                    <td>void controller()</td>
-                                </tr>
-                                <tr>
-                                    <td>void controllerAdvice()</td>
-                                </tr>
-                                <tr>
-                                    <td>void avoidInitializingBean()</td>
-                                </tr>
-                                <tr>
-                                    <td>void test()</td>
-                                </tr>
-                                <tr>
-                                    <td>void directComponentDependencies()</td>
-                                </tr>
-                                <tr>
-                                    <td>void configuration()</td>
-                                </tr>
-                                <tr>
-                                    <td>void validControllerDependencies()</td>
-                                </tr>
-                                <tr>
-                                    <td>void injectable()</td>
-                                </tr>
-                                <tr>
-                                    <td>void springDataJpaTestClass()</td>
-                                </tr>
-                                <tr>
-                                    <td>void testOfSubclass()</td>
-                                </tr>
-                                <tr>
                                     <td>void feignClientConfiguration()</td>
-                                </tr>
-                                <tr>
-                                    <td>void privateMethodMustNotBeAnnotatedWithTransactionalNoViolations()</td>
-                                </tr>
-                                <tr>
-                                    <td>void testOfSubclass()</td>
-                                </tr>
-                                <tr>
-                                    <td>void validRepositoryDependencies()</td>
-                                </tr>
-                                <tr>
-                                    <td>void avoidApplicationEventPublisherAwareBean()</td>
-                                </tr>
-                                <tr>
-                                    <td>void beanProducerInServiceComponent()</td>
-                                </tr>
-                                <tr>
-                                    <td>void avoidBeanFactoryAware()</td>
-                                </tr>
-                                <tr>
-                                    <td>void test()</td>
-                                </tr>
-                                <tr>
-                                    <td>void providedConceptAssertMethod()</td>
-                                </tr>
-                                <tr>
-                                    <td>void restController()</td>
-                                </tr>
-                                <tr>
-                                    <td>void feignClientConfigurationProvidesConfiguration()</td>
-                                </tr>
-                                <tr>
-                                    <td>void transactionMethodsMustNotBeCalledDirectlyWithViolationsInSubClass()</td>
-                                </tr>
-                                <tr>
-                                    <td>void feignClientProvidesInjectable()</td>
-                                </tr>
-                                <tr>
-                                    <td>void validServiceDependencies()</td>
-                                </tr>
-                                <tr>
-                                    <td>void restControllerAdvice()</td>
-                                </tr>
-                                <tr>
-                                    <td>void reportsInjectablesInStaticFields()</td>
-                                </tr>
-                                <tr>
-                                    <td>void invalidControllerDependencies()</td>
-                                </tr>
-                                <tr>
-                                    <td>void repository()</td>
-                                </tr>
-                                <tr>
-                                    <td>void mockWebServiceServerVerifyMethod()</td>
-                                </tr>
-                                <tr>
-                                    <td>void providedConceptMockWebServiceAssertMethod()</td>
-                                </tr>
-                                <tr>
-                                    <td>void serviceWithFieldInjection()</td>
-                                </tr>
-                                <tr>
-                                    <td>void transactionalMethodMustNotBeInvokedFromNestedClassInSubClass()</td>
-                                </tr>
-                                <tr>
-                                    <td>void beanProducerInConfigurationComponent()</td>
-                                </tr>
-                                <tr>
-                                    <td>void configurationProperties()</td>
                                 </tr>
                                 <tr>
                                     <td>void avoidDisposableBean()</td>
                                 </tr>
                                 <tr>
-                                    <td>void exampleTestCase()</td>
+                                    <td>void validServiceDependencies()</td>
                                 </tr>
                                 <tr>
-                                    <td>void exampleTestCase()</td>
+                                    <td>void testOfSubclass()</td>
                                 </tr>
                                 <tr>
-                                    <td>void reportsInjectablesInNonInjectableClasses()</td>
-                                </tr>
-                                <tr>
-                                    <td>void configInstantiatesSubClassOfInjectable()</td>
-                                </tr>
-                                <tr>
-                                    <td>void service()</td>
-                                </tr>
-                                <tr>
-                                    <td>void serviceWithConstructorInjection()</td>
-                                </tr>
-                                <tr>
-                                    <td>void injectableCreatesInstance()</td>
-                                </tr>
-                                <tr>
-                                    <td>void nonInjectableCreatesInstance()</td>
-                                </tr>
-                                <tr>
-                                    <td>void doesNotRejectFinalInjectableField()</td>
-                                </tr>
-                                <tr>
-                                    <td>void providedConceptAssertMethod()</td>
-                                </tr>
-                                <tr>
-                                    <td>void test()</td>
-                                </tr>
-                                <tr>
-                                    <td>void webServiceAssertMethod()</td>
-                                </tr>
-                                <tr>
-                                    <td>void syntheticFields()</td>
-                                </tr>
-                                <tr>
-                                    <td>void transactionalMethodMustNotBeInvokedFromSameClassGenericInheritance()</td>
+                                    <td>void invalidRepositoryDependencies()</td>
                                 </tr>
                                 <tr>
                                     <td>void springJUnitWebConfigTestClass()</td>
                                 </tr>
                                 <tr>
-                                    <td>void constructorFieldsMustNotBeManipulated()</td>
+                                    <td>void component()</td>
+                                </tr>
+                                <tr>
+                                    <td>void feignClient()</td>
+                                </tr>
+                                <tr>
+                                    <td>void restControllerAdvice()</td>
+                                </tr>
+                                <tr>
+                                    <td>void beanProducerInServiceComponent()</td>
+                                </tr>
+                                <tr>
+                                    <td>void exampleTestCase()</td>
+                                </tr>
+                                <tr>
+                                    <td>void injectableOrNonInjectableCreatesInstance()</td>
+                                </tr>
+                                <tr>
+                                    <td>void serviceWithConstructorInjection()</td>
+                                </tr>
+                                <tr>
+                                    <td>void transactionalMethod()</td>
+                                </tr>
+                                <tr>
+                                    <td>void testOfSubclass()</td>
+                                </tr>
+                                <tr>
+                                    <td>void providedConceptAssertMethod()</td>
+                                </tr>
+                                <tr>
+                                    <td>void transactionalMethodMustNotBeInvokedFromSameClassSimpleInheritance()</td>
+                                </tr>
+                                <tr>
+                                    <td>void exampleTestCase()</td>
+                                </tr>
+                                <tr>
+                                    <td>void serviceWithFieldInjection()</td>
+                                </tr>
+                                <tr>
+                                    <td>void mockWebServiceServerVerifyMethod()</td>
+                                </tr>
+                                <tr>
+                                    <td>void feignClientConfigurationProvidesComponent()</td>
+                                </tr>
+                                <tr>
+                                    <td>void privateMethodMustNotBeAnnotatedWithTransactionalNoViolations()</td>
+                                </tr>
+                                <tr>
+                                    <td>void test()</td>
+                                </tr>
+                                <tr>
+                                    <td>void invalidServiceDependencies()</td>
+                                </tr>
+                                <tr>
+                                    <td>void avoidApplicationEventPublisherAwareBean()</td>
+                                </tr>
+                                <tr>
+                                    <td>void configInstantiatesSubClassOfInjectable()</td>
+                                </tr>
+                                <tr>
+                                    <td>void endpoint()</td>
+                                </tr>
+                                <tr>
+                                    <td>void resultActionsAndReturnMethod()</td>
+                                </tr>
+                                <tr>
+                                    <td>void applicationModulesVerifyeMethod()</td>
+                                </tr>
+                                <tr>
+                                    <td>void test()</td>
+                                </tr>
+                                <tr>
+                                    <td>void feignClientConfigurationProvidesConfiguration()</td>
+                                </tr>
+                                <tr>
+                                    <td>void test()</td>
+                                </tr>
+                                <tr>
+                                    <td>void transactionalMethodMustNotBeInvokedFromNestedClassInSubClass()</td>
                                 </tr>
                                 <tr>
                                     <td>void test()</td>
@@ -1138,52 +1072,70 @@ labels them with "Test" and "Junit5".</pre>
                                     <td>void testClasses()</td>
                                 </tr>
                                 <tr>
-                                    <td>void test()</td>
-                                </tr>
-                                <tr>
-                                    <td>void applicationModulesVerifyeMethod()</td>
-                                </tr>
-                                <tr>
-                                    <td>void reportsStaticReferenceToInjectable()</td>
-                                </tr>
-                                <tr>
-                                    <td>void feignClientConfigurationProvidesComponent()</td>
-                                </tr>
-                                <tr>
-                                    <td>void feignClientConfigurationProvidesInjectable()</td>
-                                </tr>
-                                <tr>
-                                    <td>void exampleTestCase()</td>
-                                </tr>
-                                <tr>
-                                    <td>void invalidServiceDependencies()</td>
-                                </tr>
-                                <tr>
-                                    <td>void typeOutsideApplicationPackage()</td>
+                                    <td>void reportsInjectablesInNonInjectableClasses()</td>
                                 </tr>
                                 <tr>
                                     <td>void implementedRepository()</td>
                                 </tr>
                                 <tr>
-                                    <td>void exampleTestCase()</td>
+                                    <td>void restController()</td>
                                 </tr>
                                 <tr>
-                                    <td>void component()</td>
+                                    <td>void doesNotRejectFinalInjectableField()</td>
+                                </tr>
+                                <tr>
+                                    <td>void feignClientConfigurationProvidesInjectable()</td>
+                                </tr>
+                                <tr>
+                                    <td>void transactionalMethodMustNotBeInvokedFromSameClassGenericInheritance()</td>
+                                </tr>
+                                <tr>
+                                    <td>void reportsStaticReferenceToInjectable()</td>
                                 </tr>
                                 <tr>
                                     <td>void avoidApplicationContextAware()</td>
                                 </tr>
                                 <tr>
-                                    <td>void feignClient()</td>
+                                    <td>void validControllerDependencies()</td>
                                 </tr>
                                 <tr>
-                                    <td>void endpoint()</td>
+                                    <td>void annotatedRepository()</td>
+                                </tr>
+                                <tr>
+                                    <td>void allTypesInsideApplicationPackage()</td>
+                                </tr>
+                                <tr>
+                                    <td>void exampleTestCase()</td>
+                                </tr>
+                                <tr>
+                                    <td>void validRepositoryDependencies()</td>
+                                </tr>
+                                <tr>
+                                    <td>void directComponentDependencies()</td>
+                                </tr>
+                                <tr>
+                                    <td>void service()</td>
+                                </tr>
+                                <tr>
+                                    <td>void repository()</td>
+                                </tr>
+                                <tr>
+                                    <td>void providedConceptAssertMethod()</td>
+                                </tr>
+                                <tr>
+                                    <td>void invalidControllerDependencies()</td>
+                                </tr>
+                                <tr>
+                                    <td>void providedConceptWebServiceAssertMethod()</td>
                                 </tr>
                                 <tr>
                                     <td>void test()</td>
                                 </tr>
                                 <tr>
-                                    <td>void providedConceptWebServiceAssertMethod()</td>
+                                    <td>void configurationProperties()</td>
+                                </tr>
+                                <tr>
+                                    <td>void providedConceptMockWebServiceAssertMethod()</td>
                                 </tr>
                                 <tr>
                                     <td>void reportsInjectableJdkClasses()</td>
@@ -1192,25 +1144,70 @@ labels them with "Test" and "Junit5".</pre>
                                     <td>void transactionalMethodMustNotBeInvokedFromNestedClass()</td>
                                 </tr>
                                 <tr>
-                                    <td>void invalidRepositoryDependencies()</td>
+                                    <td>void avoidBeanFactoryAware()</td>
                                 </tr>
                                 <tr>
-                                    <td>void rejectsNonFinalInjectableField()</td>
+                                    <td>void injectionPoint()</td>
                                 </tr>
                                 <tr>
-                                    <td>void allTypesInsideApplicationPackage()</td>
+                                    <td>void transactionMethodsMustNotBeCalledDirectlyWithViolationsInSubClass()</td>
+                                </tr>
+                                <tr>
+                                    <td>void beanProducerInConfigurationComponent()</td>
                                 </tr>
                                 <tr>
                                     <td>void test()</td>
                                 </tr>
                                 <tr>
-                                    <td>void resultActionsAndReturnMethod()</td>
+                                    <td>void webServiceAssertMethod()</td>
                                 </tr>
                                 <tr>
-                                    <td>void transactionalMethodMustNotBeInvokedFromSameClassSimpleInheritance()</td>
+                                    <td>void constructorFieldsMustNotBeManipulated()</td>
                                 </tr>
                                 <tr>
-                                    <td>void transactionalMethod()</td>
+                                    <td>void controller()</td>
+                                </tr>
+                                <tr>
+                                    <td>void injectable()</td>
+                                </tr>
+                                <tr>
+                                    <td>void exampleTestCase()</td>
+                                </tr>
+                                <tr>
+                                    <td>void syntheticFields()</td>
+                                </tr>
+                                <tr>
+                                    <td>void feignClientProvidesInjectable()</td>
+                                </tr>
+                                <tr>
+                                    <td>void reportsInjectablesInStaticFields()</td>
+                                </tr>
+                                <tr>
+                                    <td>void springDataJpaTestClass()</td>
+                                </tr>
+                                <tr>
+                                    <td>void test()</td>
+                                </tr>
+                                <tr>
+                                    <td>void test()</td>
+                                </tr>
+                                <tr>
+                                    <td>void typeOutsideApplicationPackage()</td>
+                                </tr>
+                                <tr>
+                                    <td>void controllerAdvice()</td>
+                                </tr>
+                                <tr>
+                                    <td>void beanProducerMustNotBeInvokedDirectly()</td>
+                                </tr>
+                                <tr>
+                                    <td>void rejectsNonFinalInjectableField()</td>
+                                </tr>
+                                <tr>
+                                    <td>void configuration()</td>
+                                </tr>
+                                <tr>
+                                    <td>void avoidInitializingBean()</td>
                                 </tr>
                             </table>
                         </div>
