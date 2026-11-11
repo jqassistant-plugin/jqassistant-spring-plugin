@@ -69,6 +69,27 @@
             ]]></cypher>
     </concept>
 
+    <concept id="spring-injection:GenericFilterBean">
+        <!-- See https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/filter/GenericFilterBean.html -->
+        <providesConcept refId="spring-injection:Injectable"/>
+        <description>Labels org.springframework.web.filter.GenericFilterBean and its known subclasses with "Spring" and "Injectable".</description>
+        <cypher><![CDATA[
+            MATCH
+                (injectableType:Java:Type)-[:EXTENDS*0..]->(springBeanClass:Java:Type)
+            WHERE
+                springBeanClass.fqn IN [
+                    "org.springframework.web.filter.GenericFilterBean",
+                    "org.springframework.web.filter.DelegatingFilterProxy",
+                    "org.springframework.web.filter.OncePerRequestFilter",
+                    "org.springframework.web.servlet.resource.ResourceUrlEncodingFilter"
+                ]
+            SET
+                injectableType:Spring:Injectable
+            RETURN
+                injectableType as Injectable
+            ]]></cypher>
+    </concept>
+
     <constraint id="spring-injection:InjectablesMustNotBeInstantiated">
         <requiresConcept refId="spring-injection:Injectable"/>
         <requiresConcept refId="java:GeneratedType"/>
