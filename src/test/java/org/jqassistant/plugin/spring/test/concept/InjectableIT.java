@@ -15,10 +15,13 @@ import org.jqassistant.plugin.spring.test.set.components.service.Service;
 import org.jqassistant.plugin.spring.test.set.fieldinjection.ServiceWithConstructorInjection;
 import org.jqassistant.plugin.spring.test.set.fieldinjection.ServiceWithFieldInjection;
 import org.jqassistant.plugin.spring.test.set.injectables.*;
+import org.jqassistant.plugin.spring.test.set.injectables.genericfilterbean.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.springframework.web.filter.DelegatingFilterProxy;
+import org.springframework.web.filter.GenericFilterBean;
 
 import java.util.List;
 import java.util.stream.Stream;
@@ -87,12 +90,17 @@ class InjectableIT extends AbstractSpringIT {
             ConfigurationWithCustomAnnotation.class, ConfigurationWithTransitiveCustomAnnotation.class,
             CustomConfigurationAnnotation.class, TransitiveCustomConfigurationAnnotation.class,
             TypeWithAutoConfigurationAnnotation.class, TypeWithConfigurationPropertiesAnnotation.class,
-            JavaxConstraintValidator.class, JakartaConstraintValidator.class
+            JavaxConstraintValidator.class, JakartaConstraintValidator.class,
+            SpecializedGenericFilterBean.class,
+            SpecializedDelegatingFilterProxy.class,
+            SpecializedOncePerRequestFilter.class,
+            SpecializedResourceUrlEncodingFilter.class,
+            SubclassOfSpecializedOncePerRequestFilter.class
         );
         assertThat(applyConcept("spring-injection:Injectable").getStatus()).isEqualTo(SUCCESS);
         store.beginTransaction();
         List<TypeDescriptor> injectables = query("MATCH (i:Type:Spring:Injectable) RETURN i").getColumn("i");
-        assertThat(injectables.size()).isEqualTo(28);
+        assertThat(injectables.size()).isEqualTo(37);
         assertThat(injectables).haveExactly(1, typeDescriptor(Application.class));
         assertThat(injectables).haveExactly(1, typeDescriptor(ConfigurationBeanA.class));
         assertThat(injectables).haveExactly(1, typeDescriptor(ConfigurationBeanB.class));
@@ -121,6 +129,15 @@ class InjectableIT extends AbstractSpringIT {
         assertThat(injectables).haveExactly(1, typeDescriptor(jakarta.validation.ConstraintValidator.class));
         assertThat(injectables).haveExactly(1, typeDescriptor(JavaxConstraintValidator.class));
         assertThat(injectables).haveExactly(1, typeDescriptor(JakartaConstraintValidator.class));
+        assertThat(injectables).haveExactly(1, typeDescriptor(GenericFilterBean.class));
+        assertThat(injectables).haveExactly(1, typeDescriptor(DelegatingFilterProxy.class));
+        assertThat(injectables).haveExactly(1, typeDescriptor(SpecializedOncePerRequestFilter.class));
+        assertThat(injectables).haveExactly(1, typeDescriptor(SpecializedResourceUrlEncodingFilter.class));
+        assertThat(injectables).haveExactly(1, typeDescriptor(SpecializedGenericFilterBean.class));
+        assertThat(injectables).haveExactly(1, typeDescriptor(SpecializedDelegatingFilterProxy.class));
+        assertThat(injectables).haveExactly(1, typeDescriptor(SpecializedOncePerRequestFilter.class));
+        assertThat(injectables).haveExactly(1, typeDescriptor(SpecializedResourceUrlEncodingFilter.class));
+        assertThat(injectables).haveExactly(1, typeDescriptor(SubclassOfSpecializedOncePerRequestFilter.class));
         store.commitTransaction();
     }
 
